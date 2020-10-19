@@ -1,4 +1,6 @@
 import random
+from card import *
+
 
 class CPU:
     CPU_hand = []
@@ -35,16 +37,16 @@ class CPU:
 
         if player_length <= 3 or CPU1_hand <= 3 or CPU2_hand <= 3 or CPU3_hand <= 3:
             for card in CPU_hand:
-                if card.get_number() == "Draw 4":
+                if card.get_type() == Type.DRAW4:
                     power_card_found = True
                     special_cards.append(card)
-                elif card.get_number() == 'Reverse':
+                elif card.get_type() == Type.REVERSE:
                     power_card_found = True
                     special_cards.append(card)
-                elif card.get_number() == 'Draw 2':
+                elif card.get_type() == Type.DRAW2:
                     power_card_found = True
                     special_cards.append(card)
-                elif card.get_number() == 'Skip':
+                elif card.get_type() == Type.SKIP:
                     power_card_found = True
                     special_cards.append(card)
 
@@ -55,12 +57,12 @@ class CPU:
                 return card_selected
             else:
                 num_left = len(CPU_hand)
-                card_num = random.randint(0,num_left)
+                card_num = random.randint(0, num_left)
                 played_card = CPU_hand.pop(card_num)
                 return played_card
         else:
             num_left = len(CPU_hand)
-            card_num = random.randint(0,num_left)
+            card_num = random.randint(0, num_left)
             played_card = CPU_hand.pop(card_num)
             return played_card
 
