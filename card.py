@@ -2,13 +2,14 @@ from enum import Enum
 
 
 class Color(Enum):
+    NONE = 0
     RED = 1
     GREEN = 2
     BLUE = 3
     YELLOW = 4
 
 
-class Number(Enum):
+class Type(Enum):
     ZERO = 0
     ONE = 1
     TWO = 2
@@ -28,12 +29,16 @@ class Number(Enum):
 
 class Card:
 
-    def __init__(self, color: Color, number: Number):
+    def __init__(self, card_type: Type, color: Color = Color.NONE):  # defaults to no color
+        self.type = card_type
         self.color = color
-        self.number = number
 
-    def get_number(self):
-        return self.number
+    def get_type(self):
+        return self.type
 
     def get_color(self):
         return self.color
+
+    def set_wild(self, color: Color):  # sets the color f a card if it is determined to be a wild card.
+        if self.get_type() == Type.WILD or self.get_type() == Type.DRAW4:
+            self.color = color
