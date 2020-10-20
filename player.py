@@ -1,3 +1,5 @@
+from card import *
+import random
 class Player:
     def __init__(self, name, identifier):
         self.name = name
@@ -6,8 +8,12 @@ class Player:
 
         # set hand
         # takes in a set, the player hand becomes the 'cards'
-    def set_hand(self, cards):
-        self.hand = cards
+    def set_hand(self, deck):
+        deck_length = len(deck)
+        for num in range(8):
+            card_num = random.randint(0, deck_length)
+            card_selected = deck.pop(card_num)
+            self.hand[num] = card_selected
 
         # get identifier
         # get the identifier of the player
@@ -24,11 +30,11 @@ class Player:
     def add_card(self, card):
         self.hand.append(card)
 
-        # add_card
-        # adds a card to the players hand (references deck)
-    def add_card(self, deck):
-        card_added = deck.pop(0)
-        self.hand.append(card_added)
+    def play_card(self, last_played, card):
+        if last_played.get_color() == card.get_color() or card.get_type() == last_played.get_type() or last_played.get_type() == Type.WILD:
+            return True
+        else:
+            return False
 
         # print_console
         # prints the user's hand to the console
