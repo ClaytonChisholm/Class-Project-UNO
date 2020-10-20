@@ -22,7 +22,6 @@ class Game:
         self.shuffle_deck()
         last_played = self.draw_card()
 
-
     def validate_move(self, card: Card):
         if (card.get_color() == self.last_played.get_color() or card.get_type() == self.last_played.get_type()
                 or card.get_type() == Type.WILD):
@@ -90,9 +89,6 @@ class Game:
 
     def turn(self):
         player = self.players[self.current_player]
-
-
-
 
 
 
