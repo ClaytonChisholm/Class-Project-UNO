@@ -32,6 +32,7 @@ class CPU:
         CPU3_hand = CPU3.get_hand()
 
         if player_length <= 3 or CPU1_hand <= 3 or CPU2_hand <= 3 or CPU3_hand <= 3:
+
             for card in self.CPU_hand:
                 if card.get_type() == Type.DRAW4:
                     power_card_found = True
@@ -52,6 +53,7 @@ class CPU:
                 card_selected = special_cards[card_chosen]
                 return card_selected
             else:
+
                 num_left = len(self.CPU_hand)
                 card_num = random.randint(0, num_left)
                 played_card = self.CPU_hand.pop(card_num)
@@ -61,5 +63,4 @@ class CPU:
             card_num = random.randint(0, num_left)
             played_card = self.CPU_hand.pop(card_num)
             return played_card
-
 
