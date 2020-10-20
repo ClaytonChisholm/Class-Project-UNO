@@ -3,30 +3,26 @@ from card import *
 
 
 class CPU:
-    CPU_hand = []
 
     def __init__(self, CPU_name, CPU_number):
         self.CPU_name = CPU_name
         self.CPU_number = CPU_number
+        self.CPU_hand = []
 
     def set_hand(self, deck):
-        global CPU_hand
         deck_length = len(deck)
-        for num in range(8):
+        for num in range(7):
             card_num = random.randint(0,deck_length)
             card_selected = deck.pop(card_num)
-            CPU_hand[num] = card_selected
+            self.CPU_hand[num] = card_selected
 
-    def add_card(self, deck):
-        global CPU_hand
-        card_added = deck.pop(0)
-        CPU_hand.append(card_added)
+    def add_card(self, card):
+        self.CPU_hand.append(card)
 
     def get_hand(self):
-        return CPU_hand
+        return self.CPU_hand
 
-    def play_card(self, Player, CPU1, CPU2, CPU3):
-        global CPU_hand
+    def play_card(self, Player, CPU1, CPU2, CPU3, last_played):
         special_cards = []
         power_card_found = False
         player_hand = Player.get_hand()
@@ -36,7 +32,7 @@ class CPU:
         CPU3_hand = CPU3.get_hand()
 
         if player_length <= 3 or CPU1_hand <= 3 or CPU2_hand <= 3 or CPU3_hand <= 3:
-            for card in CPU_hand:
+            for card in self.CPU_hand:
                 if card.get_type() == Type.DRAW4:
                     power_card_found = True
                     special_cards.append(card)
@@ -56,17 +52,14 @@ class CPU:
                 card_selected = special_cards[card_chosen]
                 return card_selected
             else:
-                num_left = len(CPU_hand)
+                num_left = len(self.CPU_hand)
                 card_num = random.randint(0, num_left)
-                played_card = CPU_hand.pop(card_num)
+                played_card = self.CPU_hand.pop(card_num)
                 return played_card
         else:
-            num_left = len(CPU_hand)
+            num_left = len(self.CPU_hand)
             card_num = random.randint(0, num_left)
-            played_card = CPU_hand.pop(card_num)
+            played_card = self.CPU_hand.pop(card_num)
             return played_card
 
-    # if card randomly chosen is not valid, the CPU_hand has to re-insert the card back
-    # into its deck
-    def reinsert_card(self, card):
-        CPU_hand.append(card)
+
