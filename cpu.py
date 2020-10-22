@@ -1,4 +1,5 @@
 import random
+
 from card import *
 
 
@@ -25,11 +26,12 @@ class CPU:
     def play_card(self, Player, CPU1, CPU2, CPU3, last_played):
         special_cards = []
         power_card_found = False
-        player_hand = Player.get_hand()
-        player_length = len(player_hand)
-        CPU1_hand = CPU1.get_hand()
-        CPU2_hand = CPU2.get_hand()
-        CPU3_hand = CPU3.get_hand()
+        valid = False
+        player_length = len(Player.get_hand())
+        num_left = len(self.CPU_hand)
+        CPU1_hand = len(CPU1.get_hand())
+        CPU2_hand = len(CPU2.get_hand())
+        CPU3_hand = len(CPU3.get_hand())
 
         if player_length <= 3 or CPU1_hand <= 3 or CPU2_hand <= 3 or CPU3_hand <= 3:
 
@@ -47,22 +49,29 @@ class CPU:
                     power_card_found = True
                     special_cards.append(card)
 
+        while not valid:
             if power_card_found:
                 power_card_length = len(special_cards)
-                card_chosen = random.randint(0, power_card_length)
-                card_selected = special_cards[card_chosen]
-                return card_selected
-            else:
+                card_number = random.randint(0, power_card_length)
+                chosen_card = special_cards[card_number]
+                if last_played.get_color() == chosen_card.get_color() or chosen_card.get_type() == last_played.get_type()\
+                or last_played.get_type() == Type.WILD:
+                    valid = True
+                    self.CPU_hand.remove(chosen_card)
+                    return chosen_card
+              # add a bool to card object to confirm its been checked for validation?  else:
 
-                num_left = len(self.CPU_hand)
+            else:
                 card_num = random.randint(0, num_left)
-                played_card = self.CPU_hand.pop(card_num)
-                return played_card
-        else:
-            num_left = len(self.CPU_hand)
-            card_num = random.randint(0, num_left)
-            played_card = self.CPU_hand.pop(card_num)
-            return played_card
+                chosen_card = self.CPU_hand[card_num]
+                if last_played.get_color() == chosen_card.get_color() or chosen_card.get_type() == last_played.get_type()\
+                or last_played.get_type() == Type.WILD:
+                    valid = True
+                    played_card = self.CPU_hand.pop(card_num)
+                    return played_card
+                # add a bool to card object to confirm its been checked for validation?  else:
+
+
 
     def get_name(self):
         return self.CPU_name
