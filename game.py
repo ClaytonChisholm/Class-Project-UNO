@@ -41,7 +41,7 @@ class Game:
         self.player.set_name(player_name)
         self.fill_deck()
         self.shuffle_deck()
-        self.last_played = self.draw_card()
+        self.last_played = self.draw_first_card()
 
     def validate_move(self, card: Card):
         if (card.get_color() == self.last_played.get_color() or card.get_type() == self.last_played.get_type()
@@ -53,12 +53,16 @@ class Game:
     def shuffle_deck(self):
         random.shuffle(self.deck)
 
+    def shuffle_discard(self):
+        random.shuffle(self.played_deck)
+        self.deck = self.played_deck
+
     def apply_power(self):
         card = self.last_played
         if card.get_type() == Type.SKIP:
             self.current_player = self.current_player + 2
         elif card.get_type() == Type.DRAW2:
-            if not self.reversed:
+            if not self.reversed:  # TODO, fix this for last/ first player
                 for i in range(2):
                     self.players[self.current_player + 1].add_card(self.draw_card())
             else:
@@ -99,11 +103,22 @@ class Game:
     def draw_card(self):
         deck_length = len(self.deck)
         if deck_length == 0:
-            self.fill_deck()
-            self.shuffle_deck()
+            self.shuffle_discard()
         card_num = random.randint(0, deck_length-1)
         card_selected = self.deck.pop(card_num)
         return card_selected
+
+    def draw_first_card(self):
+        while True:
+            card = self.draw_card()
+            card_type = card.get_type()
+            if card_type == Type.DRAW4 or card_type == Type.WILD or card_type == Type.SKIP or card_type == Type.DRAW2 or card_type == Type.REVERSE:
+                self.played_deck.append(card)
+                continue
+            else:
+                self.played_deck.append(card)
+                break
+        return card
 
     def reverse(self):
         pass  # don't merge this i just put it here to test w/o error
@@ -131,7 +146,7 @@ class Game:
         player = self.players[self.current_player]
 
         # TODO this
-        card = self.last_played  # this is very temporary
+        card = self.draw_card()  # this is very temporary
         return card
 
     def print_top_card(self):  # change for graphic
@@ -149,10 +164,10 @@ class Game:
                 for p in self.players:
                     p.print()  # prints the hand
             else:
-                print(
-                    'It\'s ' + player.get_name() + '\'s turn')  # this is the only text based thing in here that i
+                print('It\'s ' + player.get_name() + '\'s turn')  # this is the only text based thing in here that i
                 # couldnt find an independent place for
             self.last_played = self.pick_card()
+            self.played_deck.append(self.last_played)
             self.apply_power()  # we will handle wilds later TODO should draw4 and wild color choosing be handled here?
 
             if type(player) == Player and (
