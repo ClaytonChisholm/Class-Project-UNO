@@ -2,7 +2,7 @@ from cpu import *
 from player import *
 
 
-def choose_color():  # TODO change when graphics
+def choose_color():  # change when graphics
     print('Red: 1')
     print('Green: 2')
     print('Blue: 3')
@@ -33,9 +33,6 @@ class Game:
     reversed = False
     game_over = False
 
-    # values = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Skip', 'Draw 2', 'Reverse', 'Wild', 'Draw 4']
-    # colors = ['red', 'yellow', 'blue', 'green', 'wild']
-
     def __init__(self, player_name):
         self.name = player_name
         self.player.set_name(player_name)
@@ -60,9 +57,9 @@ class Game:
     def apply_power(self):
         card = self.last_played
         if card.get_type() == Type.SKIP:
-            self.current_player = self.current_player + 2
+            self.current_player = self.current_player + 1  # todo index out of bounds error
         elif card.get_type() == Type.DRAW2:
-            if not self.reversed:  # TODO, fix this for last/ first player
+            if not self.reversed:  # TODO, fix this for last/first player
                 for i in range(2):
                     self.players[self.current_player + 1].add_card(self.draw_card())
             else:
@@ -124,7 +121,7 @@ class Game:
     def reverse(self):
         pass  # don't merge this i just put it here to test w/o error
 
-    def set_wild(self):  # TODO, should this prompt user for color here or in game engine?
+    def set_wild(self):
         color = choose_color()
         self.last_played.set_wild(color)
 
@@ -166,16 +163,16 @@ class Game:
                     p.print()  # prints the hand
             else:
                 print('It\'s ' + player.get_name() + '\'s turn')  # this is the only text based thing in here that i
-                # couldnt find an independent place for
+                # couldnt find a better place for
             self.last_played = self.pick_card()
             self.played_deck.append(self.last_played)
             self.apply_power()  # we will handle wilds later TODO should draw4 and wild color choosing be handled here?
 
             if type(player) == Player and (
                     self.last_played.get_type() == Type.WILD or self.last_played.get_type == Type.DRAW4):
-                # TODO cpu wilds
                 self.set_wild()
             elif self.last_played.get_type() == Type.WILD or self.last_played.get_type == Type.DRAW4:
+                # TODO cpu wilds
                 # calls cpu wild function
                 self.last_played.set_wild(Color.RED)  # temporary
 
@@ -186,5 +183,5 @@ class Game:
 
 
 if __name__ == '__main__':
-    game = Game('Tester')
-    print(game.do_turns())
+    game = Game(input('What\'s your name?'))
+    print(game.do_turns(), ' wins!')

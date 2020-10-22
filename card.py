@@ -9,7 +9,7 @@ class Color(IntEnum):
     YELLOW = 4
 
 
-class Type(IntEnum):
+class Type(IntEnum):  # TODO change to lower case words so that it looks better printed
     ZERO = 0
     ONE = 1
     TWO = 2

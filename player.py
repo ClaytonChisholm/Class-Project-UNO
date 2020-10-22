@@ -1,5 +1,7 @@
 from card import *
 import random
+
+
 class Player:
     def __init__(self, name, identifier):
         self.name = name
@@ -8,6 +10,7 @@ class Player:
 
         # set hand
         # takes in a set, the player hand becomes the 'cards'
+
     def set_hand(self, deck):
         deck_length = len(deck)
         for num in range(8):
@@ -27,11 +30,13 @@ class Player:
 
         # get hand
         # returns the set of the players current hand
+
     def get_hand(self):
         return self.hand
 
         # add_card
         # adds a card to the players hand (given a card)
+
     def add_card(self, card):
         self.hand.append(card)
 
@@ -43,12 +48,13 @@ class Player:
 
         # print_console
         # prints the user's hand to the console
+
     def print(self):
         print('It\'s now your turn!')
         print('Your hand:')
         # print(self.name + "'s hand")
         for i in self.hand:
             i.print()
-            print(end=', ')
+            print(end=', ')  # could be prettier, wasn't sure how to do this without changing the for loop
         print()
         # print_graphics
