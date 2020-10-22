@@ -45,6 +45,6 @@ class Card:
 
     def print(self):  # change with graphics
         if self.color != 0:  # checks that color isnt none
-            print('Current card is ' + str(self.color) + ' ' + str(self.type))
+            print(str(self.color.name) + ' ' + str(self.type.name), end='')
         else:
-            print('Current card is ' + str(self.type))
+            print(str(self.type.name), end='')
