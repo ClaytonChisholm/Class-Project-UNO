@@ -64,3 +64,8 @@ class CPU:
             played_card = self.CPU_hand.pop(card_num)
             return played_card
 
+    def get_name(self):
+        return self.CPU_name
+
+    def print(self):
+        print(self.CPU_name + ' has ' + str(len(self.CPU_hand)) + ' cards')

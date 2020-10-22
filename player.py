@@ -44,6 +44,7 @@ class Player:
         # print_console
         # prints the user's hand to the console
     def print(self):
+        print('It\'s now your turn!')
         print('Your hand:')
         # print(self.name + "'s hand")
         for i in self.hand:

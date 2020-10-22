@@ -1,6 +1,24 @@
 from cpu import *
 from player import *
 
+
+def choose_color():  #TODO change when graphics
+    print('Red: 1')
+    print('Green: 2')
+    print('Blue: 3')
+    print('Yellow: 4')
+    while True:
+        try:
+            color = int(input('Enter the number corresponding to your preferred color: '))
+            if not color < 1 and not color > 4:
+                break
+            else:
+                print('That isn\'t a valid option')
+        except ValueError:
+            print('Please try again, make sure to enter an integer corresponding to your choice...')
+    return Color(color)
+
+
 class Game:
     player = Player(' ', 0)
     cpu1 = CPU("Mark", 1)
@@ -25,7 +43,7 @@ class Game:
 
     def validate_move(self, card: Card):
         if (card.get_color() == self.last_played.get_color() or card.get_type() == self.last_played.get_type()
-                or card.get_type() == Type.WILD):
+                or card.get_type() == Type.WILD or card.get_type() == Type.DRAW4):
             return True
         else:
             return False
@@ -33,7 +51,8 @@ class Game:
     def shuffle_deck(self):
         random.shuffle(self.deck)
 
-    def apply_power(self, card: Card):
+    def apply_power(self):
+        card = self.last_played
         if card.get_type() == Type.SKIP:
             self.current_player = self.current_player + 2
         elif card.get_type() == Type.DRAW2:
@@ -83,6 +102,10 @@ class Game:
 
     def reverse(self):
 
+    def set_wild(self):  # TODO, should this prompt user for color here or in game engine?
+        color = choose_color()
+        self.last_played.set_wild(color)
+
     def fill_hand(self, player):
         for i in range(0,7):
             card = self.draw_card()
@@ -94,30 +117,36 @@ class Game:
         else:
             self.current_player +=1
 
+    def pick_card(self):  # this function needs to be changed for graphics
+        player  = self.players[self.current_player]
+
+            #TODO this
+        card = self.last_played  # this is very temporary
+        return card
+
+
     def do_turns(self):
-        self.player.set_name(input('How would you like to be called?'))
+        self.player.set_name(input('How would you like to be called?'))  # i think this should be done in main but i left it in so we don't forget
         for player in self.players:
             self.fill_hand(player)
         while not self.game_over:  # game engine of sorts
+            player = self.players[self.current_player]
+            print(self.last_played)
+            if type(player) == Player:
+                for p in self.players:
+                    p.print() # prints the hand
+            else:
+                print('It\'s ' + player.get_name() + '\'s turn')  # this is the only text based thing in here that i couldnt find an independent place for
+            self.last_played = self.pick_card()
+            self.apply_power()  # we will handle wilds later TODO should draw4 and wild color choosing be handled here?
 
-            for player in self.players:
-                player.print() # prints the hand
+            if type(player) == Player and (self.last_played.get_type() == Type.WILD or self.last_played.get_type == Type.DRAW4):  # TODO cpu wilds
+                self.set_wild()
+            elif self.last_played.get_type() == Type.WILD or self.last_played.get_type == Type.DRAW4:  # calls cpu wild function
+                self.last_played.set_wild(Color.RED)  # temporary
 
 
-
-
-
-            self.change_turn()
-            if not self.players[self.current_player].get_hand():  # think this checks for an empty hand but im completely guessing
+            if not player.get_hand():  # think this checks for an empty hand but im completely guessing
                 self.game_over = False
                 return self.players[self.current_player]  # returns winner
-
-
-
-
-
-
-
-
-
-
+            self.change_turn()  # changes turn after loop processes

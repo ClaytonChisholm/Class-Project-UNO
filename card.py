@@ -43,8 +43,8 @@ class Card:
         if self.get_type() == Type.WILD or self.get_type() == Type.DRAW4:
             self.color = color
 
-    def print(self):
-        if self.color != 0:
-            print(str(self.color) + ' ' + str(self.type))
+    def print(self):  # change with graphics
+        if self.color != 0:  # checks that color isnt none
+            print('Current card is ' + str(self.color) + ' ' + str(self.type))
         else:
-            print(str(self.type))
+            print('Current card is ' + str(self.type))
