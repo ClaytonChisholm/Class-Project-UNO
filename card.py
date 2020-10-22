@@ -42,3 +42,9 @@ class Card:
     def set_wild(self, color: Color):  # sets the color f a card if it is determined to be a wild card.
         if self.get_type() == Type.WILD or self.get_type() == Type.DRAW4:
             self.color = color
+
+    def print(self):
+        if self.color != 0:
+            print(str(self.color) + ' ' + str(self.type))
+        else:
+            print(str(self.type))

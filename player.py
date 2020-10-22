@@ -17,6 +17,11 @@ class Player:
 
         # get identifier
         # get the identifier of the player
+
+    def set_name(self, name):
+        if type(name) == str:
+            self.name = name
+
     def get_identifier(self):
         return self.identifier
 

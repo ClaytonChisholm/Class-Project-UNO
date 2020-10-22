@@ -13,6 +13,7 @@ class Game:
     current_player = 0
     player_count = 4
     reversed = False
+    game_over = False
     # values = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Skip', 'Draw 2', 'Reverse', 'Wild', 'Draw 4']
     # colors = ['red', 'yellow', 'blue', 'green', 'wild']
 
@@ -87,8 +88,36 @@ class Game:
             card = self.draw_card()
             player.add_card(card)
 
-    def turn(self):
-        player = self.players[self.current_player]
+    def change_turn(self):
+        if self.reversed:
+            self.current_player -=1
+        else:
+            self.current_player +=1
+
+    def do_turns(self):
+        self.player.set_name(input('How would you like to be called?'))
+        for player in self.players:
+            self.fill_hand(player)
+        while not self.game_over:  # game engine of sorts
+
+            for player in self.players:
+                player.print() # prints the hand
+
+
+
+
+
+            self.change_turn()
+            if not self.players[self.current_player].get_hand():  # think this checks for an empty hand but im completely guessing
+                self.game_over = False
+                return self.players[self.current_player]  # returns winner
+
+
+
+
+
+
+
 
 
 
