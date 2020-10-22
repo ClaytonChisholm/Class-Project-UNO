@@ -48,6 +48,6 @@ class Player:
         print('Your hand:')
         # print(self.name + "'s hand")
         for i in self.hand:
-            print(i + ': ' + self.hand[i])
+            print(i + ': ' + self.hand[i].print())
 
         # print_graphics
