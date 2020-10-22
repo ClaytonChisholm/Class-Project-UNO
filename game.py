@@ -104,6 +104,7 @@ class Game:
         deck_length = len(self.deck)
         if deck_length == 0:
             self.shuffle_discard()
+            deck_length = len(self.deck)
         card_num = random.randint(0, deck_length-1)
         card_selected = self.deck.pop(card_num)
         return card_selected
