@@ -13,7 +13,7 @@ class CPU:
     def set_hand(self, deck):
         deck_length = len(deck)
         for num in range(7):
-            card_num = random.randint(0,deck_length)
+            card_num = random.randint(0, deck_length)
             card_selected = deck.pop(card_num)
             self.CPU_hand[num] = card_selected
 
@@ -47,6 +47,7 @@ class CPU:
                 elif card.get_type() == Type.SKIP:
                     power_card_found = True
                     special_cards.append(card)
+
 
 
         if power_card_found:
@@ -90,11 +91,3 @@ class CPU:
 
     def print(self):
         print(self.CPU_name + ' has ' + str(len(self.CPU_hand)) + ' cards')
-
-
-
-
-
-
-
-
