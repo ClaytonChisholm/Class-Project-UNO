@@ -13,7 +13,7 @@ class CPU:
     def set_hand(self, deck):
         deck_length = len(deck)
         for num in range(7):
-            card_num = random.randint(0,deck_length)
+            card_num = random.randint(0, deck_length)
             card_selected = deck.pop(card_num)
             self.CPU_hand[num] = card_selected
 
@@ -54,22 +54,25 @@ class CPU:
                 power_card_length = len(special_cards)
                 card_number = random.randint(0, power_card_length)
                 chosen_card = special_cards[card_number]
-                if last_played.get_color() == chosen_card.get_color() or chosen_card.get_type() == last_played.get_type()\
-                or last_played.get_type() == Type.WILD:
+                if last_played.get_color() == chosen_card.get_color() or chosen_card.get_type() == last_played.get_type() \
+                        or last_played.get_type() == Type.WILD:
                     valid = True
                     self.CPU_hand.remove(chosen_card)
                     return chosen_card
-              # add a bool to card object to confirm its been checked for validation?  else:
+            # add a bool to card object to confirm its been checked for validation?  else:
 
             else:
                 card_num = random.randint(0, num_left)
                 chosen_card = self.CPU_hand[card_num]
-                if last_played.get_color() == chosen_card.get_color() or chosen_card.get_type() == last_played.get_type()\
-                or last_played.get_type() == Type.WILD:
+                if last_played.get_color() == chosen_card.get_color() or chosen_card.get_type() == last_played.get_type() \
+                        or last_played.get_type() == Type.WILD:
                     valid = True
                     played_card = self.CPU_hand.pop(card_num)
                     return played_card
                 # add a bool to card object to confirm its been checked for validation?  else:
 
+    def get_name(self):
+        return self.CPU_name
 
-
+    def print(self):
+        print(self.CPU_name + ' has ' + str(len(self.CPU_hand)) + ' cards')
