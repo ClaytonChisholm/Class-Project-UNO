@@ -27,9 +27,7 @@ class CPU:
         special_cards = []
         valid_cards = []
         power_card_found = False
-        valid = False
         player_length = len(Player.get_hand())
-        num_left = len(self.CPU_hand)
         CPU1_hand = len(CPU1.get_hand())
         CPU2_hand = len(CPU2.get_hand())
         CPU3_hand = len(CPU3.get_hand())
