@@ -76,6 +76,12 @@ class CPU:
             # draw card from top of deck?
             # draw_card() from game and add_card() from CPU
 
+    def get_name(self):
+        return self.CPU_name
+
+    def print(self):
+        print(self.CPU_name + ' has ' + str(len(self.CPU_hand)) + ' cards')
+
 
 
 
