@@ -9,7 +9,7 @@ class Color(IntEnum):
     YELLOW = 4
 
 
-class Type(IntEnum):
+class Type(IntEnum):  # TODO change to lower case words so that it looks better printed
     ZERO = 0
     ONE = 1
     TWO = 2
@@ -42,3 +42,9 @@ class Card:
     def set_wild(self, color: Color):  # sets the color f a card if it is determined to be a wild card.
         if self.get_type() == Type.WILD or self.get_type() == Type.DRAW4:
             self.color = color
+
+    def print(self):  # change with graphics
+        if self.color != 0:  # checks that color isnt none
+            print(str(self.color.name) + ' ' + str(self.type.name), end='')
+        else:
+            print(str(self.type.name), end='')
