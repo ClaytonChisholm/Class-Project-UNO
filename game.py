@@ -1,5 +1,7 @@
+from time import sleep
+
 from cpu import *
-from player import *
+from player import Player
 
 
 def choose_color():  # change when graphics
@@ -54,51 +56,62 @@ class Game:
         random.shuffle(self.played_deck)
         self.deck = self.played_deck
 
+    def skip(self):
+        if not self.reversed:
+            if self.current_player != self.player_count:
+                self.current_player = self.current_player + 1
+            else:
+                self.current_player = 0
+        else:
+            if self.current_player != 0:
+                self.current_player = self.current_player - 1
+            else:
+                self.current_player = self.player_count
+
     def apply_power(self):
         card = self.last_played
         if card.get_type() == Type.SKIP:
-            if not self.reversed:
-                if self.current_player != self.players[4]:
-                    self.current_player = self.current_player + 1
-                else:
-                    self.current_player = self.players[0]
-            else:
-                if self.current_player != self.players[0]:
-                    self.current_player = self.current_player - 1
-                else:
-                    self.current_player = self.players[4]
+            self.skip()
         elif card.get_type() == Type.DRAW2:
             if not self.reversed:
-                if self.current_player != self.players[4]:
+                if self.current_player != self.player_count:
                     for i in range(2):
                         self.players[self.current_player + 1].add_card(self.draw_card())
+                        self.skip()
                 else:
                     for i in range(2):
                         self.players[0].add_card(self.draw_card())
+                        self.skip()
             else:
-                if self.current_player != self.players[0]:
+                if self.current_player != 0:
                     for i in range(2):
                         self.players[self.current_player - 1].add_card(self.draw_card())
+                        self.skip()
                 else:
                     for i in range(2):
                         self.players[4].add_card(self.draw_card())
+                        self.skip()
         elif card.get_type() == Type.REVERSE:
             self.reverse()
         elif card.get_type() == Type.DRAW4:
             if not self.reversed:
-                if self.current_player != self.players[4]:
+                if self.current_player != self.player_count:
                     for i in range(4):
                         self.players[self.current_player + 1].add_card(self.draw_card())
+                        self.skip()
                 else:
                     for i in range(4):
                         self.players[0].add_card(self.draw_card())
+                        self.skip()
             else:
-                if self.current_player != self.players[0]:
+                if self.current_player != 0:
                     for i in range(4):
                         self.players[self.current_player - 1].add_card(self.draw_card())
+                        self.skip()
                 else:
                     for i in range(4):
-                        self.players[4].add_card(self.draw_card())
+                        self.players[self.player_count].add_card(self.draw_card())
+                        self.skip()
 
     def fill_deck(self):
         color = Color.NONE
@@ -189,6 +202,7 @@ class Game:
             else:
                 print('It\'s ' + player.get_name() + '\'s turn')  # this is the only text based thing in here that i
                 # couldnt find a better place for
+                sleep(3)
             self.last_played = self.pick_card()
             self.played_deck.append(self.last_played)
             self.apply_power()  # we will handle wilds later TODO should draw4 and wild color choosing be handled here?
@@ -196,8 +210,9 @@ class Game:
             if type(player) == Player and (
                     self.last_played.get_type() == Type.WILD or self.last_played.get_type == Type.DRAW4):
                 self.set_wild()
-            elif self.last_played.get_type() == Type.WILD or self.last_played.get_type == Type.DRAW4:
-                # Not sure if entirely works, I think I can call the player variable (which in this elif statement is actually a CPU?)
+            elif type(player) == CPU and (self.last_played.get_type() == Type.WILD or self.last_played.get_type == Type.DRAW4):
+                # Not sure if entirely works, I think I can call the player variable (which in this elif statement is
+                # actually a CPU?)
                 color = player.CPU_wilds() # calls cpu wild function
                 self.last_played.set_wild(color)
 
