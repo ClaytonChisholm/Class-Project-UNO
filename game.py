@@ -89,6 +89,35 @@ class Game:
 
     def turn(self):
         player = self.players[self.current_player]
+    
+    def display_rules(self):
+        print("Welcome to the game of UNO! In this version, the goal of the \n"
+              "game is to play all of the cards in your hand, and the first player\n"
+              "to do this wins. Each player is dealt 7 cards at the start of\n"
+              "the game after the deck has been shuffled. There is a draw deck where\n"
+              "the players draw cards and a discard deck where the players play their cards.\n"
+              "There are special and normal cards in the deck. The normal cards have a number\n"
+              "ranging from 0 to 9 and a color (red, green, blue, or yellow) and the\n"
+              "special cards have powers. These powers include:")
+
+        print("Draw 2: where the next person to play must draw two cards from the draw pile and lose their turn\n"
+              "Reverse: where the card reverses the direction of play (who goes next)\n"
+              "Skip card: which skips the next person in line to play\n"
+              "Wild card: where the player who played this card can change the color of the card being played\n"
+              "Draw 4 Wild card: where the player can call the next color being played and requires the next\n"
+              "player to pick four cards from the draw pile and lose their turn")
+
+        print("In order to begin play, the player must match the top card of the discard deck either by number,\n"
+              "color, or word and place their card to be played on top of the discard deck. The player can play\n"
+              "a wild card or wild plus four card whenever it is their turn. If the player playing does not have\n"
+              "a valid card to play, they must pick a card from the draw pile. If you draw a card you can play,\n"
+              "play it. Otherwise, continue picking until you have found a card to play. If the draw deck runs\n"
+              "out of cards, the discard deck will be reshuffled and become the draw deck. Once the player plays\n"
+              "their card, play moves to the next person. Before playing your last card, you must click the button\n"
+              "which says “UNO”. If the next player to go plays their card before you say UNO, you must draw four\n"
+              "cards from the discard deck. Once the player plays their last card, play is over!")
+        
+   
 
 
 
