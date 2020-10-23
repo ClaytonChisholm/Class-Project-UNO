@@ -115,7 +115,7 @@ class Game:
               "out of cards, the discard deck will be reshuffled and become the draw deck. Once the player plays\n"
               "their card, play moves to the next person. Before playing your last card, you must click the button\n"
               "which says “UNO”. If the next player to go plays their card before you say UNO, you must draw four\n"
-              "cards from the discard deck. Once the player plays their last card, play is over!")
+              "cards from the discard deck. Once a player plays their last card, play is over!")
         
    
 
