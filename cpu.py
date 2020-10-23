@@ -76,6 +76,17 @@ class CPU:
             # draw card from top of deck?
             # draw_card() from game and add_card() from CPU
 
+    def CPU_wilds(self):
+        color_chosen = random.randint(1,4)
+        if color_chosen == 1:
+            return Color.BLUE
+        if color_chosen == 2:
+            return Color.GREEN
+        if color_chosen == 3:
+            return Color.RED
+        if color_chosen == 4:
+            return Color.YELLOW
+
     def get_name(self):
         return self.CPU_name
 
