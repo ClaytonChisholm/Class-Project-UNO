@@ -197,9 +197,9 @@ class Game:
                     self.last_played.get_type() == Type.WILD or self.last_played.get_type == Type.DRAW4):
                 self.set_wild()
             elif self.last_played.get_type() == Type.WILD or self.last_played.get_type == Type.DRAW4:
-                # TODO cpu wilds
-                # calls cpu wild function
-                self.last_played.set_wild(Color.RED)  # temporary
+                # Not sure if entirely works, I think I can call the player variable (which in this elif statement is actually a CPU?)
+                color = player.CPU_wilds() # calls cpu wild function
+                self.last_played.set_wild(color)
 
             if not player.get_hand():  # think this checks for an empty hand but im completely guessing
                 self.game_over = False
