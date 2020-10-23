@@ -57,23 +57,48 @@ class Game:
     def apply_power(self):
         card = self.last_played
         if card.get_type() == Type.SKIP:
-            self.current_player = self.current_player + 1  # todo index out of bounds error
-        elif card.get_type() == Type.DRAW2:
-            if not self.reversed:  # TODO, fix this for last/first player
-                for i in range(2):
-                    self.players[self.current_player + 1].add_card(self.draw_card())
+            if not self.reversed:
+                if self.current_player != self.players[4]:
+                    self.current_player = self.current_player + 1
+                else:
+                    self.current_player = self.players[0]
             else:
-                for i in range(2):
-                    self.players[self.current_player - 1].add_card(self.draw_card())
+                if self.current_player != self.players[0]:
+                    self.current_player = self.current_player - 1
+                else:
+                    self.current_player = self.players[4]
+        elif card.get_type() == Type.DRAW2:
+            if not self.reversed:
+                if self.current_player != self.players[4]:
+                    for i in range(2):
+                        self.players[self.current_player + 1].add_card(self.draw_card())
+                else:
+                    for i in range(2):
+                        self.players[0].add_card(self.draw_card())
+            else:
+                if self.current_player != self.players[0]:
+                    for i in range(2):
+                        self.players[self.current_player - 1].add_card(self.draw_card())
+                else:
+                    for i in range(2):
+                        self.players[4].add_card(self.draw_card())
         elif card.get_type() == Type.REVERSE:
             self.reverse()
         elif card.get_type() == Type.DRAW4:
             if not self.reversed:
-                for i in range(4):
-                    self.players[self.current_player + 1].add_card(self.draw_card())
+                if self.current_player != self.players[4]:
+                    for i in range(4):
+                        self.players[self.current_player + 1].add_card(self.draw_card())
+                else:
+                    for i in range(4):
+                        self.players[0].add_card(self.draw_card())
             else:
-                for i in range(4):
-                    self.players[self.current_player - 1].add_card(self.draw_card())
+                if self.current_player != self.players[0]:
+                    for i in range(4):
+                        self.players[self.current_player - 1].add_card(self.draw_card())
+                else:
+                    for i in range(4):
+                        self.players[4].add_card(self.draw_card())
 
     def fill_deck(self):
         color = Color.NONE
