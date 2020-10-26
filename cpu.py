@@ -74,6 +74,8 @@ class CPU:
         else:
             return False
 
+
+
     def CPU_wilds(self):
         color_choice = []
         countR = 0
