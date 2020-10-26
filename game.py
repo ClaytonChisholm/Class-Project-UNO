@@ -161,7 +161,10 @@ class Game:
         return card
 
     def reverse(self):
-        pass  # don't merge this i just put it here to test w/o error
+        if not self.reversed:
+            self.reversed = True
+        else:
+            self.reversed = False
 
     def set_wild(self):
         color = choose_color()

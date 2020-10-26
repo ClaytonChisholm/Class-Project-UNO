@@ -72,21 +72,33 @@ class CPU:
             played_card = self.CPU_hand.pop(card_hand_num)
             return played_card
         else:
-            pass
-            # draw card from top of deck?
-            # draw_card() from game and add_card() from CPU
+            return False
+
 
 
     def CPU_wilds(self):
-        color_chosen = random.randint(1,4)
-        if color_chosen == 1:
-            return Color.BLUE
-        if color_chosen == 2:
-            return Color.GREEN
-        if color_chosen == 3:
-            return Color.RED
-        if color_chosen == 4:
-            return Color.YELLOW
+        color_choice = []
+        countR = 0
+        countB = 0
+        countY = 0
+        countG = 0
+
+        for card in self.CPU_hand:
+            if card.get_color() == Color.RED and countR != 1:
+                color_choice.append(Color.RED)
+                countR+=1
+            if card.get_color() == Color.BLUE and countB != 1:
+                color_choice.append(Color.BLUE)
+                countB+=1
+            if card.get_color() == Color.YELLOW and countY != 1:
+                color_choice.append(Color.YELLOW)
+                countY+=1
+            if card.get_color() == Color.GREEN and countG != 1:
+                color_choice.append(Color.GREEN)
+                countG+=1
+
+        color_chosen = random.randint(0,len(color_choice) - 1)
+        return color_choice[color_chosen]
 
     def get_name(self):
         return self.CPU_name
