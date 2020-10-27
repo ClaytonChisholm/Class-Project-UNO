@@ -1,4 +1,3 @@
-from card import *
 import random
 
 
@@ -41,27 +40,26 @@ class Player:
         self.hand.append(card)
 
     def choose_card(self):
-        print('Choose your card by entering the index associated with it: ')
         while True:
             try:
-                card_num = int(input('Enter the number corresponding to your preferred color: '))
+                card_num = int(input('Choose your card by entering the number associated with it: '))
                 if not card_num < 1 and not card_num > len(self.hand):
                     break
                 else:
                     print('That isn\'t a valid option...')
             except ValueError:
-                print('Please try again, make sure to enter an integer corresponding to your choice...')
+                print('Please try again, make sure to enter a number corresponding to your choice...')
         return card_num - 1
 
     def print(self):
-        print('It\'s now your turn!')
+        print('It\'s now your turn, ' + self.name + '!')
         print('Your hand:')
-        # print(self.name + "'s hand")
         j = 1
         for i in self.hand:
-            print(j, ' ')
+            print(j, end=': ')
             i.print()
+            if j < len(self.hand):
+                print(end=', ')  # could be prettier
             j += 1
-            print(end=', ')  # could be prettier, wasn't sure how to do this without changing the for loop
         print()
-        # print_graphics
+    # print_graphics

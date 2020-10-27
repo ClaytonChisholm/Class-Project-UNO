@@ -9,7 +9,7 @@ class Color(IntEnum):
     YELLOW = 4
 
 
-class Type(IntEnum):  # TODO change to lower case words so that it looks better printed
+class Type(IntEnum):
     ZERO = 0
     ONE = 1
     TWO = 2
@@ -44,7 +44,7 @@ class Card:
             self.color = color
 
     def print(self):  # change with graphics
-        if self.color != 0:  # checks that color isnt none
-            print(str(self.color.name) + ' ' + str(self.type.name), end='')
+        if self.color != 0:  # checks that color isn't none
+            print(str(self.color.name).capitalize() + ' ' + str(self.type.name).capitalize(), end='')
         else:
-            print(str(self.type.name), end='')
+            print(str(self.type.name).capitalize(), end='')
