@@ -214,10 +214,10 @@ class Game:
             self.current_player = self.player_count - 1
 
     def choose_card(self, current_player):  # change with graphics
-        choice = input('Enter D to Draw a new card or enter P to play a card').upper()
+        choice = input('Enter D to draw a new card or enter P to play a card: ').upper()
         while not choice == 'P' and not choice == 'D':
             choice = input(
-                'Invalid choice please try again...\nEnter D to Draw a new card or enter P to play a card').upper()
+                'Invalid choice please try again...\nEnter D to draw a new card or enter P to play a card: ').upper()
         if choice == 'P':
             card_num = current_player.choose_card()
             card = current_player.get_hand()[card_num]
@@ -225,11 +225,14 @@ class Game:
             # current_player.add_card(self.draw_card())
             # return False
             new_card = self.draw_card()
+            print('You picked up a ', end='')
+            new_card.print()
+            sleep(.5)
+            print()
             if self.validate_move(new_card):  # checks to see if drawn card is a valid move
                 while not choice == 'Y' and not choice == 'N':
-                    print('Would you like to play the ', end='')
-                    new_card.print()
-                    print(end='; ')
+                    print('Would you like to play it?', end='')
+                    print(end=' ')
                     choice = input('Y or N?').upper()
                 if choice == 'Y':
                     return new_card
@@ -239,6 +242,8 @@ class Game:
             return False
 
         while not self.validate_move(card):
+            print('Sorry that card is not valid...')
+            sleep(.25)
             choice = input('Enter D to Draw a new card or enter P to play a card').upper()
             if choice == 'P':
                 card_num = current_player.choose_card()
@@ -310,6 +315,9 @@ class Game:
             if not picked_card:  # if no card could be played, next turn
                 pass
             else:
+                if self.last_played.get_type() == Type.WILD or self.last_played.get_type() == Type.DRAW4:
+                    self.last_played.set_wild(Color.NONE)  # resets wilds and draw fours, so they don't have a
+                    # color after shuffling
                 self.last_played = picked_card
                 self.played_deck.append(self.last_played)
                 self.apply_power()  # doesn't handle wild functionality
@@ -328,11 +336,14 @@ class Game:
                     self.deck) == 0):  # think this checks for an empty hand but im completely guessing
                 self.game_over = True
                 self.print_top_card()
-                return self.players[self.current_player].get_name()  # returns winner
+                if type(player) == CPU:
+                    return self.players[self.current_player].get_name() + ' wins.'  # returns winner CPU
+                else:
+                    return 'You Win!!!'
             self.change_turn()  # changes turn after loop processes
 
 
 if __name__ == '__main__':  # TODO
     game = Game(input('What\'s your name?'))
     display_rules()
-    print(game.do_turns(), 'wins!')
+    print(game.do_turns())

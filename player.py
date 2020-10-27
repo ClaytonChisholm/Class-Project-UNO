@@ -40,20 +40,19 @@ class Player:
         self.hand.append(card)
 
     def choose_card(self):
-        print('Choose your card by entering the index associated with it: ')
         while True:
             try:
-                card_num = int(input('Enter the number corresponding to your preferred color: '))
+                card_num = int(input('Choose your card by entering the number associated with it: '))
                 if not card_num < 1 and not card_num > len(self.hand):
                     break
                 else:
                     print('That isn\'t a valid option...')
             except ValueError:
-                print('Please try again, make sure to enter an integer corresponding to your choice...')
+                print('Please try again, make sure to enter a number corresponding to your choice...')
         return card_num - 1
 
     def print(self):
-        print('It\'s now your turn, ', self.name, '!')
+        print('It\'s now your turn, ' + self.name + '!')
         print('Your hand:')
         j = 1
         for i in self.hand:
