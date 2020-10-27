@@ -1,6 +1,4 @@
-import random
-
-from card import *
+from player import *
 
 
 class CPU:
@@ -23,16 +21,18 @@ class CPU:
     def get_hand(self):
         return self.CPU_hand
 
-    def play_card(self, Player, CPU1, CPU2, CPU3, last_played):
+    def get_number(self):
+        return self.CPU_number
+
+    def play_card(self, player: Player, CPU1, CPU2, last_played):
         special_cards = []
         valid_cards = []
         power_card_found = False
-        player_length = len(Player.get_hand())
+        player_length = len(player.get_hand())
         CPU1_hand = len(CPU1.get_hand())
         CPU2_hand = len(CPU2.get_hand())
-        CPU3_hand = len(CPU3.get_hand())
 
-        if player_length <= 3 or CPU1_hand <= 3 or CPU2_hand <= 3 or CPU3_hand <= 3:
+        if player_length <= 3 or CPU1_hand <= 3 or CPU2_hand <= 3:
 
             for card in self.CPU_hand:
                 if card.get_type() == Type.DRAW4:

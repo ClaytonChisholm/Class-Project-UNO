@@ -40,21 +40,28 @@ class Player:
     def add_card(self, card):
         self.hand.append(card)
 
-    def play_card(self, last_played, card):
-        if last_played.get_color() == card.get_color() or card.get_type() == last_played.get_type() or last_played.get_type() == Type.WILD:
-            return True
-        else:
-            return False
-
-        # print_console
-        # prints the user's hand to the console
+    def choose_card(self):
+        print('Choose your card by entering the index associated with it: ')
+        while True:
+            try:
+                card_num = int(input('Enter the number corresponding to your preferred color: '))
+                if not card_num < 1 and not card_num > len(self.hand):
+                    break
+                else:
+                    print('That isn\'t a valid option...')
+            except ValueError:
+                print('Please try again, make sure to enter an integer corresponding to your choice...')
+        return card_num - 1
 
     def print(self):
         print('It\'s now your turn!')
         print('Your hand:')
         # print(self.name + "'s hand")
+        j = 1
         for i in self.hand:
+            print(j, ' ')
             i.print()
+            j += 1
             print(end=', ')  # could be prettier, wasn't sure how to do this without changing the for loop
         print()
         # print_graphics
