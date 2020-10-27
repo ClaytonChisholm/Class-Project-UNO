@@ -1,6 +1,7 @@
 from copy import copy
 from time import sleep
 from cpu import *
+from card import *
 
 
 def choose_color():  # change when graphics
@@ -178,7 +179,8 @@ class Game:
         while True:
             card = self.draw_card()
             card_type = card.get_type()
-            if card_type == Type.DRAW4 or card_type == Type.WILD or card_type == Type.SKIP or card_type == Type.DRAW2 or card_type == Type.REVERSE:
+            if card_type == Type.DRAW4 or card_type == Type.WILD or card_type == Type.SKIP or card_type == Type.DRAW2 \
+                    or card_type == Type.REVERSE:
                 self.played_deck.append(card)
                 continue
             else:
@@ -286,9 +288,6 @@ class Game:
             # if true, return card
             # if false, draw and retry once
 
-        # TODO this
-        # card = self.draw_card()  # this is very temporary
-
     def print_top_card(self):  # change for graphic
         print('Current card is a', end=' ')
         self.last_played.print()
@@ -305,7 +304,7 @@ class Game:
                     p.print()  # prints the hand
             else:
                 print('It\'s ' + player.get_name() + '\'s turn')  # this is the only text based thing in here that i
-                # couldnt find a better place for
+                # couldn't find a better place for
                 sleep(.01)  # Todo change this to be more natural for gameplay
             picked_card = self.pick_card()
             if not picked_card:  # if no card could be played, next turn
@@ -322,7 +321,7 @@ class Game:
                         self.last_played.get_type() == Type.WILD or self.last_played.get_type() == Type.DRAW4):
                     # Not sure if entirely works, I think I can call the player variable (which in this elif
                     # statement is actually a CPU?)
-                    color = player.CPU_wilds()  # calls cpu wild function
+                    color = player.cpu_wilds()  # calls cpu wild function
                     self.last_played.set_wild(color)
 
             if not player.get_hand() or (len(self.played_deck) == 0 and len(

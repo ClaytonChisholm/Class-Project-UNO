@@ -1,11 +1,12 @@
 from player import *
+from card import *
 
 
 class CPU:
 
-    def __init__(self, CPU_name, CPU_number):
-        self.CPU_name = CPU_name
-        self.CPU_number = CPU_number
+    def __init__(self, cpu_name, cpu_number):
+        self.CPU_name = cpu_name
+        self.CPU_number = cpu_number
         self.CPU_hand = []
 
     def set_hand(self, deck):
@@ -24,15 +25,15 @@ class CPU:
     def get_number(self):
         return self.CPU_number
 
-    def play_card(self, player: Player, CPU1, CPU2, last_played):
+    def play_card(self, player: Player, cpu1, cpu2, last_played):
         special_cards = []
         valid_cards = []
         power_card_found = False
         player_length = len(player.get_hand())
-        CPU1_hand = len(CPU1.get_hand())
-        CPU2_hand = len(CPU2.get_hand())
+        cpu1_hand = len(cpu1.get_hand())
+        cpu2_hand = len(cpu2.get_hand())
 
-        if player_length <= 3 or CPU1_hand <= 3 or CPU2_hand <= 3:
+        if player_length <= 3 or cpu1_hand <= 3 or cpu2_hand <= 3:
 
             for card in self.CPU_hand:
                 if card.get_type() == Type.DRAW4:
@@ -48,21 +49,19 @@ class CPU:
                     power_card_found = True
                     special_cards.append(card)
 
-
-
         if power_card_found:
             for chosen_card in special_cards:
-            #power_card_length = len(special_cards)
-            #card_number = random.randint(0, power_card_length)
-            #chosen_card = special_cards[card_number]
-                if last_played.get_color() == chosen_card.get_color() or chosen_card.get_type() == last_played.get_type():
-                # or last_played.get_type() == Type.WILD:
+                # power_card_length = len(special_cards)
+                # card_number = random.randint(0, power_card_length)
+                # chosen_card = special_cards[card_number]
+                if last_played.get_color() == chosen_card.get_color()\
+                        or chosen_card.get_type() == last_played.get_type():
                     valid_cards.append(chosen_card)
 
         else:
             for chosen_card in self.CPU_hand:
-                if last_played.get_color() == chosen_card.get_color() or chosen_card.get_type() == last_played.get_type():
-                # or last_played.get_type() == Type.WILD:
+                if last_played.get_color() == chosen_card.get_color()\
+                        or chosen_card.get_type() == last_played.get_type():
                     valid_cards.append(chosen_card)
 
         if len(valid_cards) != 0:
@@ -74,33 +73,31 @@ class CPU:
         else:
             return False
 
-
-
-    def CPU_wilds(self):
+    def cpu_wilds(self):
         color_choice = []
-        countR = 0
-        countB = 0
-        countY = 0
-        countG = 0
+        count_r = 0
+        count_b = 0
+        count_y = 0
+        count_g = 0
 
         for card in self.CPU_hand:
-            if card.get_color() == Color.RED and countR != 1:
+            if card.get_color() == Color.RED and count_r != 1:
                 color_choice.append(Color.RED)
-                countR+=1
-            if card.get_color() == Color.BLUE and countB != 1:
+                count_r += 1
+            elif card.get_color() == Color.BLUE and count_b != 1:
                 color_choice.append(Color.BLUE)
-                countB+=1
-            if card.get_color() == Color.YELLOW and countY != 1:
+                count_b += 1
+            elif card.get_color() == Color.YELLOW and count_y != 1:
                 color_choice.append(Color.YELLOW)
-                countY+=1
-            if card.get_color() == Color.GREEN and countG != 1:
+                count_y += 1
+            elif card.get_color() == Color.GREEN and count_g != 1:
                 color_choice.append(Color.GREEN)
-                countG+=1
+                count_g += 1
         if len(color_choice) > 0:
-            color_chosen = random.randint(0,len(color_choice) - 1)
+            color_chosen = random.randint(0, len(color_choice) - 1)
             return color_choice[color_chosen]
         else:
-            return color_choice[1]
+            return Color.RED  # just a placeholder that doesn't matter since the CPU will win if this condition is met
 
     def get_name(self):
         return self.CPU_name

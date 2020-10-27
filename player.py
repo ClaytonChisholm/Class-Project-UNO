@@ -1,4 +1,3 @@
-from card import *
 import random
 
 
@@ -54,16 +53,14 @@ class Player:
         return card_num - 1
 
     def print(self):
-        print('It\'s now your turn!')
+        print('It\'s now your turn, ', self.name, '!')
         print('Your hand:')
-        # print(self.name + "'s hand")
         j = 1
         for i in self.hand:
             print(j, end=': ')
             i.print()
             if j < len(self.hand):
                 print(end=', ')  # could be prettier
-
             j += 1
         print()
-        # print_graphics
+    # print_graphics
