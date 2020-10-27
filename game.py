@@ -93,7 +93,7 @@ class Game:
                     self.skip()
                 else:
                     for i in range(2):
-                        self.players[4].add_card(self.draw_card())
+                        self.players[self.player_count - 1].add_card(self.draw_card())
                     self.skip()
         elif card.get_type() == Type.REVERSE:
             self.reverse()
@@ -252,11 +252,11 @@ class Game:
 
             if not player.get_hand() or (len(self.played_deck) == 0 and len(self.deck) == 0):  # think this checks for an empty hand but im completely guessing
                 self.game_over = True
-                return self.players[self.current_player]  # returns winner
+                return self.players[self.current_player].get_name()  # returns winner
             self.change_turn()  # changes turn after loop processes
 
 
 if __name__ == '__main__':
     game = Game(input('What\'s your name?'))
     game.display_rules()
-    print(game.do_turns(), ' wins!')
+    print(game.do_turns(), 'wins!')
