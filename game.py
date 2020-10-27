@@ -1,8 +1,6 @@
 from copy import copy
 from time import sleep
-
 from cpu import *
-from player import Player
 
 
 def choose_color():  # change when graphics
@@ -144,7 +142,7 @@ class Game:
         if deck_length == 0:
             self.shuffle_discard()
             deck_length = len(self.deck)
-        card_num = random.randint(0, deck_length-1)
+        card_num = random.randint(0, deck_length - 1)
         card_selected = self.deck.pop(card_num)
         return card_selected
 
@@ -180,17 +178,71 @@ class Game:
             self.current_player -= 1
         else:
             self.current_player += 1
-        if self.current_player > self.player_count-1:
+        if self.current_player > self.player_count - 1:
             self.current_player = 0
         elif self.current_player < 0:
-            self.current_player = self.player_count-1
+            self.current_player = self.player_count - 1
 
     def pick_card(self):  # this function needs to be changed for graphics
-        player = self.players[self.current_player]
+        """
+
+        :return: Card
+        :rtype: Card
+        """
+        current_player = self.players[self.current_player]
+        if type(current_player) == Player:
+            choice = input('Enter D to Draw a new card or enter P to play a card').upper()
+            while not choice == 'P' and not choice == 'D':
+                choice = input(
+                    'Invalid choice please try again...\nEnter D to Draw a new card or enter P to play a card').upper()
+            if choice == 'P':
+                card = current_player.choose_card()
+                card = current_player.get_hand()[card]
+            else:
+                current_player.add_card(self.draw_card())
+                return False
+
+            while not self.validate_move(card):
+                choice = input('Enter D to Draw a new card or enter P to play a card').upper()
+                if choice == 'P':
+                    card = current_player.choose_card()
+                    card = current_player.get_hand()[card]
+                elif choice == 'D':
+                    new_card = self.draw_card()
+                    if self.validate_move(new_card):  # checks to see if drawn card is a valid move
+                        while not choice == 'Y' and not choice == 'N':
+                            print('Would you like to play', new_card.print(), ' ', end='')
+                            choice = input('Y or N?').upper()
+                        if choice == 'Y':
+                            return new_card
+                        else:
+                            current_player.add_card(new_card)
+                    current_player.add_card(new_card)  # adds to players hand if its not valid
+                    return False
+                else:
+                    print('Try again...')
+            return current_player.get_hand().pop(card)
+        else:
+            if current_player.get_number() == 1:
+                card = current_player.play_card(self.player, self.cpu3, self.cpu2, self.last_played)
+            elif current_player.get_number() == 2:
+                card = current_player.play_card(self.player, self.cpu1, self.cpu3, self.last_played)
+            else:
+                card = current_player.play_card(self.player, self.cpu1, self.cpu2, self.last_played)
+            if not card:
+                current_player.add_card(self.draw_card())
+                if self.validate_move(current_player.get_hand()[len(current_player.get_hand()) - 1]):
+                    return current_player.get_hand().pop(len(current_player.get_hand()))
+                else:
+                    return False
+            else:
+                return card
+            # if true, return card
+            # if false, draw and retry once
+
         # TODO this
-        card = self.draw_card()  # this is very temporary
-        return card
-    
+        # card = self.draw_card()  # this is very temporary
+
     def display_rules(self):
         print("Welcome to the game of UNO! In this version, the goal of the \n"
               "game is to play all of the cards in your hand, and the first player\n"
@@ -236,21 +288,26 @@ class Game:
                 print('It\'s ' + player.get_name() + '\'s turn')  # this is the only text based thing in here that i
                 # couldnt find a better place for
                 sleep(.01)  # Todo change this to be more natural for gameplay
-            self.last_played = self.pick_card()
-            self.played_deck.append(self.last_played)
-            self.apply_power()  # we will handle wilds later TODO should draw4 and wild color choosing be handled here?
+            picked_card = self.pick_card()
+            if not picked_card:  # if no card could be played, next turn
+                pass
+            else:
+                self.last_played = picked_card
+                self.played_deck.append(self.last_played)
+                self.apply_power()  # we will handle wilds after
 
-            if type(player) == Player and (
-                    self.last_played.get_type() == Type.WILD or self.last_played.get_type == Type.DRAW4):
-                self.set_wild()
-            elif type(player) == CPU and (
-                    self.last_played.get_type() == Type.WILD or self.last_played.get_type == Type.DRAW4):
-                # Not sure if entirely works, I think I can call the player variable (which in this elif statement is
-                # actually a CPU?)
-                color = player.CPU_wilds()  # calls cpu wild function
-                self.last_played.set_wild(color)
+                if type(player) == Player and (
+                        self.last_played.get_type() == Type.WILD or self.last_played.get_type == Type.DRAW4):
+                    self.set_wild()
+                elif type(player) == CPU and (
+                        self.last_played.get_type() == Type.WILD or self.last_played.get_type == Type.DRAW4):
+                    # Not sure if entirely works, I think I can call the player variable (which in this elif
+                    # statement is actually a CPU?)
+                    color = player.CPU_wilds()  # calls cpu wild function
+                    self.last_played.set_wild(color)
 
-            if not player.get_hand() or (len(self.played_deck) == 0 and len(self.deck) == 0):  # think this checks for an empty hand but im completely guessing
+            if not player.get_hand() or (len(self.played_deck) == 0 and len(
+                    self.deck) == 0):  # think this checks for an empty hand but im completely guessing
                 self.game_over = True
                 return self.players[self.current_player].get_name()  # returns winner
             self.change_turn()  # changes turn after loop processes
