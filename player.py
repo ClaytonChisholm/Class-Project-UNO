@@ -59,9 +59,11 @@ class Player:
         # print(self.name + "'s hand")
         j = 1
         for i in self.hand:
-            print(j, ' ')
+            print(j, end=': ')
             i.print()
+            if j < len(self.hand):
+                print(end=', ')  # could be prettier
+
             j += 1
-            print(end=', ')  # could be prettier, wasn't sure how to do this without changing the for loop
         print()
         # print_graphics

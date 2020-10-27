@@ -55,18 +55,18 @@ class CPU:
             #power_card_length = len(special_cards)
             #card_number = random.randint(0, power_card_length)
             #chosen_card = special_cards[card_number]
-                if last_played.get_color() == chosen_card.get_color() or chosen_card.get_type() == last_played.get_type()\
-                or last_played.get_type() == Type.WILD:
+                if last_played.get_color() == chosen_card.get_color() or chosen_card.get_type() == last_played.get_type():
+                # or last_played.get_type() == Type.WILD:
                     valid_cards.append(chosen_card)
 
         else:
             for chosen_card in self.CPU_hand:
-                if last_played.get_color() == chosen_card.get_color() or chosen_card.get_type() == last_played.get_type()\
-                or last_played.get_type() == Type.WILD:
+                if last_played.get_color() == chosen_card.get_color() or chosen_card.get_type() == last_played.get_type():
+                # or last_played.get_type() == Type.WILD:
                     valid_cards.append(chosen_card)
 
         if len(valid_cards) != 0:
-            card_num = random.randint(0, len(valid_cards))
+            card_num = random.randint(0, len(valid_cards) - 1)
             chosen_card = valid_cards[card_num]
             card_hand_num = self.CPU_hand.index(chosen_card)
             played_card = self.CPU_hand.pop(card_hand_num)
@@ -96,12 +96,17 @@ class CPU:
             if card.get_color() == Color.GREEN and countG != 1:
                 color_choice.append(Color.GREEN)
                 countG+=1
-
-        color_chosen = random.randint(0,len(color_choice) - 1)
-        return color_choice[color_chosen]
+        if len(color_choice) > 0:
+            color_chosen = random.randint(0,len(color_choice) - 1)
+            return color_choice[color_chosen]
+        else:
+            return color_choice[1]
 
     def get_name(self):
         return self.CPU_name
 
     def print(self):
-        print(self.CPU_name + ' has ' + str(len(self.CPU_hand)) + ' cards')
+        if not len(self.CPU_hand) == 1:
+            print(self.CPU_name + ' has ' + str(len(self.CPU_hand)) + ' cards')
+        else:
+            print(self.CPU_name + ' has 1 card')

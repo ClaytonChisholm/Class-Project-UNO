@@ -183,46 +183,64 @@ class Game:
         elif self.current_player < 0:
             self.current_player = self.player_count - 1
 
+    def choose_card(self, current_player):  # change with graphics
+        choice = input('Enter D to Draw a new card or enter P to play a card').upper()
+        while not choice == 'P' and not choice == 'D':
+            choice = input(
+                'Invalid choice please try again...\nEnter D to Draw a new card or enter P to play a card').upper()
+        if choice == 'P':
+            card_num = current_player.choose_card()
+            card = current_player.get_hand()[card_num]
+        else:
+            # current_player.add_card(self.draw_card())
+            # return False
+            new_card = self.draw_card()
+            if self.validate_move(new_card):  # checks to see if drawn card is a valid move
+                while not choice == 'Y' and not choice == 'N':
+                    print('Would you like to play the ', end='')
+                    new_card.print()
+                    print(end='; ')
+                    choice = input('Y or N?').upper()
+                if choice == 'Y':
+                    return new_card
+                elif choice == 'N':
+                    current_player.add_card(new_card)
+            current_player.add_card(new_card)  # adds to players hand if its not valid
+            return False
+
+        while not self.validate_move(card):
+            choice = input('Enter D to Draw a new card or enter P to play a card').upper()
+            if choice == 'P':
+                card_num = current_player.choose_card()
+                card = current_player.get_hand()[card_num]
+            elif choice == 'D':
+                new_card = self.draw_card()
+                if self.validate_move(new_card):  # checks to see if drawn card is a valid move
+                    while not choice == 'Y' and not choice == 'N':
+                        print('Would you like to play the', end=' ')
+                        new_card.print()
+                        print(end='; ')
+                        choice = input('Y or N?').upper()
+                    if choice == 'Y':
+                        return new_card
+                    else:
+                        current_player.add_card(new_card)
+                current_player.add_card(new_card)  # adds to players hand if its not valid
+                return False
+            else:
+                print('Try again...')
+        return current_player.get_hand().pop(card_num)
+
     def pick_card(self):  # this function needs to be changed for graphics
         """
 
-        :return: Card
+        :return:
         :rtype: Card
         """
         current_player = self.players[self.current_player]
         if type(current_player) == Player:
-            choice = input('Enter D to Draw a new card or enter P to play a card').upper()
-            while not choice == 'P' and not choice == 'D':
-                choice = input(
-                    'Invalid choice please try again...\nEnter D to Draw a new card or enter P to play a card').upper()
-            if choice == 'P':
-                card = current_player.choose_card()
-                card = current_player.get_hand()[card]
-            else:
-                current_player.add_card(self.draw_card())
-                return False
-
-            while not self.validate_move(card):
-                choice = input('Enter D to Draw a new card or enter P to play a card').upper()
-                if choice == 'P':
-                    card = current_player.choose_card()
-                    card = current_player.get_hand()[card]
-                elif choice == 'D':
-                    new_card = self.draw_card()
-                    if self.validate_move(new_card):  # checks to see if drawn card is a valid move
-                        while not choice == 'Y' and not choice == 'N':
-                            print('Would you like to play', new_card.print(), ' ', end='')
-                            choice = input('Y or N?').upper()
-                        if choice == 'Y':
-                            return new_card
-                        else:
-                            current_player.add_card(new_card)
-                    current_player.add_card(new_card)  # adds to players hand if its not valid
-                    return False
-                else:
-                    print('Try again...')
-            return current_player.get_hand().pop(card)
-        else:
+            return self.choose_card(current_player)  # i separated this so it can be easily isolated for graphics
+        else:  # CPU card picking
             if current_player.get_number() == 1:
                 card = current_player.play_card(self.player, self.cpu3, self.cpu2, self.last_played)
             elif current_player.get_number() == 2:
@@ -232,7 +250,7 @@ class Game:
             if not card:
                 current_player.add_card(self.draw_card())
                 if self.validate_move(current_player.get_hand()[len(current_player.get_hand()) - 1]):
-                    return current_player.get_hand().pop(len(current_player.get_hand()))
+                    return current_player.get_hand().pop(len(current_player.get_hand()) - 1)
                 else:
                     return False
             else:
@@ -297,10 +315,10 @@ class Game:
                 self.apply_power()  # we will handle wilds after
 
                 if type(player) == Player and (
-                        self.last_played.get_type() == Type.WILD or self.last_played.get_type == Type.DRAW4):
+                        self.last_played.get_type() == Type.WILD or self.last_played.get_type() == Type.DRAW4):
                     self.set_wild()
                 elif type(player) == CPU and (
-                        self.last_played.get_type() == Type.WILD or self.last_played.get_type == Type.DRAW4):
+                        self.last_played.get_type() == Type.WILD or self.last_played.get_type() == Type.DRAW4):
                     # Not sure if entirely works, I think I can call the player variable (which in this elif
                     # statement is actually a CPU?)
                     color = player.CPU_wilds()  # calls cpu wild function
@@ -309,6 +327,7 @@ class Game:
             if not player.get_hand() or (len(self.played_deck) == 0 and len(
                     self.deck) == 0):  # think this checks for an empty hand but im completely guessing
                 self.game_over = True
+                self.print_top_card()
                 return self.players[self.current_player].get_name()  # returns winner
             self.change_turn()  # changes turn after loop processes
 

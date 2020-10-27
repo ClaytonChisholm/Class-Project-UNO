@@ -45,6 +45,6 @@ class Card:
 
     def print(self):  # change with graphics
         if self.color != 0:  # checks that color isnt none
-            print(str(self.color.name) + ' ' + str(self.type.name), end='')
+            print(str(self.color.name).capitalize() + ' ' + str(self.type.name).capitalize(), end='')
         else:
-            print(str(self.type.name), end='')
+            print(str(self.type.name).capitalize(), end='')
