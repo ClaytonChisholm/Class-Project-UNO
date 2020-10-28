@@ -50,20 +50,15 @@ class Card:
         if self.color == 0:  # checks that color isn't none
             color = bg('black') + fg('white')
         elif self.color == 1:
-            # print(colored(, 'red', end='')else
             color = bg('red') + fg('white')
         elif self.color == 2:
-            # print(colored(str(self.type.name).capitalize(), 'dark_green'), end='')
             color = bg('green_4') + fg('white')
         elif self.color == 3:
-            # print(colored(str(self.type.name).capitalize(), 'blue'), end='')
             color = bg('dodger_blue_2') + fg('white')
         else:
-            # print(colored(str(self.type.name).capitalize(), 'yellow'), end='')
             color = bg('yellow') + fg('white')
-            # print(str(self.type.name).capitalize(), end='')
         if self.type < 12:
-            print(color + attr('bold') + str(self.color.name).capitalize() + ' ' + str(self.type.name).capitalize() + reset, end='')
+            print(color + attr('bold') + str(self.color.name).capitalize() + ' ' + str(self.type.name).capitalize()
+                  + reset, end='')
         else:
             print(color + str(self.type.name).capitalize() + reset, end='')
-

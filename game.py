@@ -22,31 +22,29 @@ def choose_color():  # change when graphics
 
 
 def display_rules():
-    print("Welcome to the game of UNO! In this version, the goal of the \n"
-          "game is to play all of the cards in your hand, and the first player\n"
-          "to do this wins. Each player is dealt 7 cards at the start of\n"
-          "the game after the deck has been shuffled. There is a draw deck where\n"
+    print("Welcome to the game of UNO! In this version, the goal of the "
+          "game is to play all of the cards in your hand, and the first player"
+          "to do this wins.\nEach player is dealt 7 cards at the start of"
+          "the game after the deck has been shuffled.\nThere is a draw deck where"
           "the players draw cards and a discard deck where the players play their cards.\n"
-          "There are special and normal cards in the deck. The normal cards have a number\n"
-          "ranging from 0 to 9 and a color (red, green, blue, or yellow) and the\n"
-          "special cards have powers. These powers include:")
+          "There are special and normal cards in the deck.\nThe normal cards have a number"
+          "ranging from 0 to 9 and a color (red, green, blue, or yellow) and the"
+          "special cards have powers.\n\nThese powers include:")
 
     print("Draw 2: where the next person to play must draw two cards from the draw pile and lose their turn\n"
           "Reverse: where the card reverses the direction of play (who goes next)\n"
           "Skip card: which skips the next person in line to play\n"
           "Wild card: where the player who played this card can change the color of the card being played\n"
-          "Draw 4 Wild card: where the player can call the next color being played and requires the next\n"
-          "player to pick four cards from the draw pile and lose their turn")
+          "Draw 4 card: where the player can call the next color being played and requires the next\n"
+          "player to pick four cards from the draw pile and lose their turn\n")
 
-    print("In order to begin play, the player must match the top card of the discard deck either by number,\n"
-          "color, or word and place their card to be played on top of the discard deck. The player can play\n"
-          "a wild card or wild plus four card whenever it is their turn. If the player playing does not have\n"
-          "a valid card to play, they must pick a card from the draw pile. If you draw a card you can play,\n"
-          "play it. Otherwise, continue picking until you have found a card to play. If the draw deck runs\n"
-          "out of cards, the discard deck will be reshuffled and become the draw deck. Once the player plays\n"
-          "their card, play moves to the next person. Before playing your last card, you must click the button\n"
-          "which says “UNO”. If the next player to go plays their card before you say UNO, you must draw four\n"
-          "cards from the discard deck. Once a player plays their last card, play is over!")
+    print("In order to begin play, the player must match the top card of the discard deck either by number,"
+          "color, or word and place their card to be played on top of the discard deck.\nThe player can play"
+          "a wild card or wild plus four card whenever it is their turn.\nIf the player playing does not have"
+          "a valid card to play, they must pick a card from the draw pile.\nIf you draw a card you can play,"
+          "play it.\nOtherwise, the next player starts their turn.\nIf the draw deck runs"
+          "out of cards, the discard deck will be reshuffled and become the draw deck.\nOnce the player plays"
+          "their card, play moves to the next person.")
 
 
 class Game:
@@ -91,13 +89,17 @@ class Game:
         if not self.reversed:
             if self.current_player != self.player_count - 1:
                 self.current_player = self.current_player + 1
+                print(self.players[self.current_player].get_name(), 'has lost their turn!\n')
             else:
                 self.current_player = 0
+                print('You have lost your turn!\n')
         else:
             if self.current_player != 0:
                 self.current_player = self.current_player - 1
+                print(self.players[self.current_player].get_name(), 'has lost their turn!\n')  # TODO check
             else:
                 self.current_player = self.player_count - 1
+                print(self.players[self.current_player].get_name(), 'has lost their turn!\n')
 
     def apply_power(self):
         card = self.last_played
@@ -214,11 +216,11 @@ class Game:
             self.current_player = self.player_count - 1
 
     def choose_card(self, current_player):  # change with graphics
-        choice = input('Enter D to draw a new card or enter P to play a card: ').upper()
-        while not choice == 'P' and not choice == 'D':
-            choice = input(
+        card_choice = input('Enter D to draw a new card or enter P to play a card: ').upper()
+        while not card_choice == 'P' and not card_choice == 'D':
+            card_choice = input(
                 'Invalid choice please try again...\nEnter D to draw a new card or enter P to play a card: ').upper()
-        if choice == 'P':
+        if card_choice == 'P':
             card_num = current_player.choose_card()
             card = current_player.get_hand()[card_num]
         else:
@@ -230,13 +232,13 @@ class Game:
             sleep(.5)
             print()
             if self.validate_move(new_card):  # checks to see if drawn card is a valid move
-                while not choice == 'Y' and not choice == 'N':
+                while not card_choice == 'Y' and not card_choice == 'N':
                     print('Would you like to play it?', end='')
                     print(end=' ')
-                    choice = input('Y or N?').upper()
-                if choice == 'Y':
+                    card_choice = input('Y or N?').upper()
+                if card_choice == 'Y':
                     return new_card
-                elif choice == 'N':
+                elif card_choice == 'N':
                     current_player.add_card(new_card)
             current_player.add_card(new_card)  # adds to players hand if its not valid
             return False
@@ -244,19 +246,19 @@ class Game:
         while not self.validate_move(card):
             print('Sorry that card is not valid...')
             sleep(.25)
-            choice = input('Enter D to Draw a new card or enter P to play a card').upper()
-            if choice == 'P':
+            card_choice = input('Enter D to Draw a new card or enter P to play a card').upper()
+            if card_choice == 'P':
                 card_num = current_player.choose_card()
                 card = current_player.get_hand()[card_num]
-            elif choice == 'D':
+            elif card_choice == 'D':
                 new_card = self.draw_card()
                 if self.validate_move(new_card):  # checks to see if drawn card is a valid move
-                    while not choice == 'Y' and not choice == 'N':
+                    while not card_choice == 'Y' and not card_choice == 'N':
                         print('Would you like to play the', end=' ')
                         new_card.print()
                         print(end='; ')
-                        choice = input('Y or N?').upper()
-                    if choice == 'Y':
+                        card_choice = input('Y or N?').upper()
+                    if card_choice == 'Y':
                         return new_card
                     else:
                         current_player.add_card(new_card)
@@ -290,37 +292,40 @@ class Game:
                     return False
             else:
                 return card
-            # if true, return card
-            # if false, draw and retry once
 
-    def print_top_card(self):  # change for graphic
-        print('Current card is a', end=' ')
+    def print_played_card(self):  # change for graphic
+        print(self.players[self.current_player].get_name(), 'played a', end=' ')
+        self.last_played.print()
+        print(end='\n\n')
+
+    def print_top_card(self):
+        print('Current card is a ', end='')
         self.last_played.print()
         print()
 
     def do_turns(self):
         for player in self.players:
             self.fill_hand(player)
+        self.print_top_card()
         while not self.game_over:  # game engine of sorts
             player = self.players[self.current_player]
-            self.print_top_card()
+            # self.print_top_card()
             if type(player) == Player:
                 for p in self.players:
                     p.print()  # prints the hand
             else:
                 print('It\'s ' + player.get_name() + '\'s turn')  # this is the only text based thing in here that i
                 # couldn't find a better place for
-                sleep(.01)  # Todo change this to be more natural for gameplay
+                sleep(1)  # Todo change this to be more natural for gameplay
             picked_card = self.pick_card()
             if not picked_card:  # if no card could be played, next turn
-                pass
+                print(self.players[self.current_player].get_name(), 'drew a card.\n')
             else:
                 if self.last_played.get_type() == Type.WILD or self.last_played.get_type() == Type.DRAW4:
                     self.last_played.set_wild(Color.NONE)  # resets wilds and draw fours, so they don't have a
                     # color after shuffling
                 self.last_played = picked_card
                 self.played_deck.append(self.last_played)
-                self.apply_power()  # doesn't handle wild functionality
 
                 if type(player) == Player and (
                         self.last_played.get_type() == Type.WILD or self.last_played.get_type() == Type.DRAW4):
@@ -331,6 +336,9 @@ class Game:
                     # statement is actually a CPU?)
                     color = player.cpu_wilds()  # calls cpu wild function
                     self.last_played.set_wild(color)
+                # print who played card
+                self.print_played_card()
+                self.apply_power()  # doesn't handle wild functionality
 
             if not player.get_hand() or (len(self.played_deck) == 0 and len(
                     self.deck) == 0):  # think this checks for an empty hand but im completely guessing
@@ -343,7 +351,19 @@ class Game:
             self.change_turn()  # changes turn after loop processes
 
 
-if __name__ == '__main__':  # TODO
-    game = Game(input('What\'s your name?'))
-    display_rules()
-    print(game.do_turns())
+if __name__ == '__main__':
+    while True:
+        print('Welcome to Uno! Enter \'S\' to start a new game? Enter \'R\' to see the rules. Or enter \'Q\' to quit.')
+        choice = input('').upper()
+        if choice == 'Q' or choice == 'R' or choice == 'H' or choice == 'S':
+            if choice == 'Q':
+                print('Thanks for playing!')
+                break
+            elif choice == 'R' or choice == 'H':
+                display_rules()
+                print()
+            else:
+                game = Game(input('What\'s your name?'))
+                print(game.do_turns())
+        else:
+            print('Not a valid choice...')
