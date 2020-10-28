@@ -1,9 +1,6 @@
 from enum import IntEnum
 from colored import fg, bg, attr
-# TODO pip3 install colored
-# import os
-# if os.name == 'nt':  # allows ansi color codes
-#     os.system('color')
+# TODO pip3 install colored, put this in readme
 
 
 class Color(IntEnum):
@@ -65,8 +62,8 @@ class Card:
             # print(colored(str(self.type.name).capitalize(), 'yellow'), end='')
             color = bg('yellow') + fg('white')
             # print(str(self.type.name).capitalize(), end='')
-        # if self.type < 10:
-        print(color + attr('bold') + str(self.type.name).capitalize() + reset, end='')
-        # else:
-            # print(color + str(self.type.name).capitalize() + reset, end='')
+        if self.type < 12:
+            print(color + attr('bold') + str(self.color.name).capitalize() + ' ' + str(self.type.name).capitalize() + reset, end='')
+        else:
+            print(color + str(self.type.name).capitalize() + reset, end='')
 
