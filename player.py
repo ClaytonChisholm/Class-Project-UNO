@@ -17,9 +17,6 @@ class Player:
             card_selected = deck.pop(card_num)
             self.hand[num] = card_selected
 
-        # get identifier
-        # get the identifier of the player
-
     def set_name(self, name):
         if type(name) == str:
             self.name = name

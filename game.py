@@ -292,20 +292,8 @@ class Game:
                     return False
             else:
                 return card
-            # if true, return card
-            # if false, draw and retry once
 
     def print_played_card(self):  # change for graphic
-        # if not self.reversed:
-        #     if self.current_player != self.current_player:
-        #         player = self.current_player + 1
-        #     else:
-        #         player = 0
-        # else:
-        #     if self.current_player != 0:
-        #         player = self.current_player - 1
-        #     else:
-        #         player = self.player_count - 1
         print(self.players[self.current_player].get_name(), 'played a', end=' ')
         self.last_played.print()
         print(end='\n\n')
