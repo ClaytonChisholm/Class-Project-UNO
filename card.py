@@ -1,4 +1,9 @@
 from enum import IntEnum
+from colored import fg, bg, attr
+# TODO pip3 install colored
+# import os
+# if os.name == 'nt':  # allows ansi color codes
+#     os.system('color')
 
 
 class Color(IntEnum):
@@ -43,8 +48,25 @@ class Card:
         if self.get_type() == Type.WILD or self.get_type() == Type.DRAW4:
             self.color = color
 
-    def print(self):  # change with graphics
-        if self.color != 0:  # checks that color isn't none
-            print(str(self.color.name).capitalize() + ' ' + str(self.type.name).capitalize(), end='')
+    def print(self):  # change with graphics  for some reason a black foreground shows up as white but whatever
+        reset = attr('reset')
+        if self.color == 0:  # checks that color isn't none
+            color = bg('black') + fg('white')
+        elif self.color == 1:
+            # print(colored(, 'red', end='')else
+            color = bg('red') + fg('white')
+        elif self.color == 2:
+            # print(colored(str(self.type.name).capitalize(), 'dark_green'), end='')
+            color = bg('green_4') + fg('white')
+        elif self.color == 3:
+            # print(colored(str(self.type.name).capitalize(), 'blue'), end='')
+            color = bg('dodger_blue_2') + fg('white')
         else:
-            print(str(self.type.name).capitalize(), end='')
+            # print(colored(str(self.type.name).capitalize(), 'yellow'), end='')
+            color = bg('yellow') + fg('white')
+            # print(str(self.type.name).capitalize(), end='')
+        # if self.type < 10:
+        print(color + attr('bold') + str(self.type.name).capitalize() + reset, end='')
+        # else:
+            # print(color + str(self.type.name).capitalize() + reset, end='')
+
