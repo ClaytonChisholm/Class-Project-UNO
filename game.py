@@ -5,10 +5,10 @@ from card import *
 
 
 def choose_color():  # change when graphics
-    print('Red: 1')
-    print('Green: 2')
-    print('Blue: 3')
-    print('Yellow: 4')
+    print(bg('red') + fg('white') + 'Red' + attr('reset') + ': 1')
+    print(bg('green_4') + fg('white') + 'Green' + attr('reset') + ': 2')
+    print(bg('dodger_blue_2') + fg('white') + 'Blue' + attr('reset') + ': 3')
+    print(bg('yellow') + fg('white') + 'Yellow' + attr('reset') + ': 4')
     while True:
         try:
             color = int(input('Enter the number corresponding to your preferred color: '))
