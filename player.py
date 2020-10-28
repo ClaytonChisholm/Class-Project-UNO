@@ -24,6 +24,9 @@ class Player:
         if type(name) == str:
             self.name = name
 
+    def get_name(self):
+        return self.name
+
     def get_identifier(self):
         return self.identifier
 
