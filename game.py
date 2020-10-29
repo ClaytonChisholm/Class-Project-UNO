@@ -345,7 +345,7 @@ class Game:
                 self.game_over = True
                 self.print_top_card()
                 if type(player) == CPU:
-                    return self.players[self.current_player].get_name() + 'wins.'  # returns winner CPU
+                    return self.players[self.current_player].get_name() + ' wins.'  # returns winner CPU
                 else:
                     return 'You Win!!!'
 
