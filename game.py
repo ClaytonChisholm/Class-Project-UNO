@@ -4,12 +4,13 @@ from cpu import *
 from card import *
 
 
+# this function prompts the user for a choice of color after playing a wild or draw 4
 def choose_color():  # change when graphics
     print(bg('red') + fg('white') + 'Red' + attr('reset') + ': 1')
     print(bg('green_4') + fg('white') + 'Green' + attr('reset') + ': 2')
     print(bg('dodger_blue_2') + fg('white') + 'Blue' + attr('reset') + ': 3')
     print(bg('yellow') + fg('white') + 'Yellow' + attr('reset') + ': 4')
-    while True:
+    while True:  # loops until valid color choice is made and catches any non-integer input
         try:
             color = int(input('Enter the number corresponding to your preferred color: '))
             if not color < 1 and not color > 4:
@@ -66,7 +67,8 @@ class Game:
         self.player.set_name(player_name)
         self.fill_deck()
         self.shuffle_deck()
-        self.last_played = self.draw_first_card()
+        self.last_played = self.draw_first_card()  # special draw function that makes sure first card doesn't
+        # have a special power
 
     def validate_move(self, card: Card):
         if (card.get_color() == self.last_played.get_color() or card.get_type() == self.last_played.get_type()
@@ -96,7 +98,7 @@ class Game:
         else:
             if self.current_player != 0:
                 self.current_player = self.current_player - 1
-                print(self.players[self.current_player].get_name(), 'has lost their turn!\n')  # TODO check
+                print(self.players[self.current_player].get_name(), 'has lost their turn!\n')
             else:
                 self.current_player = self.player_count - 1
                 print(self.players[self.current_player].get_name(), 'has lost their turn!\n')
@@ -205,6 +207,7 @@ class Game:
             card = self.draw_card()
             player.add_card(card)
 
+    # changes the current player variable according to reverse boolean and who last played
     def change_turn(self):
         if self.reversed:
             self.current_player -= 1
@@ -224,8 +227,6 @@ class Game:
             card_num = current_player.choose_card()
             card = current_player.get_hand()[card_num]
         else:
-            # current_player.add_card(self.draw_card())
-            # return False
             new_card = self.draw_card()
             print('You picked up a ', end='')
             new_card.print()
@@ -268,12 +269,8 @@ class Game:
                 print('Try again...')
         return current_player.get_hand().pop(card_num)
 
-    def pick_card(self):  # this function needs to be changed for graphics
-        """
-
-        :return:
-        :rtype: Card
-        """
+    # picks a card through calling the method corresponding to whichever player calls it
+    def pick_card(self):
         current_player = self.players[self.current_player]
         if type(current_player) == Player:
             return self.choose_card(current_player)  # i separated this so it can be easily isolated for graphics
@@ -289,81 +286,85 @@ class Game:
                 if self.validate_move(current_player.get_hand()[len(current_player.get_hand()) - 1]):
                     return current_player.get_hand().pop(len(current_player.get_hand()) - 1)
                 else:
-                    return False
+                    return False  # returns false if no valid card is found
             else:
-                return card
+                return card  # returns card if one is found
 
+    # prints the most recently played card and states who played it
     def print_played_card(self):  # change for graphic
         print(self.players[self.current_player].get_name(), 'played a', end=' ')
         self.last_played.print()
         print(end='\n\n')
 
+    # prints the top card (only used for the first card since every other card is played by a player
     def print_top_card(self):
         print('Current card is a ', end='')
         self.last_played.print()
         print()
 
+    # do_turns cycles each hand and changes the game states according to what card is played and by whom
     def do_turns(self):
-        for player in self.players:
+        for player in self.players:  # creates starting hands
             self.fill_hand(player)
-        self.print_top_card()
-        while not self.game_over:  # game engine of sorts
+        self.print_top_card()  # shows first card
+
+        while not self.game_over:  # game engine
             player = self.players[self.current_player]
-            # self.print_top_card()
+
             if type(player) == Player:
                 for p in self.players:
                     p.print()  # prints the hand
             else:
-                print('It\'s ' + player.get_name() + '\'s turn')  # this is the only text based thing in here that i
-                # couldn't find a better place for
-                sleep(1)  # Todo change this to be more natural for gameplay
+                print('It\'s ' + player.get_name() + '\'s turn')
+                sleep(1)
             picked_card = self.pick_card()
+
             if not picked_card:  # if no card could be played, next turn
                 print(self.players[self.current_player].get_name(), 'drew a card.\n')
-            else:
+            elif type(picked_card) == Card:  # handles changing the game variables when a card is played
                 if self.last_played.get_type() == Type.WILD or self.last_played.get_type() == Type.DRAW4:
-                    self.last_played.set_wild(Color.NONE)  # resets wilds and draw fours, so they don't have a
-                    # color after shuffling
-                self.last_played = picked_card
+                    self.last_played.set_wild(Color.NONE)  # resets wilds and draw fours from the previous turn, so
+                    # they don't have a color after shuffling
+                self.last_played = picked_card  # updates the last played card and adds it to the discard
                 self.played_deck.append(self.last_played)
 
+                # handles wilds
                 if type(player) == Player and (
                         self.last_played.get_type() == Type.WILD or self.last_played.get_type() == Type.DRAW4):
                     self.set_wild()
                 elif type(player) == CPU and (
                         self.last_played.get_type() == Type.WILD or self.last_played.get_type() == Type.DRAW4):
-                    # Not sure if entirely works, I think I can call the player variable (which in this elif
-                    # statement is actually a CPU?)
-                    color = player.cpu_wilds()  # calls cpu wild function
-                    self.last_played.set_wild(color)
-                # print who played card
-                self.print_played_card()
-                self.apply_power()  # doesn't handle wild functionality
+                    self.last_played.set_wild(player.cpu_wilds())  # sets the color of the wild with cpu choice
 
-            if not player.get_hand() or (len(self.played_deck) == 0 and len(
-                    self.deck) == 0):  # think this checks for an empty hand but im completely guessing
+                # prints who played card
+                self.print_played_card()
+                self.apply_power()  # handles all non wild power cards
+
+            # checks for game ending conditions and returns the winner
+            if not player.get_hand() or (len(self.played_deck) == 0 and len(self.deck) == 0):
                 self.game_over = True
                 self.print_top_card()
                 if type(player) == CPU:
                     return self.players[self.current_player].get_name() + ' wins.'  # returns winner CPU
                 else:
                     return 'You Win!!!'
+
             self.change_turn()  # changes turn after loop processes
 
 
 if __name__ == '__main__':
-    while True:
+    while True:  # loops until program is quit
         print('Welcome to Uno! Enter \'S\' to start a new game? Enter \'R\' to see the rules. Or enter \'Q\' to quit.')
         choice = input('').upper()
         if choice == 'Q' or choice == 'R' or choice == 'H' or choice == 'S':
-            if choice == 'Q':
+            if choice == 'Q':  # quits the program
                 print('Thanks for playing!')
                 break
-            elif choice == 'R' or choice == 'H':
+            elif choice == 'R' or choice == 'H':  # gets the rules
                 display_rules()
                 print()
-            else:
+            else:  # if its not the other two, the game is run
                 game = Game(input('What\'s your name?'))
                 print(game.do_turns())
-        else:
+        else:  # handles invalid strings
             print('Not a valid choice...')
