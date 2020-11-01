@@ -1,7 +1,7 @@
 from card import *
 import random
 
-
+#CC
 class Player:
     def __init__(self, name, identifier):
         self.name = name
@@ -11,6 +11,7 @@ class Player:
         # set hand
         # takes in a set, the player hand becomes the 'cards'
 
+    # CC
     def set_hand(self, deck):
         deck_length = len(deck)
         for num in range(8):
@@ -25,18 +26,21 @@ class Player:
         if type(name) == str:
             self.name = name
 
+    # CC
     def get_identifier(self):
         return self.identifier
 
         # get hand
         # returns the set of the players current hand
 
+    # CC
     def get_hand(self):
         return self.hand
 
         # add_card
         # adds a card to the players hand (given a card)
 
+    # CC
     def add_card(self, card):
         self.hand.append(card)
 
