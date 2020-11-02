@@ -1,6 +1,6 @@
 import random
 
-#CC
+
 class Player:
     def __init__(self, name, identifier):
         self.name = name
