@@ -71,12 +71,14 @@ class Game:
         # have a special power
 
     def validate_move(self, card: Card):
+        # if the selected card has the same color, number (type) or is a wild it can be played
         if (card.get_color() == self.last_played.get_color() or card.get_type() == self.last_played.get_type()
                 or card.get_type() == Type.WILD or card.get_type() == Type.DRAW4):
             return True
         else:
             return False
 
+    # shuffle the entire deck
     def shuffle_deck(self):
         random.shuffle(self.deck)
 
