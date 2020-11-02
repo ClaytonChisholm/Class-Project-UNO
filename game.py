@@ -71,12 +71,14 @@ class Game:
         # have a special power
 
     def validate_move(self, card: Card):
+        # if the selected card has the same color, number (type) or is a wild it can be played
         if (card.get_color() == self.last_played.get_color() or card.get_type() == self.last_played.get_type()
                 or card.get_type() == Type.WILD or card.get_type() == Type.DRAW4):
             return True
         else:
             return False
 
+    # shuffle the entire deck
     def shuffle_deck(self):
         random.shuffle(self.deck)
 
@@ -85,74 +87,104 @@ class Game:
         sleep(2)  # for ~~aesthetics~~
         random.shuffle(self.played_deck)
         self.deck = copy(self.played_deck)
+        # reset the played deck to empty
         self.played_deck = []
 
     def skip(self):
+        # Order of skip is different depending on the reverse status
         if not self.reversed:
+            # if the current player is not the last player in the turn order it is safe to
+            # skip the next player
             if self.current_player != self.player_count - 1:
                 self.current_player = self.current_player + 1
+                # output who lost their turn so the player can see
                 print(self.players[self.current_player].get_name(), 'has lost their turn!\n')
             else:
+                # assign the current player to the beginning of the turn order if it is currently player 4s turn
                 self.current_player = 0
+                # output who lost their turn so the player can see
                 print('You have lost your turn!\n')
+        # if it is currently reversed, do the opposite of above
         else:
             if self.current_player != 0:
                 self.current_player = self.current_player - 1
+                # output who lost their turn so the player can see
                 print(self.players[self.current_player].get_name(), 'has lost their turn!\n')
             else:
                 self.current_player = self.player_count - 1
+                # output who lost their turn so the player can see
                 print(self.players[self.current_player].get_name(), 'has lost their turn!\n')
 
     def apply_power(self):
+        # assign card to the last played card then check for a power
         card = self.last_played
         if card.get_type() == Type.SKIP:
             self.skip()
         elif card.get_type() == Type.DRAW2:
             if not self.reversed:
+                # if the current player is not the last player in the turn order it is safe to
+                # make the next player draw two cards
                 if self.current_player != self.player_count - 1:
                     for i in range(2):
                         self.players[self.current_player + 1].add_card(self.draw_card())
+                    # when you are required to draw your turn is also skipped
                     self.skip()
+                # if the current player is player 4 then assign the draw 2 to player 0 to avoid indexing out of bounds
                 else:
                     for i in range(2):
                         self.players[0].add_card(self.draw_card())
+                    # when you are required to draw your turn is also skipped
                     self.skip()
+            # if it is currently reversed, do the opposite of above
             else:
                 if self.current_player != 0:
                     for i in range(2):
                         self.players[self.current_player - 1].add_card(self.draw_card())
                     self.skip()
+                # if the current player is player 0 then assign the draw 2 to player 4 to avoid indexing out of bounds
                 else:
                     for i in range(2):
                         self.players[self.player_count - 1].add_card(self.draw_card())
                     self.skip()
+        # if the power of the card is reverse, call the reverse function
         elif card.get_type() == Type.REVERSE:
             self.reverse()
         elif card.get_type() == Type.DRAW4:
             if not self.reversed:
+                # if the current player is not the last player in the turn order it is safe to
+                # make the next player draw four cards
                 if self.current_player != self.player_count - 1:
                     for i in range(4):
                         self.players[self.current_player + 1].add_card(self.draw_card())
+                    # when you are required to draw your turn is also skipped
                     self.skip()
+                # if the current player is player 4, make player 0 draw four cards
                 else:
                     for i in range(4):
                         self.players[0].add_card(self.draw_card())
+                    # when you are required to draw your turn is also skipped
                     self.skip()
+            # if it is currently reversed, do the opposite of above
             else:
                 if self.current_player != 0:
                     for i in range(4):
                         self.players[self.current_player - 1].add_card(self.draw_card())
+                    # when you are required to draw your turn is also skipped
                     self.skip()
                 else:
                     for i in range(4):
                         self.players[self.player_count - 1].add_card(self.draw_card())
+                    # when you are required to draw your turn is also skipped
                     self.skip()
 
     def fill_deck(self):
         color = Color.NONE
+        # for loop with range 4 since there are 4 colors
         for i in range(4):
+            # create 4 of each: wild and wild draw 4, 1 each time the loop passes
             self.deck.append(Card(Type.WILD))
             self.deck.append(Card(Type.DRAW4))
+            # assign a color depending on i
             if i == 0:
                 color = Color.YELLOW
             elif i == 1:
@@ -161,21 +193,27 @@ class Game:
                 color = Color.GREEN
             elif i == 3:
                 color = Color.BLUE
+            # there are only 1 zero card of each color
             self.deck.append(Card(Type.ZERO, color))
+            # create 2 of each power card for each color
             for k in range(2):
                 self.deck.append(Card(Type.SKIP, color))
                 self.deck.append(Card(Type.DRAW2, color))
                 self.deck.append(Card(Type.REVERSE, color))
+            # create 2 of each number card from 1 to 9
             for j in range(1, 10):
                 self.deck.append(Card(Type(j), color))
                 self.deck.append(Card(Type(j), color))
 
     def draw_card(self):
         deck_length = len(self.deck)
+        # if the deck is empty, shuffle the discard pile back in
         if deck_length == 0:
             self.shuffle_discard()
             deck_length = len(self.deck)
+        # choose a random card
         card_num = random.randint(0, deck_length - 1)
+        # remove the card from the deck
         card_selected = self.deck.pop(card_num)
         return card_selected
 
@@ -183,26 +221,32 @@ class Game:
         while True:
             card = self.draw_card()
             card_type = card.get_type()
+            # if the card drawn is a power card then discard it and draw again
             if card_type == Type.DRAW4 or card_type == Type.WILD or card_type == Type.SKIP or card_type == Type.DRAW2 \
                     or card_type == Type.REVERSE:
                 self.played_deck.append(card)
                 continue
+            # continue until a value card is drawn
             else:
                 self.played_deck.append(card)
                 break
         return card
 
     def reverse(self):
+        # if the game is not already reversed then set reverse to true
         if not self.reversed:
             self.reversed = True
+        # if the game is currently reverse then set it to false
         else:
             self.reversed = False
 
     def set_wild(self):
+        # call choose color to set the color of a wild card
         color = choose_color()
         self.last_played.set_wild(color)
 
     def fill_hand(self, player):
+        # the game begins with each player having seven cards
         for i in range(0, 7):
             card = self.draw_card()
             player.add_card(card)
@@ -219,31 +263,40 @@ class Game:
             self.current_player = self.player_count - 1
 
     def choose_card(self, current_player):  # change with graphics
+        # get user input whether they wish to draw or play
         card_choice = input('Enter D to draw a new card or enter P to play a card: ').upper()
+        # validate user input
         while not card_choice == 'P' and not card_choice == 'D':
             card_choice = input(
                 'Invalid choice please try again...\nEnter D to draw a new card or enter P to play a card: ').upper()
+        # if user input was play card them get the user to choose a card
         if card_choice == 'P':
             card_num = current_player.choose_card()
             card = current_player.get_hand()[card_num]
+        # if they drew, then draw a new card and tell the user what they drew
         else:
             new_card = self.draw_card()
             print('You picked up a ', end='')
             new_card.print()
             sleep(.5)
             print()
+            # if the new card can be played, allow the player to play it
             if self.validate_move(new_card):  # checks to see if drawn card is a valid move
+                # validate input
                 while not card_choice == 'Y' and not card_choice == 'N':
                     print('Would you like to play it?', end='')
                     print(end=' ')
                     card_choice = input('Y or N?').upper()
+                # if they choose yes then play the card
                 if card_choice == 'Y':
                     return new_card
+                # if they choose no then add the card to the hand
                 elif card_choice == 'N':
                     current_player.add_card(new_card)
             current_player.add_card(new_card)  # adds to players hand if its not valid
             return False
 
+        # while the chosen card is not valid, make them try again
         while not self.validate_move(card):
             print('Sorry that card is not valid...')
             sleep(.25)

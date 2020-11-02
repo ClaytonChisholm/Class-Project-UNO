@@ -1,50 +1,62 @@
 import random
 
-#CC
+
+# Class Player:
+# Takes in Name and Identifier
 class Player:
     def __init__(self, name, identifier):
         self.name = name
         self.identifier = identifier
         self.hand = []
 
-        # set hand
-        # takes in a set, the player hand becomes the 'cards'
-
-    # CC
+    # Sets the players hand given the deck
     def set_hand(self, deck):
         deck_length = len(deck)
         for num in range(8):
             card_num = random.randint(0, deck_length)
             card_selected = deck.pop(card_num)
             self.hand[num] = card_selected
-
+    
+    # Set name
+    # sets the player name
     def set_name(self, name):
         if type(name) == str:
             self.name = name
-
-
-    # CC
+    # Returns name
     def get_name(self):
         return self.name
 
-
+    # Returns the identifier
     def get_identifier(self):
         return self.identifier
 
-        # get hand
-        # returns the set of the players current hand
-
-    # CC
+    # Returns the players hand
     def get_hand(self):
         return self.hand
 
-        # add_card
-        # adds a card to the players hand (given a card)
-
-    # CC
+    # Adds card to hand
     def add_card(self, card):
         self.hand.append(card)
 
+    # gets the name of the player
+    def get_name(self):
+        return self.name
+
+    # returns the identifier of a player
+    def get_identifier(self):
+        return self.identifier
+
+    # get hand
+    # returns the set of the players current hand
+    def get_hand(self):
+        return self.hand
+
+    # add_card
+    # adds a card to the players hand (given a card)
+    def add_card(self, card):
+        self.hand.append(card)
+
+    # prompts the player to choose a card and returns its index
     def choose_card(self):
         while True:
             try:
@@ -57,6 +69,7 @@ class Player:
                 print('Please try again, make sure to enter a number corresponding to your choice...')
         return card_num - 1
 
+    # prints the player turn
     def print(self):
         print('It\'s now your turn, ' + self.name + '!')
         print('Your hand:')
@@ -68,4 +81,3 @@ class Player:
                 print(end=', ')  # could be prettier
             j += 1
         print()
-    # print_graphics
