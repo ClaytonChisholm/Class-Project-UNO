@@ -1,32 +1,33 @@
 import random
 
-#CC
+# Class Player:
+# Takes in Name and Identifier
+
+
 class Player:
     def __init__(self, name, identifier):
         self.name = name
         self.identifier = identifier
         self.hand = []
 
-        # set hand
-        # takes in a set, the player hand becomes the 'cards'
-
-    # CC
+    # Sets the players hand given the deck
     def set_hand(self, deck):
         deck_length = len(deck)
         for num in range(8):
             card_num = random.randint(0, deck_length)
             card_selected = deck.pop(card_num)
             self.hand[num] = card_selected
+    # Set name
 
     def set_name(self, name):
         if type(name) == str:
             self.name = name
+    # Returns name
 
-
-    # CC
     def get_name(self):
         return self.name
 
+    # Returns the identifier
 
     def get_identifier(self):
         return self.identifier
@@ -34,16 +35,19 @@ class Player:
         # get hand
         # returns the set of the players current hand
 
-    # CC
+    # Returns the players hand
     def get_hand(self):
         return self.hand
 
         # add_card
         # adds a card to the players hand (given a card)
 
-    # CC
+    # Adds card to hand
     def add_card(self, card):
         self.hand.append(card)
+
+    # Chooses a card by entering a number
+    # If out of bounds, will ask player to do again
 
     def choose_card(self):
         while True:
@@ -56,6 +60,7 @@ class Player:
             except ValueError:
                 print('Please try again, make sure to enter a number corresponding to your choice...')
         return card_num - 1
+    # Print function
 
     def print(self):
         print('It\'s now your turn, ' + self.name + '!')
