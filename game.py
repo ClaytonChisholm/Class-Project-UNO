@@ -263,31 +263,40 @@ class Game:
             self.current_player = self.player_count - 1
 
     def choose_card(self, current_player):  # change with graphics
+        # get user input whether they wish to draw or play
         card_choice = input('Enter D to draw a new card or enter P to play a card: ').upper()
+        # validate user input
         while not card_choice == 'P' and not card_choice == 'D':
             card_choice = input(
                 'Invalid choice please try again...\nEnter D to draw a new card or enter P to play a card: ').upper()
+        # if user input was play card them get the user to choose a card
         if card_choice == 'P':
             card_num = current_player.choose_card()
             card = current_player.get_hand()[card_num]
+        # if they drew, then draw a new card and tell the user what they drew
         else:
             new_card = self.draw_card()
             print('You picked up a ', end='')
             new_card.print()
             sleep(.5)
             print()
+            # if the new card can be played, allow the player to play it
             if self.validate_move(new_card):  # checks to see if drawn card is a valid move
+                # validate input
                 while not card_choice == 'Y' and not card_choice == 'N':
                     print('Would you like to play it?', end='')
                     print(end=' ')
                     card_choice = input('Y or N?').upper()
+                # if they choose yes then play the card
                 if card_choice == 'Y':
                     return new_card
+                # if they choose no then add the card to the hand
                 elif card_choice == 'N':
                     current_player.add_card(new_card)
             current_player.add_card(new_card)  # adds to players hand if its not valid
             return False
 
+        # while the chosen card is not valid, make them try again
         while not self.validate_move(card):
             print('Sorry that card is not valid...')
             sleep(.25)
