@@ -11,3 +11,7 @@ deck. If the card is playable, the program will ask the user if they would like 
 card. Otherwise, the CPU's will then take their turns. The game will automatically end when
 one of the four players plays all of the cards in their hand. Whoever plays their last card
 first, wins!
+
+Before starting the program, be sure to install the colored module.
+
+    pip3 install colored
