@@ -14,4 +14,4 @@ first, wins!
 
 Before starting the program, be sure to install the colored module.
 
-  pip3 install colored
+    pip3 install colored
