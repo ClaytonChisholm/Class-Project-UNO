@@ -1,6 +1,5 @@
 from enum import IntEnum
 from colored import fg, bg, attr
-# TODO pip3 install colored, put this in readme
 
 
 # enum for card color
