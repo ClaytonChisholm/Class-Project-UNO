@@ -1,6 +1,7 @@
 from player import *
 from card import *
 
+
 # CPU Class, creates and plays each CPU player
 class CPU:
 
@@ -13,7 +14,6 @@ class CPU:
     def set_hand(self, deck):
         deck_length = len(deck)
         for num in range(7):
-
             # randomly generates a card from deck to append to CPU_hand
             card_num = random.randint(0, deck_length)
             card_selected = deck.pop(card_num)
@@ -45,7 +45,7 @@ class CPU:
             for card in self.CPU_hand:
                 if card.get_type() == Type.DRAW4:
                     power_card_found = True
-                    special_cards.append(card) # appends power cards to special_cards list
+                    special_cards.append(card)  # appends power cards to special_cards list
                 elif card.get_type() == Type.REVERSE:
                     power_card_found = True
                     special_cards.append(card)
@@ -60,14 +60,14 @@ class CPU:
         # valid_cards list
         if power_card_found:
             for chosen_card in special_cards:
-                if last_played.get_color() == chosen_card.get_color()\
+                if last_played.get_color() == chosen_card.get_color() \
                         or chosen_card.get_type() == last_played.get_type():
                     valid_cards.append(chosen_card)
 
         # Otherwise, check entire hand for valid cards and add to valid_cards list
         else:
             for chosen_card in self.CPU_hand:
-                if last_played.get_color() == chosen_card.get_color()\
+                if last_played.get_color() == chosen_card.get_color() \
                         or chosen_card.get_type() == last_played.get_type():
                     valid_cards.append(chosen_card)
 
