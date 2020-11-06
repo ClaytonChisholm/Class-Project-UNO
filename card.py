@@ -61,7 +61,7 @@ class Card:
             color = bg('dodger_blue_2') + fg('white')
         else:  # yellow
             color = bg('yellow') + fg('white')
-        if self.type < 12:  # non-wild card printing
+        if self.type <= 12:  # non-wild card printing
             print(color + attr('bold') + str(self.color.name).capitalize() + ' ' + str(self.type.name).capitalize()
                   + reset, end='')
         else:  # wild card printing
