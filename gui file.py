@@ -1,5 +1,6 @@
 import pygame
 import sys
+from time import sleep
 
 
 
@@ -20,6 +21,12 @@ def main():
     textpos.centery = background.get_rect().centery
     background.blit(text, textpos)
 
+    # blue 0 rectangle object
+    blue0 = pygame.image.load('cards/blue_0.png')
+    blue0_rect = blue0.get_rect()
+
+    blue1 = pygame.image.load('cards/blue_1.png')
+
 
     # allows the screen to run, and allows you to quit
     while 1:
@@ -32,7 +39,21 @@ def main():
         # red rectangle
         red = (250, 0, 0)
         pygame.draw.rect(screen, red, [75, 10, 50, 20])
+
+        # blit blue0
+        screen.blit(blue0, (500, 500))
+        screen.blit(blue1, (70, 0))
+
         pygame.display.flip()
+
+
+        screen.blit(blue0, blue0_rect)
+        blue0_rect.inflate_ip(1, 1)
+        blue0 = pygame.transform.scale(blue0, blue0_rect.size)
+
+        screen.blit(blue0, blue0_rect)
+        pygame.display.flip()
+        sleep(.5)
 
 if __name__ == '__main__':
     main()
