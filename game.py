@@ -49,11 +49,11 @@ def display_rules():
 
 
 class Game:
-    player = Player(' ', 0)
-    cpu1 = CPU("Mark", 1)
-    cpu2 = CPU("Mira", 2)
-    cpu3 = CPU("Julia", 3)
-    players = [player, cpu1, cpu2, cpu3]
+    # player = Player(' ', 0)
+    # cpu1 = CPU("Mark", 1)
+    # cpu2 = CPU("Mira", 2)
+    # cpu3 = CPU("Julia", 3)
+    # players = [player, cpu1, cpu2, cpu3]
     deck = []
     played_deck = []
     last_played = Card(Type.WILD)
@@ -62,13 +62,21 @@ class Game:
     reversed = False
     game_over = False
 
-    def __init__(self, player_name):
-        self.name = player_name
-        self.player.set_name(player_name)
+    def __init__(self, cpu1, cpu2, cpu3, player):
+        self.player = player
+        self.cpu1 = cpu1
+        self.cpu2 = cpu2
+        self.cpu3 = cpu3
+        self.players = [self.player, self.cpu1, self.cpu2, self.cpu3]
+        # self.name = player_name
+        # self.player.set_name(player_name)
         self.fill_deck()
         self.shuffle_deck()
         self.last_played = self.draw_first_card()  # special draw function that makes sure first card doesn't
         # have a special power
+
+    def get_top_card(self):  # TODO, call this each cycle for printing.
+        return self.last_played
 
     def validate_move(self, card: Card):
         # if the selected card has the same color, number (type) or is a wild it can be played
@@ -417,7 +425,9 @@ if __name__ == '__main__':
                 display_rules()
                 print()
             else:  # if its not the other two, the game is run
-                game = Game(input('What\'s your name?'))
-                print(game.do_turns())
+                # game = Game(input('What\'s your name?'))
+                # print(game.do_turns())
+                new_game = Game()
+                print(new_game.do_turns())
         else:  # handles invalid strings
             print('Not a valid choice...')
