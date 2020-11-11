@@ -60,8 +60,9 @@ def game_engine():
     screen = pygame.display.set_mode(screen_size)
     pygame.display.set_caption('UNO!')
     background = pygame.Surface(screen.get_size())
+    black = [255, 0, 0]
+    screen.fill(black)
     background = background.convert()
-    background.fill((0, 0, 0))
 
     # white color
     white = (255, 255, 255)
@@ -165,6 +166,7 @@ def game_engine():
     # game screen
     if not game_over:
         screen = pygame.display.set_mode(screen_size)
+        #screen.fill(red)
         cpu1 = CPU("Mark", 1)
         cpu2 = CPU("Mira", 2)
         cpu3 = CPU("Julia", 3)
@@ -184,29 +186,28 @@ def game_engine():
                     pygame.quit()
                     sys.exit()
 
-
             pygame.display.update()
+
 
 def print_top_card(game, screen):
     top_card = print_card(game.last_played)
-    top_card_rect = top_card.get_rect()
-    screen.blit(top_card, top_card_rect)
+    deck_cover = pygame.image.load('cards/card_back.png')
+    deck_cover = pygame.transform.scale(deck_cover, (100, 140))
+    screen.blit(top_card, (((screen.get_width()/2)-120), (screen.get_height()/2)-100))
+    screen.blit(deck_cover, (((screen.get_width() / 2) + 20), (screen.get_height() / 2) - 100))
     pygame.display.flip()
-    top_card_rect.move(300, 300)
-    screen.blit(top_card, top_card_rect)
-    pygame.display.flip()
+
+#def print_player_hand(game, screen):
+    #stuff
+
+#def print_cpu_hands(game, screen):
+    #
 
 
 def print_card(card):
     graphics_card = pygame.image.load(card.get_path())
+    graphics_card = pygame.transform.scale(graphics_card, (100, 140))
     return graphics_card
-
-
-
-
-    # TODO get name input
-    # name = ''
-    # player.set_name(name)
 
 
 if __name__ == '__main__':
