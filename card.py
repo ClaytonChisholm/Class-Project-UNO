@@ -66,3 +66,28 @@ class Card:
                   + reset, end='')
         else:  # wild card printing
             print(color + str(self.type.name).capitalize() + reset, end='')
+
+    def get_path(self):
+        path = ''
+        if self.color == Color.RED:
+            path += 'red_'
+        elif self.color == Color.GREEN:
+            path += 'green_'
+        elif self.color == Color.BLUE:
+            path += 'blue_'
+        elif self.color == Color.YELLOW:
+            path += 'yellow_'
+        else:
+            path += 'wild_'
+        if self.type.value < 10:
+            path += str(self.type.value) + '.png'
+        elif self.type.value == 10:
+            path += 'skip.png'
+        elif self.type.value == 11:
+            path += 'reverse.png'
+        elif self.type.value == 12:
+            path += 'picker.png'
+        elif self.type.value == 13:
+            path += 'color_changer.png'
+        else:
+            path += 'pick_four.png'
