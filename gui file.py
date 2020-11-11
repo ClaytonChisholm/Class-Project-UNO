@@ -67,10 +67,10 @@ def game_engine():
     white = (255, 255, 255)
 
     # light shade of the button
-    color_light = (170, 170, 170)
+    button_hover_color = (170, 170, 170)
 
     # dark shade of the button
-    color_dark = (100, 100, 100)
+    button_color = (100, 100, 100)
 
     # defining a font
     tinyfont = pygame.font.SysFont('Corbel', 25)
@@ -85,6 +85,9 @@ def game_engine():
     game_over = True
     show_menu = True
     show_rules = False
+
+    # menu screen
+
     while show_menu:
         # stores the (x,y) coordinates into
         # the variable as a tuple
@@ -119,19 +122,19 @@ def game_engine():
                     show_rules = True
 
         if new_game_button_x <= mouse[0] <= new_game_button_x+button_width and button_y <= mouse[1] <= button_y+button_height:
-            pygame.draw.rect(screen, color_light, [new_game_button_x, button_y, 140, 40])
+            pygame.draw.rect(screen, button_hover_color, [new_game_button_x, button_y, 140, 40])
         else:
-            pygame.draw.rect(screen, color_dark, [new_game_button_x, button_y, 140, 40])
+            pygame.draw.rect(screen, button_color, [new_game_button_x, button_y, 140, 40])
 
         if quit_button_x <= mouse[0] <= quit_button_x+button_width and button_y <= mouse[1] <= button_y+button_height:
-            pygame.draw.rect(screen, color_light, [quit_button_x, button_y, 140, 40])
+            pygame.draw.rect(screen, button_hover_color, [quit_button_x, button_y, 140, 40])
         else:
-            pygame.draw.rect(screen, color_dark, [quit_button_x, button_y, 140, 40])
+            pygame.draw.rect(screen, button_color, [quit_button_x, button_y, 140, 40])
 
         if rules_button_x <= mouse[0] <= rules_button_x+button_width and button_y <= mouse[1] <= button_y+button_height:
-            pygame.draw.rect(screen, color_light, [rules_button_x, button_y, 140, 40])
+            pygame.draw.rect(screen, button_hover_color, [rules_button_x, button_y, 140, 40])
         else:
-            pygame.draw.rect(screen, color_dark, [rules_button_x, button_y, 140, 40])
+            pygame.draw.rect(screen, button_color, [rules_button_x, button_y, 140, 40])
 
         # superimposing the text onto our buttons
         screen.blit(text_quit, (quit_button_x + 40, button_y+3))
@@ -144,19 +147,62 @@ def game_engine():
         if show_rules or not game_over:
             show_menu = False
 
-    # if show_rules:
-       # while:
+    # show rules screen
+    if show_rules:
+        screen = pygame.display.set_mode(screen_size)
+        while show_rules:
+            mouse = pygame.mouse.get_pos()
+            width = screen.get_width()
+            height = screen.get_height()
 
-    # if not game_over:
-       # while:
+            for ev in pygame.event.get():
+                if ev.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+
+            pygame.display.update()
+
+    # game screen
+    if not game_over:
+        screen = pygame.display.set_mode(screen_size)
+        cpu1 = CPU("Mark", 1)
+        cpu2 = CPU("Mira", 2)
+        cpu3 = CPU("Julia", 3)
+        player = Player('', 0)
+        game = Game(cpu1, cpu2, cpu3, player)
+        for player in game.players:  # creates starting hands
+            game.fill_hand(player)
+        print_top_card(game, screen)
+
+        while not game_over:
+            mouse = pygame.mouse.get_pos()
+            width = screen.get_width()
+            height = screen.get_height()
+
+            for ev in pygame.event.get():
+                if ev.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
 
-        # cpu1 = CPU("Mark", 1)
-        # cpu2 = CPU("Mira", 2)
-        # cpu3 = CPU("Julia", 3)
-        # player = Player('', 0)
-        # game = Game(cpu1, cpu2, cpu3, player)
-        # game_over = False
+            pygame.display.update()
+
+def print_top_card(game, screen):
+    top_card = print_card(game.last_played)
+    top_card_rect = top_card.get_rect()
+    screen.blit(top_card, top_card_rect)
+    pygame.display.flip()
+    top_card_rect.move(300, 300)
+    screen.blit(top_card, top_card_rect)
+    pygame.display.flip()
+
+
+def print_card(card):
+    graphics_card = pygame.image.load(card.get_path())
+    return graphics_card
+
+
+
 
     # TODO get name input
     # name = ''

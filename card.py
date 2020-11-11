@@ -68,7 +68,7 @@ class Card:
             print(color + str(self.type.name).capitalize() + reset, end='')
 
     def get_path(self):
-        path = ''
+        path = 'cards/'
         if self.color == Color.RED:
             path += 'red_'
         elif self.color == Color.GREEN:
@@ -91,3 +91,5 @@ class Card:
             path += 'color_changer.png'
         else:
             path += 'pick_four.png'
+
+        return path
