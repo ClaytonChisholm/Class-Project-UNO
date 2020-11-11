@@ -1,7 +1,6 @@
 import pygame
 import sys
-from time import sleep
-
+from game import *
 
 
 def main():
@@ -27,7 +26,6 @@ def main():
 
     blue1 = pygame.image.load('cards/blue_1.png')
 
-
     # allows the screen to run, and allows you to quit
     while 1:
         for event in pygame.event.get():
@@ -46,7 +44,6 @@ def main():
 
         pygame.display.flip()
 
-
         screen.blit(blue0, blue0_rect)
         blue0_rect.inflate_ip(1, 1)
         blue0 = pygame.transform.scale(blue0, blue0_rect.size)
@@ -54,6 +51,31 @@ def main():
         screen.blit(blue0, blue0_rect)
         pygame.display.flip()
         sleep(.5)
+
+
+def game_engine():
+
+    pygame.init()
+    screen = pygame.display.set_mode((1200, 800))
+    pygame.display.set_caption('UNO!')
+    background = pygame.Surface(screen.get_size())
+    background = background.convert()
+    background.fill((255, 255, 255))
+    opened = True
+    while (opened)
+        cpu1 = CPU("Mark", 1)
+        cpu2 = CPU("Mira", 2)
+        cpu3 = CPU("Julia", 3)
+        player = Player('', 0)
+        game = Game(cpu1, cpu2, cpu3, player)
+        game_over = False
+
+        while (not game_over)
+
+    # TODO get name input
+    name = ''
+    player.set_name(name)
+
 
 if __name__ == '__main__':
     main()
