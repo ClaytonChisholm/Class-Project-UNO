@@ -197,8 +197,23 @@ def print_top_card(game, screen):
     screen.blit(deck_cover, (((screen.get_width() / 2) + 20), (screen.get_height() / 2) - 100))
     pygame.display.flip()
 
-#def print_player_hand(game, screen):
-    #stuff
+
+def print_player_hand(game, screen: pygame.Surface):
+    player = game.player
+    player_hand_size = screen.get_width() * (2 / 3)  # 1/6
+    hand_size = player.get_hand().len()
+    card_size = (player_hand_size - 90) / hand_size  # the 90 here is how far from the end of the hand object
+    if card_size * hand_size < player_hand_size - 90:
+        card_size = 140  # default size
+    card_offset = (screen.get_width() / 2) - (card_size / 2)
+    if hand_size % 2 == 1:  # odd number of cards
+
+    if hand_size % 2 == 0:  # even number of cards
+
+    # for card in player.get_hand():
+    #     card_face = pygame.image.load(card.get_path())
+    #     card_face = pygame.transform.scale(card_face, (100, 140))
+    #     screen.blit(card_face, )
 
 #def print_cpu_hands(game, screen):
     #
