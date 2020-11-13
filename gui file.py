@@ -180,9 +180,12 @@ def game_engine():
         for player in game.players:  # creates starting hands
             game.fill_hand(player)
         print_top_card(game, screen)
-        print_player_hand(game, screen)
+        # print_player_hand(game, screen)
 
-        while not game_over:
+        while not game_over:  # game engine
+            player = game.players[game.current_player]
+            print_player_hand(game, screen)
+            print_cpu_hands(game, screen)
             mouse = pygame.mouse.get_pos()
             width = screen.get_width()
             height = screen.get_height()
@@ -243,8 +246,8 @@ def print_player_hand(game, screen: pygame.Surface):
             card_offset += 120 - overlap
 
 
-# def print_cpu_hands(game, screen):
-#
+def print_cpu_hands(game, screen):
+    pass
 
 
 def print_card(card):
