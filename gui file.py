@@ -199,10 +199,13 @@ def game_engine():
         cpu1 = CPU("Mark", 1)
         cpu2 = CPU("Mira", 2)
         cpu3 = CPU("Julia", 3)
-        player = Player('', 0)
+        name = ''
+        player = Player(name, 0)
         game = Game(cpu1, cpu2, cpu3, player)
         for player in game.players:  # creates starting hands
             game.fill_hand(player)
+        screen = pygame.display.set_mode(screen_size)
+        screen.fill((0, 0, 0))
         print_top_card(game, screen)
 
         while not game_over:  # game engine
