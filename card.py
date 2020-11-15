@@ -35,6 +35,8 @@ class Card:
     def __init__(self, card_type: Type, color: Color = Color.NONE):  # defaults to no color, eg wilds
         self.type = card_type
         self.color = color
+        #self.x_coord = 0
+        #self.y_coord = 0
 
     # returns card type
     def get_type(self):
@@ -47,6 +49,12 @@ class Card:
     def set_wild(self, color: Color):  # sets the color of a card if it is determined to be a wild card.
         if self.get_type() == Type.WILD or self.get_type() == Type.DRAW4:
             self.color = color
+
+    #def set_x_coord(self, x):
+        #self.x_coord = x
+
+    #def set_y_coord(self, y):
+        #self.y_coord = y
 
     def print(self):  # change with graphics  for some reason a black foreground shows up as white but it works as
         # intended so i'll leave it as is
