@@ -54,6 +54,8 @@ white = (255, 255, 255)
 
 white = (255, 255, 255)
 list_of_rect_card = []
+
+
 def game_engine():
     pygame.init()
     screen_size = (1200, 800)
@@ -157,14 +159,14 @@ def game_engine():
         screen.fill(white)
         text_back = tinyfont.render('Back To Menu', True, black)
         rules_text = display_rules()
-        format_rules(screen,rules_text,tinyfont)
+        format_rules(screen, rules_text, tinyfont)
         while show_rules:
             button_width = 140
             button_height = 40
             width = screen.get_width()
             height = screen.get_height()
-            menu_back_x = (width*.1)-(button_width/2)
-            button_y = (height*.85)+(button_height/2)
+            menu_back_x = (width * .1) - (button_width / 2)
+            button_y = (height * .85) + (button_height / 2)
             mouse = pygame.mouse.get_pos()
 
             for ev in pygame.event.get():
@@ -174,28 +176,28 @@ def game_engine():
 
                 if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
 
-                    if menu_back_x <= mouse[0] <= menu_back_x+button_width and button_y <= mouse[1] <= button_y+button_height:
+                    if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
+                        1] <= button_y + button_height:
                         show_rules = False
                         game_engine()
 
-
             # if the mouse is clicked on the
             # button the game is terminated
-            if menu_back_x <= mouse[0] <= menu_back_x+button_width and button_y <= mouse[1] <= button_y+button_height:
+            if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
+                1] <= button_y + button_height:
                 pygame.draw.rect(screen, button_hover_color, [menu_back_x, button_y, 140, 40])
             else:
                 pygame.draw.rect(screen, button_color, [menu_back_x, button_y, 140, 40])
 
-            screen.blit(text_back, (menu_back_x+15, button_y+10))
+            screen.blit(text_back, (menu_back_x + 15, button_y + 10))
 
             # updates the frames of the game
             pygame.display.update()
 
-
     # game screen
     if not game_over:
         screen = pygame.display.set_mode(screen_size)
-        screen.fill((0,0,0))
+        screen.fill((0, 0, 0))
         cpu1 = CPU("Mark", 1)
         cpu2 = CPU("Mira", 2)
         cpu3 = CPU("Julia", 3)
@@ -205,7 +207,7 @@ def game_engine():
             game.fill_hand(player)
         print_top_card(game, screen)
         # print_player_hand(game, screen)
-        
+
         while not game_over:  # game engine
             player = game.players[game.current_player]
             print_player_hand(game, screen)
@@ -218,15 +220,17 @@ def game_engine():
                 if ev.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                #if type(player) == Player:
+                # if type(player) == Player:
                 if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
                     for card in list_of_rect_card:
                         if card.collidepoint(ev.pos):
                             print("It's clicked")
-                        #else:
-                            #print("not clicked")
+                        # else:
+                        # print("not clicked")
 
             pygame.display.update()
+
+
 #
 # def print_cpu_hands(game, screen):
 #     pass
@@ -294,9 +298,9 @@ def format_rules(screen, rules, font):
             if word == "include:":
                 word_to_append = " " + word
                 new_line += word_to_append
-                new_line = blit_rules(screen,new_line,font,x,y)
+                new_line = blit_rules(screen, new_line, font, x, y)
             if word == "Reverse:" or word == "Skip" or word == "Wild" or word == "Draw" or word == "In":
-                new_line = blit_rules(screen,new_line,font,x,y)
+                new_line = blit_rules(screen, new_line, font, x, y)
                 word_to_append = " " + word
                 new_line += word_to_append
                 y += 40
@@ -306,21 +310,22 @@ def format_rules(screen, rules, font):
                 new_line += word_to_append
                 count += 1
                 if count == 25:
-                    new_line = blit_rules(screen,new_line,font,x,y)
+                    new_line = blit_rules(screen, new_line, font, x, y)
                     y += 40
                     count = 0
 
 
 def blit_rules(screen, new_line, font, x, y):
-        text = font.render(new_line, True, (10, 10, 10))
-        textpos = text.get_rect()
-        textpos.x = x
-        textpos.y = y
-        screen.blit(text, textpos)
-        pygame.display.flip()
-        pygame.display.update()
-        new_line = ''
-        return new_line
+    text = font.render(new_line, True, (10, 10, 10))
+    textpos = text.get_rect()
+    textpos.x = x
+    textpos.y = y
+    screen.blit(text, textpos)
+    pygame.display.flip()
+    pygame.display.update()
+    new_line = ''
+    return new_line
+
 
 def print_top_card(game, screen):
     top_card = print_card(game.last_played)
@@ -331,12 +336,9 @@ def print_top_card(game, screen):
     pygame.display.flip()
 
 
-
 def print_player_hand(game, screen: pygame.Surface):
     player = game.player
-    player_hand_size = screen.get_width() * (2 / 3)  # 1/6
     hand_size = len(player.get_hand())
-    card_size = (player_hand_size - 60) / hand_size  # the 90 here is how far from the end of the hand object
     hand_height = screen.get_height() - 200
     hand_start = screen.get_width() * (1 / 6)
     pygame.draw.rect(screen, white, [hand_start, hand_height, screen.get_width() * 2 / 3, 200])
@@ -372,7 +374,16 @@ def print_player_hand(game, screen: pygame.Surface):
 
 
 def print_cpu_hands(game, screen):
-    pass
+    cpus = [game.cpu1, game.cpu2, game.cpu3]
+    for i in range(len(cpus)):
+        cpu = cpus[i - 1]
+        hand_size = len(cpu.get_hand())
+        if i == 1:  # TODO pygame.transform.rotate(surface, 90)
+            pass  # this is if cpu is on left of screen
+        elif i == 2:
+            pass  # this is if cpu is on top of screen
+        else:  # TODO pygame.transform.rotate(surface, 270)
+            pass  # if cpu is on right side
 
 
 def print_card(card):
