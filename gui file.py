@@ -211,27 +211,27 @@ def game_engine():
         while not game_over:  # game engine
             player = game.players[game.current_player]
             print_player_hand(game, screen)
+            print_top_card(game, screen)
             print_cpu_hands(game, screen)
             mouse = pygame.mouse.get_pos()
             width = screen.get_width()
             height = screen.get_height()
-
-            for ev in pygame.event.get():
-                if ev.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                # if type(player) == Player:
-                if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
-                    for card in list_of_rect_card:
-                        if card.collidepoint(ev.pos):
-                            print("It's clicked")
-                        # else:
-                        # print("not clicked")
+            pygame.display.update()
+            card = choose_card(screen, game)
+            if not card:
+                pass
+            elif type(card) == Card:  # handles changing the game variables when a card is played
+                if game.last_played.get_type() == Type.WILD or game.last_played.get_type() == Type.DRAW4:
+                    game.last_played.set_wild(Color.NONE)  # resets wilds and draw fours from the previous turn, so
+                    # they don't have a color after shuffling
+                game.last_played = card  # updates the last played card and adds it to the discard
+                game.played_deck.append(game.last_played)
 
             pygame.display.update()
 
 
 def print_player_hand(game, screen: pygame.Surface):
+    list_of_rect_card.clear()
     player = game.player
     hand_size = len(player.get_hand())
     hand_height = screen.get_height() - 200
@@ -271,6 +271,7 @@ def print_player_hand(game, screen: pygame.Surface):
             card_rect.y = hand_height + 30
             card_rect.x = card_offset
             screen.blit(card_face, card_rect)
+            card_rect.width = card_rect.width - overlap
             list_of_rect_card.append(card_rect)
             card_offset += 120 - overlap
 
@@ -377,6 +378,56 @@ def print_card(card):
     graphics_card = pygame.image.load(card.get_path())
     graphics_card = pygame.transform.scale(graphics_card, (100, 140))
     return graphics_card
+
+
+def choose_card(screen, game):
+    current_player = game.players[game.current_player]
+    deck_cover = pygame.image.load('cards/card_back.png')
+    deck_cover = pygame.transform.scale(deck_cover, (100, 140))
+    deck_rect = deck_cover.get_rect()
+    deck_rect.x = (screen.get_width() / 2) + 20
+    deck_rect.y = (screen.get_height() / 2) - 100
+    screen.blit(deck_cover, deck_rect)
+    if type(game.players[game.current_player]) == Player:
+        while True:
+            for ev in pygame.event.get():
+                if ev.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                # if type(player) == Player:
+                if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
+
+                    if deck_rect.collidepoint(ev.pos):
+                        print('draw card')
+                        #TODO validate/play card draw
+                        return game.draw_card()
+
+                    for i in range(len(list_of_rect_card)):
+                        if list_of_rect_card[i].collidepoint(ev.pos):
+                            print("It's clicked")
+                            print(i)
+                            current_player.get_hand()[i].print()
+
+                            if game.validate_move(current_player.get_hand()[i]):
+
+                                return current_player.get_hand()[i]
+                            else:
+                                print('invalid')
+                        # else:
+                        # print("not clicked")
+    #TODO choose cpu 
+    else:
+        if current_player.get_number() == 1:
+            card = current_player.play_card(game.player, game.cpu3, game.cpu2, game.last_played)
+        elif current_player.get_number() == 2:
+            card = current_player.play_card(game.player, game.cpu1, game.cpu3, game.last_played)
+        else:
+            card = current_player.play_card(game.player, game.cpu1, game.cpu2, game.last_played)
+        
+            
+            
+        
+        
 
 
 if __name__ == '__main__':
