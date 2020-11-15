@@ -51,8 +51,6 @@ from game import *
 #         pygame.display.flip()
 #         sleep(.5)
 white = (255, 255, 255)
-
-white = (255, 255, 255)
 list_of_rect_card = []
 
 
@@ -112,7 +110,7 @@ def game_engine():
                 # if the mouse is clicked on the
                 # button the game is terminated
                 if quit_button_x <= mouse[0] <= quit_button_x + button_width and button_y <= mouse[
-                    1] <= button_y + button_height:
+                        1] <= button_y + button_height:
                     pygame.quit()
                     sys.exit()
 
@@ -125,19 +123,19 @@ def game_engine():
                     show_rules = True
 
         if new_game_button_x <= mouse[0] <= new_game_button_x + button_width and button_y <= mouse[
-            1] <= button_y + button_height:
+                1] <= button_y + button_height:
             pygame.draw.rect(screen, button_hover_color, [new_game_button_x, button_y, 140, 40])
         else:
             pygame.draw.rect(screen, button_color, [new_game_button_x, button_y, 140, 40])
 
         if quit_button_x <= mouse[0] <= quit_button_x + button_width and button_y <= mouse[
-            1] <= button_y + button_height:
+                1] <= button_y + button_height:
             pygame.draw.rect(screen, button_hover_color, [quit_button_x, button_y, 140, 40])
         else:
             pygame.draw.rect(screen, button_color, [quit_button_x, button_y, 140, 40])
 
         if rules_button_x <= mouse[0] <= rules_button_x + button_width and button_y <= mouse[
-            1] <= button_y + button_height:
+                1] <= button_y + button_height:
             pygame.draw.rect(screen, button_hover_color, [rules_button_x, button_y, 140, 40])
         else:
             pygame.draw.rect(screen, button_color, [rules_button_x, button_y, 140, 40])
@@ -177,14 +175,14 @@ def game_engine():
                 if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
 
                     if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
-                        1] <= button_y + button_height:
+                            1] <= button_y + button_height:
                         show_rules = False
                         game_engine()
 
             # if the mouse is clicked on the
             # button the game is terminated
             if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
-                1] <= button_y + button_height:
+                    1] <= button_y + button_height:
                 pygame.draw.rect(screen, button_hover_color, [menu_back_x, button_y, 140, 40])
             else:
                 pygame.draw.rect(screen, button_color, [menu_back_x, button_y, 140, 40])
@@ -206,7 +204,6 @@ def game_engine():
         for player in game.players:  # creates starting hands
             game.fill_hand(player)
         print_top_card(game, screen)
-        # print_player_hand(game, screen)
 
         while not game_over:  # game engine
             player = game.players[game.current_player]
@@ -231,62 +228,49 @@ def game_engine():
             pygame.display.update()
 
 
-#
-# def print_cpu_hands(game, screen):
-#     pass
-#
-# def print_player_hand(game, screen: pygame.Surface):
-#     player = game.player
-#     player_hand_size = screen.get_width() * (2 / 3)  # 1/6
-#     hand_size = len(player.get_hand())
-#     card_size = (player_hand_size - 60) / hand_size  # the 90 here is how far from the end of the hand object
-#     hand_height = screen.get_height() - 200
-#     hand_start = screen.get_width() * (1 / 6)
-#     pygame.draw.rect(screen, white, [hand_start, hand_height, screen.get_width() * 2 / 3, 200])
-#     # if card_size * hand_size < player_hand_size - 60:
-#     #     card_size = 120  # default size
-#
-#     if hand_size <= 6:
-#
-#         card_offset = hand_start + 30 + (.5 * (hand_size - 6) * 120)
-#         for card in player.get_hand():
-#             card_face = pygame.image.load(card.get_path())
-#             card_face = pygame.transform.scale(card_face, (100, 140))
-#             card_rect = card_face.get_rect()
-#             # transforms to default size
-#             card_rect.y = hand_height + 30
-#             card_rect.x = card_offset
-#             screen.blit(card_face, card_rect)
-#             list_of_rect_card.append(card_rect)
-#             #card.set_x_coord(card_offset)
-#             #card.set_y_coord(hand_height + 30)
-#             card_offset += 120  # card size plus space between cards
-#
-#     else:
-#         card_offset = hand_start + 30
-#         max_size = screen.get_width() * 2 / 3 - 60
-#         hand_width = 120 * hand_size
-#         overlap = 0
-#         while max_size < hand_width:
-#             overlap += 1
-#             hand_width = (120 - overlap) * hand_size
-#
-#         # card_offset = card_offset + (screen.get_width() * 2/3 - (hand_width + 45)) / 2 TODO fix this to look
-#         #  pretty
-#
-#         for card in player.get_hand():
-#             card_face = pygame.image.load(card.get_path())
-#             card_face = pygame.transform.scale(card_face, (100, 140))  # transforms to default size
-#             card_rect = card_face.get_rect()
-#             card_rect.y = hand_height + 30
-#             card_rect.x = card_offset
-#             screen.blit(card_face, card_rect)
-#             list_of_rect_card.append(card_rect)
-#             #all_sprites_list.add(card_rect)
-#             #screen.blit(card_face, (card_offset, hand_height + 30))
-#             #card.set_x_coord(card_offset)
-#             #card.set_y_coord(hand_height + 30)
-#             card_offset += 120 - overlap
+def print_player_hand(game, screen: pygame.Surface):
+    player = game.player
+    hand_size = len(player.get_hand())
+    hand_height = screen.get_height() - 200
+    hand_start = screen.get_width() * (1 / 6)
+    pygame.draw.rect(screen, white, [hand_start, hand_height, screen.get_width() * 2 / 3, 200])
+
+    if hand_size <= 6:
+
+        card_offset = hand_start + 30 + (.5 * (hand_size - 6) * 120)
+        for card in player.get_hand():
+            card_face = pygame.image.load(card.get_path())
+            card_face = pygame.transform.scale(card_face, (100, 140))
+            card_rect = card_face.get_rect()
+            # transforms to default size
+            card_rect.y = hand_height + 30
+            card_rect.x = card_offset
+            screen.blit(card_face, card_rect)
+            list_of_rect_card.append(card_rect)
+            card_offset += 120  # card size plus space between cards
+
+    else:
+        card_offset = hand_start + 30
+        max_size = screen.get_width() * 2 / 3 - 60
+        hand_width = 120 * hand_size
+        overlap = 0
+        while max_size < hand_width:
+            overlap += 1
+            hand_width = (120 - overlap) * hand_size
+
+        # card_offset = card_offset + (screen.get_width() * 2/3 - (hand_width + 45)) / 2 TODO fix this to look
+        #  pretty
+
+        for card in player.get_hand():
+            card_face = pygame.image.load(card.get_path())
+            card_face = pygame.transform.scale(card_face, (100, 140))  # transforms to default size
+            card_rect = card_face.get_rect()
+            card_rect.y = hand_height + 30
+            card_rect.x = card_offset
+            screen.blit(card_face, card_rect)
+            list_of_rect_card.append(card_rect)
+            card_offset += 120 - overlap
+
 
 def format_rules(screen, rules, font):
     new_line = ""
@@ -336,42 +320,42 @@ def print_top_card(game, screen):
     pygame.display.flip()
 
 
-def print_player_hand(game, screen: pygame.Surface):
-    player = game.player
-    hand_size = len(player.get_hand())
-    hand_height = screen.get_height() - 200
-    hand_start = screen.get_width() * (1 / 6)
-    pygame.draw.rect(screen, white, [hand_start, hand_height, screen.get_width() * 2 / 3, 200])
-    # if card_size * hand_size < player_hand_size - 60:
-    #     card_size = 120  # default size
-
-    if hand_size <= 6:
-
-        card_offset = hand_start + 30 + (.5 * (hand_size - 6) * 120)
-        for card in player.get_hand():
-            card_face = pygame.image.load(card.get_path())
-            card_face = pygame.transform.scale(card_face, (100, 140))  # transforms to default size
-            screen.blit(card_face, (card_offset, hand_height + 30))
-            card_offset += 120  # card size plus space between cards
-
-    else:
-        card_offset = hand_start + 30
-        max_size = screen.get_width() * 2 / 3 - 60
-        hand_width = 120 * hand_size
-        overlap = 0
-        while max_size < hand_width:
-            overlap += 1
-            hand_width = (120 - overlap) * hand_size
-
-        # card_offset = card_offset + (screen.get_width() * 2/3 - (hand_width + 45)) / 2 TODO fix this to look
-        #  pretty
-
-        for card in player.get_hand():
-            card_face = pygame.image.load(card.get_path())
-            card_face = pygame.transform.scale(card_face, (100, 140))  # transforms to default size
-            screen.blit(card_face, (card_offset, hand_height + 30))
-            card_offset += 120 - overlap
-
+# def print_player_hand(game, screen: pygame.Surface):
+#     player = game.player
+#     hand_size = len(player.get_hand())
+#     hand_height = screen.get_height() - 200
+#     hand_start = screen.get_width() * (1 / 6)
+#     pygame.draw.rect(screen, white, [hand_start, hand_height, screen.get_width() * 2 / 3, 200])
+#     # if card_size * hand_size < player_hand_size - 60:
+#     #     card_size = 120  # default size
+#
+#     if hand_size <= 6:
+#
+#         card_offset = hand_start + 30 + (.5 * (hand_size - 6) * 120)
+#         for card in player.get_hand():
+#             card_face = pygame.image.load(card.get_path())
+#             card_face = pygame.transform.scale(card_face, (100, 140))  # transforms to default size
+#             screen.blit(card_face, (card_offset, hand_height + 30))
+#             card_offset += 120  # card size plus space between cards
+#
+#     else:
+#         card_offset = hand_start + 30
+#         max_size = screen.get_width() * 2 / 3 - 60
+#         hand_width = 120 * hand_size
+#         overlap = 0
+#         while max_size < hand_width:
+#             overlap += 1
+#             hand_width = (120 - overlap) * hand_size
+#
+#         # card_offset = card_offset + (screen.get_width() * 2/3 - (hand_width + 45)) / 2 TODO fix this to look
+#         #  pretty
+#
+#         for card in player.get_hand():
+#             card_face = pygame.image.load(card.get_path())
+#             card_face = pygame.transform.scale(card_face, (100, 140))  # transforms to default size
+#             screen.blit(card_face, (card_offset, hand_height + 30))
+#             card_offset += 120 - overlap
+#
 
 def print_cpu_hands(game, screen):
     cpus = [game.cpu1, game.cpu2, game.cpu3]
