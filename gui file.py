@@ -151,22 +151,48 @@ def game_engine():
     # show rules screen
     if show_rules:
         screen = pygame.display.set_mode(screen_size)
+        screen.fill(white)
+        text_back = tinyfont.render('Back To Menu', True, black)
+        rules_text = display_rules()
+        format_rules(screen,rules_text,tinyfont)
         while show_rules:
-            mouse = pygame.mouse.get_pos()
+            button_width = 140
+            button_height = 40
             width = screen.get_width()
             height = screen.get_height()
+            rules_button_x = (width*.1)-(button_width/2)
+            button_y = (height*.85)+(button_height/2)
+            mouse = pygame.mouse.get_pos()
 
             for ev in pygame.event.get():
                 if ev.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
 
+                if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
+
+                    if rules_button_x <= mouse[0] <= rules_button_x+button_width and button_y <= mouse[1] <= button_y+button_height:
+                        show_rules = False
+                        game_engine()
+
+
+            # if the mouse is clicked on the
+            # button the game is terminated
+            if rules_button_x <= mouse[0] <= rules_button_x+button_width and button_y <= mouse[1] <= button_y+button_height:
+                pygame.draw.rect(screen, button_hover_color, [rules_button_x, button_y, 140, 40])
+            else:
+                pygame.draw.rect(screen, button_color, [rules_button_x, button_y, 140, 40])
+
+            screen.blit(text_back, (rules_button_x+15, button_y+10))
+
+            # updates the frames of the game
             pygame.display.update()
+
 
     # game screen
     if not game_over:
         screen = pygame.display.set_mode(screen_size)
-        #screen.fill(red)
+        screen.fill((0,0,0))
         cpu1 = CPU("Mark", 1)
         cpu2 = CPU("Mira", 2)
         cpu3 = CPU("Julia", 3)
@@ -188,6 +214,44 @@ def game_engine():
 
             pygame.display.update()
 
+
+def format_rules(screen, rules, font):
+    new_line = ""
+    count = 0
+    x = 20
+    y = 20
+    for word in rules.split():
+        if count < 25:
+            if word == "include:":
+                word_to_append = " " + word
+                new_line += word_to_append
+                new_line = blit_rules(screen,new_line,font,x,y)
+            if word == "Reverse:" or word == "Skip" or word == "Wild" or word == "Draw" or word == "In":
+                new_line = blit_rules(screen,new_line,font,x,y)
+                word_to_append = " " + word
+                new_line += word_to_append
+                y += 40
+                count = 1
+            else:
+                word_to_append = " " + word
+                new_line += word_to_append
+                count += 1
+                if count == 25:
+                    new_line = blit_rules(screen,new_line,font,x,y)
+                    y += 40
+                    count = 0
+
+
+def blit_rules(screen, new_line, font, x, y):
+        text = font.render(new_line, True, (10, 10, 10))
+        textpos = text.get_rect()
+        textpos.x = x
+        textpos.y = y
+        screen.blit(text, textpos)
+        pygame.display.flip()
+        pygame.display.update()
+        new_line = ''
+        return new_line
 
 def print_top_card(game, screen):
     top_card = print_card(game.last_played)
