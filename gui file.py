@@ -52,6 +52,8 @@ from game import *
 #         sleep(.5)
 white = (255, 255, 255)
 list_of_rect_card = []
+
+
 def game_engine():
     pygame.init()
     screen_size = (1200, 800)
@@ -108,7 +110,7 @@ def game_engine():
                 # if the mouse is clicked on the
                 # button the game is terminated
                 if quit_button_x <= mouse[0] <= quit_button_x + button_width and button_y <= mouse[
-                        1] <= button_y + button_height:
+                    1] <= button_y + button_height:
                     pygame.quit()
                     sys.exit()
 
@@ -121,19 +123,19 @@ def game_engine():
                     show_rules = True
 
         if new_game_button_x <= mouse[0] <= new_game_button_x + button_width and button_y <= mouse[
-                1] <= button_y + button_height:
+            1] <= button_y + button_height:
             pygame.draw.rect(screen, button_hover_color, [new_game_button_x, button_y, 140, 40])
         else:
             pygame.draw.rect(screen, button_color, [new_game_button_x, button_y, 140, 40])
 
         if quit_button_x <= mouse[0] <= quit_button_x + button_width and button_y <= mouse[
-                1] <= button_y + button_height:
+            1] <= button_y + button_height:
             pygame.draw.rect(screen, button_hover_color, [quit_button_x, button_y, 140, 40])
         else:
             pygame.draw.rect(screen, button_color, [quit_button_x, button_y, 140, 40])
 
         if rules_button_x <= mouse[0] <= rules_button_x + button_width and button_y <= mouse[
-                1] <= button_y + button_height:
+            1] <= button_y + button_height:
             pygame.draw.rect(screen, button_hover_color, [rules_button_x, button_y, 140, 40])
         else:
             pygame.draw.rect(screen, button_color, [rules_button_x, button_y, 140, 40])
@@ -173,14 +175,14 @@ def game_engine():
                 if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
 
                     if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
-                            1] <= button_y + button_height:
+                        1] <= button_y + button_height:
                         show_rules = False
                         game_engine()
 
             # if the mouse is clicked on the
             # button the game is terminated
             if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
-                    1] <= button_y + button_height:
+                1] <= button_y + button_height:
                 pygame.draw.rect(screen, button_hover_color, [menu_back_x, button_y, 140, 40])
             else:
                 pygame.draw.rect(screen, button_color, [menu_back_x, button_y, 140, 40])
@@ -397,8 +399,13 @@ def choose_card(screen, game):
 
                     if deck_rect.collidepoint(ev.pos):
                         print('draw card')
-                        #TODO validate/play card draw
-                        return game.draw_card()
+                        card = game.card.draw_card()
+                        if game.validate_move(card):
+                            # TODO is this the right card shit
+                            return card
+                        else:
+                            current_player.add_card(card)
+                            return False
 
                     for i in range(len(list_of_rect_card)):
                         if list_of_rect_card[i].collidepoint(ev.pos):
@@ -413,7 +420,7 @@ def choose_card(screen, game):
                                 print('invalid')
                         # else:
                         # print("not clicked")
-    #TODO choose cpu
+    # TODO choose cpu
     else:
         if current_player.get_number() == 1:
             card = current_player.play_card(game.player, game.cpu3, game.cpu2, game.last_played)
@@ -421,11 +428,6 @@ def choose_card(screen, game):
             card = current_player.play_card(game.player, game.cpu1, game.cpu3, game.last_played)
         else:
             card = current_player.play_card(game.player, game.cpu1, game.cpu2, game.last_played)
-
-
-
-
-
 
 
 if __name__ == '__main__':
