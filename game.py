@@ -1,5 +1,7 @@
 from copy import copy
 from time import sleep
+
+import player
 from cpu import *
 from card import *
 
@@ -371,18 +373,18 @@ class Game:
         # self.print_top_card()  # shows first card
 
         while not self.game_over:  # game engine
-            # player = self.players[self.current_player]
+            player = self.players[self.current_player]
 
-            # if type(player) == Player:
-            #     for p in self.players:
-            #         p.print()  # prints the hand
-            # else:
-            #     print('It\'s ' + player.get_name() + '\'s turn')
-            #     sleep(1)
-            # picked_card = self.pick_card()
+            if type(player) == Player:
+                for p in self.players:
+                   p.print()  # prints the hand
+            else:
+                print('It\'s ' + player.get_name() + '\'s turn')
+                sleep(1)
+                picked_card = self.pick_card()
 
-            # if not picked_card:  # if no card could be played, next turn
-            #     print(self.players[self.current_player].get_name(), 'drew a card.\n')
+            if not picked_card:  # if no card could be played, next turn
+              print(self.players[self.current_player].get_name(), 'drew a card.\n')
             elif type(picked_card) == Card:  # handles changing the game variables when a card is played
                 if self.last_played.get_type() == Type.WILD or self.last_played.get_type() == Type.DRAW4:
                     self.last_played.set_wild(Color.NONE)  # resets wilds and draw fours from the previous turn, so
