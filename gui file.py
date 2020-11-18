@@ -359,8 +359,39 @@ def choose_card(screen, game):
                             print("It's clicked")
                             print(i)
                             current_player.get_hand()[i].print()
-
                             if game.validate_move(current_player.get_hand()[i]):
+                                position = list_of_rect_card.pop(i)
+                                pygame.display.update()
+                                card_played = pygame.image.load(current_player.get_hand()[i].get_path())
+                                #position = card_played.get_rect()
+                                for x in range(50):
+                                    pygame.display.update()
+                                    #pygame.draw.rect(screen, black, [position.x, position.y, position.width, position.height])
+                                    position = position.move(0, -2)
+                                    screen.blit(card_played, position)
+                                    pygame.display.update()
+                                    pygame.time.delay(100)
+                                print_player_hand(game, screen)
+                                pygame.display.update()
+                                #position = card_played.get_rect()
+                                for x in range(50):
+                                    if position.x > screen.get_width()/2:
+                                        position = position.move(-2, 0)
+                                    elif position.x < screen.get_width()/2:
+                                        position = position.move(2, 0)
+                                    screen.blit(card_played, position)
+                                    pygame.display.update()
+                                    pygame.time.delay(100)
+                                #position = card_played.get_rect()
+                                for x in range(50):
+                                    position = position.move(0, -2)
+                                    screen.blit(card_played, position)
+                                    pygame.display.update()
+                                    pygame.time.delay(100)
+                                #postion.x = screen.get_width()/2 - 100
+                                #postion.y = screen.get_height() - 250
+                                #screen.blit(card_played, postion)
+                                #pygame.display.update()
                                 return current_player.get_hand().pop(i)
 
                             else:
