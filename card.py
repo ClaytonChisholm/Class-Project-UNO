@@ -85,8 +85,7 @@ class Card:
             path += 'blue_'
         elif self.color == Color.YELLOW:
             path += 'yellow_'
-        else:
-            path += 'wild_'
+
         if self.type.value < 10:
             path += str(self.type.value) + '.png'
         elif self.type.value == 10:
@@ -96,8 +95,8 @@ class Card:
         elif self.type.value == 12:
             path += 'picker.png'
         elif self.type.value == 13:
-            path += 'color_changer.png'
+            path += 'wild.png'
         else:
-            path += 'pick_four.png'
+            path += 'wild_pick_four.png'
 
         return path
