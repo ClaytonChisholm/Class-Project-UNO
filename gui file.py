@@ -206,6 +206,7 @@ def game_engine():
             game.apply_power()  # handles all non wild power cards
             if not player.get_hand() or (len(game.played_deck) == 0):
                 game_over = True
+                print("game over")
                 game_engine()
             if type(player) == CPU:
                 sleep(1)
@@ -335,95 +336,100 @@ def choose_card(screen, game):
     deck_rect.x = (screen.get_width() / 2) + 20
     deck_rect.y = (screen.get_height() / 2) - 100
     screen.blit(deck_cover, deck_rect)
-    if type(game.players[game.current_player]) == Player:
-        while True:
-            for ev in pygame.event.get():
-                if ev.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                # if type(player) == Player:
-                if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
+    user_answer = False
+    while user_answer is False and type(game.players[game.current_player]) == Player:
+        if type(game.players[game.current_player]) == Player:
+            while True:
+                for ev in pygame.event.get():
+                    if ev.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    # if type(player) == Player:
+                    if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
 
-                    if deck_rect.collidepoint(ev.pos):
-                        print('draw card')
-                        card = game.draw_card()
-                        if game.validate_move(card):
-                            # TODO is this the right card shit
-                            return card
-                        else:
-                            current_player.add_card(card)
-                            return False
+                        if deck_rect.collidepoint(ev.pos):
+                            print('draw card')
+                            card = game.draw_card()
+                            if game.validate_move(card):
+                                # TODO is this the right card shit
+                                return card
+                            else:
+                                current_player.add_card(card)
+                                return False
 
-                    for i in range(len(list_of_rect_card)):
-                        if list_of_rect_card[i].collidepoint(ev.pos):
-                            print("It's clicked")
-                            print(i)
-                            current_player.get_hand()[i].print()
-                            rect_position = list_of_rect_card[i]
-                            user_answer = confirm_user_card(current_player.get_hand()[i], rect_position, screen)
-                            if user_answer:
-                                print_player_hand(game, screen)
-                                print_top_card(game, screen)
-                                if game.validate_move(current_player.get_hand()[i]):
-                                    position = list_of_rect_card.pop(i)
-                                    pygame.display.update()
-                                    card_played = pygame.image.load(current_player.get_hand()[i].get_path())
-                                    card_selected = current_player.get_hand().pop(i)
-                                    # position = card_played.get_rect()
-                                    for x in range(20):
-                                        screen.fill(black)
-                                        print_player_hand(game, screen)
-                                        print_top_card(game, screen)
-                                        #pygame.draw.rect(screen, black, [position.x, position.y, position.width, position.height])
-                                        position = position.move(0, -10)
-                                        screen.blit(card_played, position)
+                        for i in range(len(list_of_rect_card)):
+                            print(i, " index")
+                            print(len(list_of_rect_card), " card length")
+                            #if (i)
+                            if list_of_rect_card[i].collidepoint(ev.pos):
+                                print("It's clicked")
+                                print(i)
+                                current_player.get_hand()[i].print()
+                                rect_position = list_of_rect_card[i]
+                                user_answer = confirm_user_card(current_player.get_hand()[i], rect_position, screen)
+                                if user_answer:
+                                    print_player_hand(game, screen)
+                                    print_top_card(game, screen)
+                                    if game.validate_move(current_player.get_hand()[i]):
+                                        position = list_of_rect_card.pop(i)
                                         pygame.display.update()
-                                        pygame.time.delay(25)
-                                    #pygame.display.update()
-                                    #position = card_played.get_rect()
+                                        card_played = pygame.image.load(current_player.get_hand()[i].get_path())
+                                        card_selected = current_player.get_hand().pop(i)
+                                        # position = card_played.get_rect()
+                                        for x in range(20):
+                                            screen.fill(black)
+                                            print_player_hand(game, screen)
+                                            print_top_card(game, screen)
+                                            #pygame.draw.rect(screen, black, [position.x, position.y, position.width, position.height])
+                                            position = position.move(0, -10)
+                                            screen.blit(card_played, position)
+                                            pygame.display.update()
+                                            pygame.time.delay(25)
+                                        #pygame.display.update()
+                                        #position = card_played.get_rect()
 
-                                    #while position.x != (screen.get_width() / 2) - 120:
-                                    #for x in range(50):
-                                            #if position.x > (screen.get_width() / 2) - 120:
+                                        #while position.x != (screen.get_width() / 2) - 120:
+                                        #for x in range(50):
+                                                #if position.x > (screen.get_width() / 2) - 120:
+                                                #screen.fill(black)
+                                                #print_player_hand(game, screen)
+                                                #print_top_card(game, screen)
+                                                #pygame.display.update()
+                                                #position = position.move(-1, 0)
+                                            #elif position.x < (screen.get_width() / 2) - 120:
+                                             #   screen.fill(black)
+                                              #  print_player_hand(game, screen)
+                                               # print_top_card(game, screen)
+                                                #pygame.display.update()
+                                                #position = position.move(1, 0)
+                                            #screen.blit(card_played, position)
+                                            #pygame.display.update()
+                                            #pygame.time.delay(30)
+                                        #position = card_played.get_rect()
+                                        #while position.y != (screen.get_height() / 2) - 100:
+                                        #for x in range(50):
                                             #screen.fill(black)
                                             #print_player_hand(game, screen)
                                             #print_top_card(game, screen)
+                                            #position = position.move(0, -1)
+                                            #screen.blit(card_played, position)
                                             #pygame.display.update()
-                                            #position = position.move(-1, 0)
-                                        #elif position.x < (screen.get_width() / 2) - 120:
-                                         #   screen.fill(black)
-                                          #  print_player_hand(game, screen)
-                                           # print_top_card(game, screen)
-                                            #pygame.display.update()
-                                            #position = position.move(1, 0)
-                                        #screen.blit(card_played, position)
-                                        #pygame.display.update()
-                                        #pygame.time.delay(30)
-                                    #position = card_played.get_rect()
-                                    #while position.y != (screen.get_height() / 2) - 100:
-                                    #for x in range(50):
-                                        #screen.fill(black)
-                                        #print_player_hand(game, screen)
-                                        #print_top_card(game, screen)
-                                        #position = position.move(0, -1)
-                                        #screen.blit(card_played, position)
-                                        #pygame.display.update()
-                                        #pygame.time.delay(30)
-                                    #postion.x = screen.get_width()/2 - 100
-                                    #postion.y = screen.get_height() - 250
-                                    #screen.blit(card_played, postion)
+                                            #pygame.time.delay(30)
+                                        #postion.x = screen.get_width()/2 - 100
+                                        #postion.y = screen.get_height() - 250
+                                        #screen.blit(card_played, postion)
+                                        screen.fill(black)
+                                        print_player_hand(game, screen)
+                                        print_top_card(game, screen)
+                                        pygame.display.update()
+                                        return card_selected
+                                    else:
+                                        print('invalid')
+                                elif user_answer is False:
                                     screen.fill(black)
                                     print_player_hand(game, screen)
                                     print_top_card(game, screen)
-                                    pygame.display.update()
-                                    return card_selected
-                                else:
-                                    print('invalid')
-                            if user_answer is False:
-                                screen.fill(black)
-                                print_player_hand(game, screen)
-                                print_top_card(game, screen)
-                                choose_card(screen, game)
+
 
                         # else:
                         # print("not clicked")
