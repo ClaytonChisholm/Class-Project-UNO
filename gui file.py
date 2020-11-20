@@ -214,6 +214,21 @@ def game_engine():
             pygame.display.update()
 
 
+def print_cpu_hands(game, screen):
+    cpus = [game.cpu1, game.cpu2, game.cpu3]
+    for i in range(len(cpus)):
+        cpu = cpus[i - 1]
+        hand_size = len(cpu.get_hand())
+        if i == 1:  # TODO pygame.transform.rotate(surface, 90)
+            
+            pass  # this is if cpu is on left of screen
+
+        elif i == 2:
+            pass  # this is if cpu is on top of screen
+        else:  # TODO pygame.transform.rotate(surface, 270)
+            pass  # if cpu is on right side
+
+
 def print_player_hand(game, screen: pygame.Surface):
     list_of_rect_card.clear()
     player = game.player
@@ -308,18 +323,6 @@ def print_top_card(game, screen):
     pygame.display.flip()
 
 
-def print_cpu_hands(game, screen):
-    cpus = [game.cpu1, game.cpu2, game.cpu3]
-    for i in range(len(cpus)):
-        cpu = cpus[i - 1]
-        hand_size = len(cpu.get_hand())
-        if i == 1:  # TODO pygame.transform.rotate(surface, 90)
-            pass  # this is if cpu is on left of screen
-        elif i == 2:
-            pass  # this is if cpu is on top of screen
-        else:  # TODO pygame.transform.rotate(surface, 270)
-            pass  # if cpu is on right side
-
 
 def print_card(card):
     graphics_card = pygame.image.load(card.get_path())
@@ -386,7 +389,6 @@ def choose_card(screen, game):
 
 
 def set_wild(screen):
-    screen_size = screen.get_size()
     button_size = 150
     blue_button = pygame.draw.rect(screen, blue,
                                    [(screen.get_width() / 2) - button_size - 75, (screen.get_height() / 2) - 75,
