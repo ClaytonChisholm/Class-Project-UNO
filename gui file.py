@@ -523,7 +523,7 @@ def choose_card(screen, game):
                             if user_answer:
 
                                 # updates screen
-                                # screen.fill(black)
+                                screen.fill(black)
                                 print_player_hand(game, screen)
                                 print_cpu_hands(game, screen)
                                 print_top_card(game, screen)
@@ -554,6 +554,8 @@ def choose_card(screen, game):
                                     print_top_card(game, screen)
                                     pygame.display.update()
                                     return card_selected
+
+                                # user card selection is invalid
                                 else:
                                     print('invalid')
 
@@ -561,12 +563,10 @@ def choose_card(screen, game):
                             # and let them select again
                             elif user_answer is False:
                                 screen.fill(black)
-                                print_cpu_hands(game, screen)
                                 print_player_hand(game, screen)
+                                print_cpu_hands(game, screen)
                                 print_top_card(game, screen)
 
-                    # else:
-                    # print("not clicked")
 
     for ev in pygame.event.get():
         if ev.type == pygame.QUIT:
@@ -625,7 +625,6 @@ def choose_card(screen, game):
             screen.fill(black)
             print_player_hand(game, screen)
             print_cpu_hands(game, screen)
-
             print_top_card(game, screen)
             return current_player.get_hand().pop(len(current_player.get_hand()) - 1)
 
