@@ -523,7 +523,7 @@ def choose_card(screen, game):
                             if user_answer:
 
                                 # updates screen
-                                # screen.fill(black)
+                                screen.fill(black)
                                 print_player_hand(game, screen)
                                 print_cpu_hands(game, screen)
                                 print_top_card(game, screen)
@@ -532,6 +532,8 @@ def choose_card(screen, game):
                                     pygame.display.update()
                                     card_played = pygame.image.load(current_player.get_hand()[i].get_path())
                                     card_selected = current_player.get_hand().pop(i)
+                                    # re-update screen once card animation is over
+
 
                                     # animation part: kinda of buggy but works?
                                     for x in range(20):
