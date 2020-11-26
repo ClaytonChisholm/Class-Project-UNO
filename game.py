@@ -224,11 +224,6 @@ class Game:
         else:
             self.reversed = False
 
-    # def set_wild(self):
-    #     # call choose color to set the color of a wild card
-    #     color = choose_color()
-    #     self.last_played.set_wild(color)
-
     def fill_hand(self, player):
         # the game begins with each player having seven cards
         for i in range(0, 7):
@@ -245,15 +240,3 @@ class Game:
             self.current_player = 0
         elif self.current_player < 0:
             self.current_player = self.player_count - 1
-
-    # prints the most recently played card and states who played it
-    def print_played_card(self):  # change for graphic
-        print(self.players[self.current_player].get_name(), 'played a', end=' ')
-        self.last_played.print()
-        print(end='\n\n')
-
-    # prints the top card (only used for the first card since every other card is played by a player
-    def print_top_card(self):
-        print('Current card is a ', end='')
-        self.last_played.print()
-        print()

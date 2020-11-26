@@ -218,7 +218,6 @@ def game_engine():
             if type(player) == CPU:
                 sleep(1)
             game.change_turn()
-
             pygame.display.update()
 
 
@@ -497,9 +496,6 @@ def choose_card(screen, game):
                     # checks to see which card user clicked on
                     for i in range(len(list_of_rect_card)):
                         if list_of_rect_card[i].collidepoint(ev.pos):
-                            print("It's clicked")
-                            print(i)
-                            current_player.get_hand()[i].print()
                             rect_position = list_of_rect_card[i]  # gets rectangle card object user clicked on
 
                             # calls to confirm card to confirm user selection of card played
