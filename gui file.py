@@ -65,32 +65,32 @@ def game_engine():
                 # if the mouse is clicked on the
                 # button the game is terminated
                 if quit_button_x <= mouse[0] <= quit_button_x + button_width and button_y <= mouse[
-                    1] <= button_y + button_height:
+                        1] <= button_y + button_height:
                     pygame.quit()
                     sys.exit()
 
                 if new_game_button_x <= mouse[0] <= new_game_button_x + button_width and button_y <= mouse[
-                    1] <= button_y + button_height:
+                        1] <= button_y + button_height:
                     game_over = False
 
                 if rules_button_x <= mouse[0] <= rules_button_x + button_width and button_y <= mouse[
-                    1] <= button_y + button_height:
+                        1] <= button_y + button_height:
                     show_rules = True
 
         if new_game_button_x <= mouse[0] <= new_game_button_x + button_width and button_y <= mouse[
-            1] <= button_y + button_height:
+                1] <= button_y + button_height:
             pygame.draw.rect(screen, button_hover_color, [new_game_button_x, button_y, 140, 40])
         else:
             pygame.draw.rect(screen, button_color, [new_game_button_x, button_y, 140, 40])
 
         if quit_button_x <= mouse[0] <= quit_button_x + button_width and button_y <= mouse[
-            1] <= button_y + button_height:
+                1] <= button_y + button_height:
             pygame.draw.rect(screen, button_hover_color, [quit_button_x, button_y, 140, 40])
         else:
             pygame.draw.rect(screen, button_color, [quit_button_x, button_y, 140, 40])
 
         if rules_button_x <= mouse[0] <= rules_button_x + button_width and button_y <= mouse[
-            1] <= button_y + button_height:
+                1] <= button_y + button_height:
             pygame.draw.rect(screen, button_hover_color, [rules_button_x, button_y, 140, 40])
         else:
             pygame.draw.rect(screen, button_color, [rules_button_x, button_y, 140, 40])
@@ -130,14 +130,14 @@ def game_engine():
                 if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
 
                     if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
-                        1] <= button_y + button_height:
+                            1] <= button_y + button_height:
                         show_rules = False
                         game_engine()
 
             # if the mouse is clicked on the
             # button the game is terminated
             if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
-                1] <= button_y + button_height:
+                    1] <= button_y + button_height:
                 pygame.draw.rect(screen, button_hover_color, [menu_back_x, button_y, 140, 40])
             else:
                 pygame.draw.rect(screen, button_color, [menu_back_x, button_y, 140, 40])
@@ -209,7 +209,8 @@ def game_engine():
                 elif type(player) == CPU and (
                         game.last_played.get_type() == Type.WILD or game.last_played.get_type() == Type.DRAW4):
                     game.last_played.set_wild(player.cpu_wilds())  # sets the color of the wild with cpu choice
-            game.apply_power()  # handles all non wild power cards
+                game.apply_power()
+            # handles all non wild power cards
             if not player.get_hand() or (len(game.played_deck) == 0):
                 game_over = True
                 print("game over")
@@ -226,7 +227,7 @@ def print_cpu_hands(game, screen):
     for i in range(len(cpus)):
         cpu = cpus[i]
         hand_size = len(cpu.get_hand())
-        if i == 1:  # TODO pygame.transform.rotate(surface, 90)
+        if i == 1:
             hand_start = 0
             hand_height = screen.get_height() * (1 / 6)
             pygame.draw.rect(screen, button_color, [hand_start, hand_height, 200, screen.get_height() * 2 / 3])
@@ -234,7 +235,7 @@ def print_cpu_hands(game, screen):
             if hand_size <= 3:
 
                 card_offset = hand_height + 30 + (.5 * (3 - hand_size) * 120)
-                for card in cpu.get_hand():
+                for _ in cpu.get_hand():
                     card_face = pygame.image.load('cards/card_back.png')
                     card_face = pygame.transform.scale(card_face, (100, 140))
                     card_face = pygame.transform.rotate(card_face, -90)
@@ -255,10 +256,7 @@ def print_cpu_hands(game, screen):
                     overlap += 1
                     hand_width = (120 - overlap) * hand_size
 
-                # card_offset = card_offset + (screen.get_width() * 2/3 - (hand_width + 45)) / 2 TODO fix this to look
-                #  pretty
-
-                for card in cpu.get_hand():
+                for _ in cpu.get_hand():
                     card_face = pygame.image.load('cards/card_back.png')
                     card_face = pygame.transform.scale(card_face, (100, 140))  # transforms to default size
                     card_face = pygame.transform.rotate(card_face, -90)
@@ -277,7 +275,7 @@ def print_cpu_hands(game, screen):
             if hand_size <= 6:
 
                 card_offset = hand_start + 30 + (.5 * (6 - hand_size) * 120)
-                for card in cpu.get_hand():
+                for _ in cpu.get_hand():
                     card_face = pygame.image.load('cards/card_back.png')
                     card_face = pygame.transform.scale(card_face, (100, 140))
                     card_face = pygame.transform.rotate(card_face, 180)
@@ -297,10 +295,7 @@ def print_cpu_hands(game, screen):
                     overlap += 1
                     hand_width = (120 - overlap) * hand_size
 
-                # card_offset = card_offset + (screen.get_width() * 2/3 - (hand_width + 45)) / 2 TODO fix this to look
-                #  pretty
-
-                for card in cpu.get_hand():
+                for _ in cpu.get_hand():
                     card_face = pygame.image.load('cards/card_back.png')
                     card_face = pygame.transform.scale(card_face, (100, 140))  # transforms to default size
                     card_face = pygame.transform.rotate(card_face, 180)
@@ -318,7 +313,7 @@ def print_cpu_hands(game, screen):
             if hand_size <= 3:
 
                 card_offset = hand_height + 30 + (.5 * (3 - hand_size) * 120)
-                for card in cpu.get_hand():
+                for _ in cpu.get_hand():
                     card_face = pygame.image.load('cards/card_back.png')
                     card_face = pygame.transform.scale(card_face, (100, 140))
                     card_face = pygame.transform.rotate(card_face, 90)
@@ -338,11 +333,7 @@ def print_cpu_hands(game, screen):
                 while max_size < hand_width:
                     overlap += 1
                     hand_width = (120 - overlap) * hand_size
-
-                # card_offset = card_offset + (screen.get_width() * 2/3 - (hand_width + 45)) / 2 TODO fix this to look
-                #  pretty
-
-                for card in cpu.get_hand():
+                for _ in cpu.get_hand():
                     card_face = pygame.image.load('cards/card_back.png')
                     card_face = pygame.transform.scale(card_face, (100, 140))  # transforms to default size
                     card_face = pygame.transform.rotate(card_face, 90)
@@ -385,9 +376,6 @@ def print_player_hand(game, screen: pygame.Surface):
         while max_size < hand_width:
             overlap += 1
             hand_width = (120 - overlap) * hand_size
-
-        # card_offset = card_offset + (screen.get_width() * 2/3 - (hand_width + 45)) / 2 TODO fix this to look
-        #  pretty
 
         for card in player.get_hand():
             card_face = pygame.image.load(card.get_path())
@@ -480,8 +468,6 @@ def choose_card(screen, game):
                         card = game.draw_card()
                         print_player_hand(game, screen)
                         if game.validate_move(card):
-                            # TODO is this the right card shit
-                            # create the card into a rectangle to blit to screen
                             card_face = pygame.image.load(card.get_path())
                             card_face = pygame.transform.scale(card_face, (100, 140))
                             card_rect = card_face.get_rect()
@@ -532,6 +518,7 @@ def choose_card(screen, game):
                                     pygame.display.update()
                                     card_played = pygame.image.load(current_player.get_hand()[i].get_path())
                                     card_selected = current_player.get_hand().pop(i)
+                                    # re-update screen once card animation is over
 
                                     # animation part: kinda of buggy but works?
                                     for x in range(20):
@@ -747,16 +734,16 @@ def set_wild(screen):
                 # if the mouse is clicked on the
                 # button the game is terminated
                 if blue_button.x <= mouse[0] <= blue_button.x + button_size and blue_button.y <= mouse[
-                    1] <= blue_button.y + button_size:
+                        1] <= blue_button.y + button_size:
                     return Color.BLUE
                 elif red_button.x <= mouse[0] <= red_button.x + button_size and red_button.y <= mouse[
-                    1] <= red_button.y + button_size:
+                        1] <= red_button.y + button_size:
                     return Color.RED
                 elif green_button.x <= mouse[0] <= green_button.x + button_size and green_button.y <= mouse[
-                    1] <= green_button.y + button_size:
+                        1] <= green_button.y + button_size:
                     return Color.GREEN
                 elif yellow_button.x <= mouse[0] <= yellow_button.x + button_size and yellow_button.y <= mouse[
-                    1] <= yellow_button.y + button_size:
+                        1] <= yellow_button.y + button_size:
                     return Color.YELLOW
 
 
