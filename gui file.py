@@ -24,6 +24,7 @@ table = pygame.image.load('NaturalOak.jpg')
 table = pygame.transform.rotate(table, 90)
 table = pygame.transform.scale(table, (1200, 800))
 
+
 def game_engine():
     pygame.init()
     screen_size = (1200, 800)
@@ -201,7 +202,7 @@ def game_engine():
                         game.last_played.get_type() == Type.WILD or game.last_played.get_type() == Type.DRAW4):
                     color = set_wild(screen)
                     game.last_played.set_wild(color)
-                    screen.fill(black)
+                    # screen.fill(black)
                     print_game(game, screen)
                 elif type(player) == CPU and (
                         game.last_played.get_type() == Type.WILD or game.last_played.get_type() == Type.DRAW4):
@@ -212,7 +213,7 @@ def game_engine():
                 game_over = True
                 game_engine()
             if type(player) == CPU:
-                screen.fill(black)
+                # screen.fill(black)
                 print_game(game, screen)
                 pygame.display.update()
                 sleep(1)
@@ -227,7 +228,6 @@ def print_cpu_hands(game, screen):
         if i == 1:
             hand_start = 0
             hand_height = screen.get_height() * (1 / 6)
-            #pygame.draw.rect(screen, button_color, [hand_start, hand_height, 200, screen.get_height() * 2 / 3])
             # this is if cpu is on left of screen
             if hand_size <= 3:
 
@@ -268,7 +268,6 @@ def print_cpu_hands(game, screen):
             # this is if cpu is on top of screen
             hand_height = 0
             hand_start = screen.get_width() * (1 / 6)
-            # pygame.draw.rect(screen, button_hover_color, [hand_start, hand_height, screen.get_width() * 2 / 3, 200])
             if hand_size <= 6:
 
                 card_offset = hand_start + 30 + (.5 * (6 - hand_size) * 120)
@@ -306,7 +305,6 @@ def print_cpu_hands(game, screen):
         else:
             hand_start = screen.get_width() - 200
             hand_height = screen.get_height() * (1 / 6)
-            # pygame.draw.rect(screen, button_color, [hand_start, hand_height, 200, screen.get_height() * 2 / 3])
             if hand_size <= 3:
 
                 card_offset = hand_height + 30 + (.5 * (3 - hand_size) * 120)
@@ -349,7 +347,6 @@ def print_player_hand(game, screen: pygame.Surface):
     hand_size = len(player.get_hand())
     hand_height = screen.get_height() - 200
     hand_start = screen.get_width() * (1 / 6)
-    # pygame.draw.rect(screen, white, [hand_start, hand_height, screen.get_width() * 2 / 3, 200])
 
     if hand_size <= 6:
 
@@ -463,7 +460,7 @@ def choose_card(screen, game):
                     if deck_rect.collidepoint(ev.pos):
                         print('draw card')
                         card = game.draw_card()
-                        screen.fill(black)
+                        # screen.fill(black)
                         print_game(game, screen)
                         if game.validate_move(card):
                             card_face = pygame.image.load(card.get_path())
@@ -514,17 +511,17 @@ def choose_card(screen, game):
                                     # animation part: kinda of buggy but works?
                                     for x in range(20):
                                         # re-update screen every time card moves up # of pixels
-                                        screen.fill(black)
+                                        # screen.fill(black)
                                         print_game(game, screen)
 
                                         # move card object up 10 pixels at a time
                                         position = position.move(0, -10)
                                         screen.blit(card_played, position)  # blit it to the new position
-                                        pygame.display.update()
                                         pygame.time.delay(10)  # add time delay so it doesn't happen all at once
+                                        pygame.display.update()
 
                                     # re-update screen once card animation is over
-                                    screen.fill(black)
+                                    # screen.fill(black)
                                     print_game(game, screen)
                                     pygame.display.update()
                                     return card_selected
@@ -555,7 +552,7 @@ def choose_card(screen, game):
         card_rect.y = screen.get_height() / 2
         direction = (10, 0)
         card = current_player.play_card(game.player, game.cpu3, game.cpu2, game.last_played)
-        screen.fill(black)
+        # screen.fill(black)
         print_game(game, screen)
         pygame.display.update()
 
@@ -566,25 +563,25 @@ def choose_card(screen, game):
         card_rect.y = 30
         direction = (0, 10)
         card = current_player.play_card(game.player, game.cpu1, game.cpu3, game.last_played)
-        screen.fill(black)
+        # screen.fill(black)
         print_game(game, screen)
         pygame.display.update()
 
-    elif current_player.get_number() == 3:  # right
+    else:  # right
         card_face = pygame.transform.rotate(card_face, 90)
         card_rect = card_face.get_rect()
         card_rect.x = screen.get_width() - 30
         card_rect.y = screen.get_height() / 2
         direction = (-10, 0)
         card = current_player.play_card(game.player, game.cpu1, game.cpu2, game.last_played)
-        screen.fill(black)
+        # screen.fill(black)
         print_game(game, screen)
         pygame.display.update()
 
     if not card:
         current_player.add_card(game.draw_card())
         if game.validate_move(current_player.get_hand()[len(current_player.get_hand()) - 1]):
-            screen.fill(black)
+            # screen.fill(black)
             print_game(game, screen)
             pygame.display.update()
 
@@ -593,7 +590,7 @@ def choose_card(screen, game):
             screen.blit(card_face, deck_rect)  # blit it to the new position
             pygame.display.update()
             pygame.time.delay(10)
-            screen.fill(black)
+            # screen.fill(black)
             print_game(game, screen)
             pygame.display.update()
             return current_player.get_hand().pop(len(current_player.get_hand()) - 1)
@@ -601,7 +598,7 @@ def choose_card(screen, game):
         else:
             for x in range(20):
                 # re-update screen every time card moves up # of pixels
-                screen.fill(black)
+                # screen.fill(black)
                 print_game(game, screen)
                 pygame.display.update()
 
@@ -610,7 +607,7 @@ def choose_card(screen, game):
                 screen.blit(card_face, deck_rect)  # blit it to the new position
                 pygame.display.update()
                 pygame.time.delay(10)  # add time delay so it doesn't happen all at once
-            screen.fill(black)
+            # screen.fill(black)
             print_game(game, screen)
             pygame.display.update()
             return False  # returns false if no valid card is found
@@ -618,7 +615,7 @@ def choose_card(screen, game):
 
         for x in range(20):
             # re-update screen every time card moves up # of pixels
-            screen.fill(black)
+            # screen.fill(black)
             print_game(game, screen)
             pygame.display.update()
 
@@ -627,7 +624,7 @@ def choose_card(screen, game):
             screen.blit(card_face, card_rect)  # blit it to the new position
             pygame.display.update()
             pygame.time.delay(10)  # add time delay so it doesn't happen all at once
-        screen.fill(black)
+        # screen.fill(black)
         print_game(game, screen)
         pygame.display.update()
 
@@ -638,7 +635,6 @@ def confirm_user_card(card_selected, rectangle, screen):
     screen.fill(black)  # clear the screen
     button_height = 100
     button_width = 150
-    small_font = pygame.font.SysFont('Corbel', 35)
 
     pygame.display.update()
     card_played = pygame.image.load(card_selected.get_path())
