@@ -505,7 +505,6 @@ def choose_card(screen, game):
                 if ev.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-
                 if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
 
                     if deck_rect.collidepoint(ev.pos):
@@ -513,6 +512,25 @@ def choose_card(screen, game):
                         card = game.draw_card()
                         # screen.fill(black)
                         print_game(game, screen)
+                        deck_cover = pygame.image.load('cards/card_back.png')
+                        deck_cover = pygame.transform.scale(deck_cover, (100, 140))
+                        deck_cover_rect = deck_cover.get_rect()
+                        deck_cover_rect.x = (screen.get_width() / 2) + 20
+                        deck_cover_rect.y = (screen.get_height() / 2) - 70
+
+                        # animation for user draw card
+                        for x in range(20):
+                            # re-update screen every time card moves up # of pixels
+                            screen.fill(black)
+                            print_game(game, screen)
+
+                            # move card object up 10 pixels at a time
+                            deck_cover_rect = deck_cover_rect.move(0, 10)
+                            screen.blit(deck_cover, deck_cover_rect)  # blit it to the new position
+                            pygame.display.update()
+                            pygame.time.delay(10)  # add time delay so it doesn't happen all at once
+
+                        print_player_hand(game, screen)
                         if game.validate_move(card):
                             card_face = pygame.image.load(card.get_path())
                             card_face = pygame.transform.scale(card_face, (100, 140))
@@ -564,12 +582,99 @@ def choose_card(screen, game):
                                         # re-update screen every time card moves up # of pixels
                                         # screen.fill(black)
                                         print_game(game, screen)
+                                        screen.fill(black)
+                                        #rules_button(screen)
+                                        print_player_hand(game, screen)
+                                        print_cpu_hands(game, screen)
+                                        print_top_card(game, screen)
+
+                                        # move card object up 10 pixels at a time
+                                        position = position.move(0, -10)
+                                        screen.blit(card_played, position)  # blit it to the new position
+                                        pygame.display.update()
+                                        pygame.time.delay(10)  # add time delay so it doesn't happen all at once
+
+                                    deck_width = (screen.get_width() / 2) - 120
+                                    deck_height = (screen.get_height() / 2) - 70
+                                    add_to_card = deck_width - position.x
+                                    add_to_card = abs(add_to_card)
+
+                                    if deck_width > position.x:
+                                        for x in range(30):
+                                            # re-update screen every time card moves right # of pixels
+                                            screen.fill(black)
+                                            #rules_button(screen)
+                                            print_player_hand(game, screen)
+                                            print_cpu_hands(game, screen)
+                                            print_top_card(game, screen)
+
+                                            while add_to_card % 10 != 0:
+                                                position.x += 1
+                                                add_to_card = deck_width - position.x
+                                                add_to_card = abs(add_to_card)
+
+                                            if (position.x + 10) <= deck_width:
+                                                # move card object right 10 pixels at a time
+                                                position = position.move(10, 0)
+                                                screen.blit(card_played, position)  # blit it to the new position
+                                                pygame.display.update()
+                                                pygame.time.delay(10) # add time delay so it doesn't happen all at once
+                                            else:
+                                                sum_to_add = 30 - x
+                                                x += sum_to_add
+
+                                    if deck_width < position.x:
+                                        for x in range(30):
+                                            # re-update screen every time card moves left # of pixels
+                                            screen.fill(black)
+                                            #rules_button(screen)
+                                            print_player_hand(game, screen)
+                                            print_cpu_hands(game, screen)
+                                            print_top_card(game, screen)
+
+                                            while add_to_card % 10 != 0:
+                                                position.x -= 1
+                                                add_to_card = deck_width - position.x
+                                                add_to_card = abs(add_to_card)
+
+                                            if (position.x - 10) >= deck_width:
+                                                # move card object left 10 pixels at a time
+                                                position = position.move(-10, 0)
+                                                screen.blit(card_played, position)  # blit it to the new position
+                                                pygame.display.update()
+                                                pygame.time.delay(10) # add time delay so it doesn't happen all at once
+                                            else:
+                                                sum_to_add = 30 - x
+                                                x += sum_to_add
+
+                                    add_to_card = deck_height - position.y
+                                    add_to_card = abs(add_to_card)
+                                    for x in range(30):
+                                        # re-update screen every time card moves left # of pixels
+
+                                        print_game(game, screen)
+                                        screen.blit(card_played, position)
 
                                         # move card object up 10 pixels at a time
                                         position = position.move(0, -10)
                                         screen.blit(card_played, position)  # blit it to the new position
                                         pygame.time.delay(10)  # add time delay so it doesn't happen all at once
                                         pygame.display.update()
+                                        while add_to_card % 10 != 0:
+                                            position.y -= 1
+                                            add_to_card = deck_height - position.y
+                                            add_to_card = abs(add_to_card)
+
+                                        if (position.y - 10) >= deck_height:
+                                            # move card object up 10 pixels at a time
+                                            position = position.move(0, -10)
+                                            screen.blit(card_played, position)  # blit it to the new position
+                                            pygame.display.update()
+                                            pygame.time.delay(10)  # add time delay so it doesn't happen all at once
+
+                                        else:
+                                            sum_to_add = 30 - x
+                                            x += sum_to_add
 
                                     # re-update screen once card animation is over
                                     # screen.fill(black)
@@ -585,9 +690,6 @@ def choose_card(screen, game):
                                 screen.fill(black)
                                 print_game(game, screen)
                                 pygame.display.update()
-
-                    # else:
-                    # print("not clicked")
 
     for ev in pygame.event.get():
         if ev.type == pygame.QUIT:
