@@ -565,6 +565,7 @@ def choose_card(screen, game):
 
                                 # updates screen
                                 print_game(game, screen)
+
                                 if game.validate_move(current_player.get_hand()[i]):
                                     position = list_of_rect_card.pop(i)
                                     pygame.display.update()
@@ -586,12 +587,13 @@ def choose_card(screen, game):
                                     # re-update screen once card animation is over
                                     print_game(game, screen)
                                     return card_selected
-
+                                pygame.display.update()
                             # if the user does not want to play the selected card, re-update screen
                             # and let them select again
                             elif user_answer is False:
-                                screen.fill(black)
+
                                 print_game(game, screen)
+                                pygame.display.update()
 
                     # else:
                     # print("not clicked")
