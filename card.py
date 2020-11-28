@@ -35,8 +35,6 @@ class Card:
     def __init__(self, card_type: Type, color: Color = Color.NONE):  # defaults to no color, eg wilds
         self.type = card_type
         self.color = color
-        #self.x_coord = 0
-        #self.y_coord = 0
 
     # returns card type
     def get_type(self):
@@ -49,31 +47,6 @@ class Card:
     def set_wild(self, color: Color):  # sets the color of a card if it is determined to be a wild card.
         if self.get_type() == Type.WILD or self.get_type() == Type.DRAW4:
             self.color = color
-
-    #def set_x_coord(self, x):
-        #self.x_coord = x
-
-    #def set_y_coord(self, y):
-        #self.y_coord = y
-
-    def print(self):  # change with graphics  for some reason a black foreground shows up as white but it works as
-        # intended so i'll leave it as is
-        reset = attr('reset')
-        if self.color == 0:  # wilds
-            color = bg('black') + fg('white')
-        elif self.color == 1:  # red
-            color = bg('red') + fg('white')
-        elif self.color == 2:  # green
-            color = bg('green_4') + fg('white')
-        elif self.color == 3:  # blue
-            color = bg('dodger_blue_2') + fg('white')
-        else:  # yellow
-            color = bg('yellow') + fg('white')
-        if self.type <= 12:  # non-wild card printing
-            print(color + attr('bold') + str(self.color.name).capitalize() + ' ' + str(self.type.name).capitalize()
-                  + reset, end='')
-        else:  # wild card printing
-            print(color + str(self.type.name).capitalize() + reset, end='')
 
     def get_path(self):
         path = 'cards/'
