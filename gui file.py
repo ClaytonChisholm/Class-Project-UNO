@@ -13,7 +13,7 @@ yellow = (247, 227, 89)
 black = [0, 0, 0]
 # light shade of the button
 button_hover_color = (170, 170, 170)
-
+tiny_font = pygame.font.SysFont('Corbel', 25)
 # dark shade of the button
 button_color = (100, 100, 100)
 
@@ -26,7 +26,7 @@ def game_engine():
     screen.fill(black)
 
     # defining a font
-    tiny_font = pygame.font.SysFont('Corbel', 25)
+    #tiny_font = pygame.font.SysFont('Corbel', 25)
     small_font = pygame.font.SysFont('Corbel', 35)
 
     # rendering a text written in
@@ -185,6 +185,7 @@ def game_engine():
             print_player_hand(game, screen)
             print_top_card(game, screen)
             print_cpu_hands(game, screen)
+            #rules_button(screen)
             pygame.display.update()
             picked_card = choose_card(screen, game)
             if not picked_card:
@@ -221,6 +222,59 @@ def game_engine():
 
             pygame.display.update()
 
+# def rules_button(screen):
+#     text_back = tiny_font.render('Rules', True, black)
+#     button_width = 140
+#     button_height = 40
+#     width = screen.get_width()
+#     height = screen.get_height()
+#     mouse = pygame.mouse.get_pos()
+#     menu_back_x = (width * .1) - (button_width / 2)
+#     button_y = (height * .85) + (button_height / 2)
+#     if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
+#         1] <= button_y + button_height:
+#         pygame.draw.rect(screen, button_hover_color, [menu_back_x, button_y, 140, 40])
+#     else:
+#         pygame.draw.rect(screen, button_color, [menu_back_x, button_y, 140, 40])
+#     screen.blit(text_back, (menu_back_x + 15, button_y + 10))
+
+# def display_rules(screen):
+#     screen.fill(white)
+#     text_back = tiny_font.render('Back To Game', True, black)
+#     rules_text = rules_stuff()
+#     format_rules(screen, rules_text, tiny_font)
+#     button_width = 140
+#     button_height = 40
+#     width = screen.get_width()
+#     height = screen.get_height()
+#     menu_back_x = (width * .1) - (button_width / 2)
+#     button_y = (height * .85) + (button_height / 2)
+#     mouse = pygame.mouse.get_pos()
+#
+#     while True:
+#         for ev in pygame.event.get():
+#             if ev.type == pygame.QUIT:
+#                 pygame.quit()
+#                 sys.exit()
+#
+#             if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
+#
+#                 if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
+#                     1] <= button_y + button_height:
+#                     return True
+#
+#         # if the mouse is clicked on the
+#         # button the game is terminated
+#         if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
+#                 1] <= button_y + button_height:
+#             pygame.draw.rect(screen, button_hover_color, [menu_back_x, button_y, 140, 40])
+#         else:
+#             pygame.draw.rect(screen, button_color, [menu_back_x, button_y, 140, 40])
+#
+#         screen.blit(text_back, (menu_back_x + 15, button_y + 10))
+#
+#         # updates the frames of the game
+#         pygame.display.update()
 
 def print_cpu_hands(game, screen):
     cpus = [game.cpu1, game.cpu2, game.cpu3]
@@ -452,6 +506,15 @@ def choose_card(screen, game):
     deck_rect.y = (screen.get_height() / 2) - 70
     screen.blit(deck_cover, deck_rect)
     user_answer = False
+    # during_game = True
+    # before_game = False
+    # button_width = 140
+    # button_height = 40
+    # width = screen.get_width()
+    # height = screen.get_height()
+    # menu_back_x = (width * .1) - (button_width / 2)
+    # button_y = (height * .85) + (button_height / 2)
+    # mouse = pygame.mouse.get_pos()
 
     # while user has not played or drawn a card from the deck
     while user_answer is False and type(game.players[game.current_player]) == Player:
@@ -460,12 +523,41 @@ def choose_card(screen, game):
                 if ev.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-
                 if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
+
+                    # if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
+                    #     1] <= button_y + button_height:
+                    #         display_rules(screen)
+                    #         screen.fill(black)
+                    #         print_player_hand(game, screen)
+                    #         print_cpu_hands(game, screen)
+                    #         print_top_card(game, screen)
+                    #         rules_button(screen)
 
                     if deck_rect.collidepoint(ev.pos):
                         print('draw card')
                         card = game.draw_card()
+                        deck_cover = pygame.image.load('cards/card_back.png')
+                        deck_cover = pygame.transform.scale(deck_cover, (100, 140))
+                        deck_cover_rect = deck_cover.get_rect()
+                        deck_cover_rect.x = (screen.get_width() / 2) + 20
+                        deck_cover_rect.y = (screen.get_height() / 2) - 70
+
+                        # animation for user draw card
+                        for x in range(20):
+                            # re-update screen every time card moves up # of pixels
+                            screen.fill(black)
+                            print_player_hand(game, screen)
+                            print_cpu_hands(game, screen)
+                            print_top_card(game, screen)
+                            #rules_button(screen)
+
+                            # move card object up 10 pixels at a time
+                            deck_cover_rect = deck_cover_rect.move(0, 10)
+                            screen.blit(deck_cover, deck_cover_rect)  # blit it to the new position
+                            pygame.display.update()
+                            pygame.time.delay(10)  # add time delay so it doesn't happen all at once
+
                         print_player_hand(game, screen)
                         if game.validate_move(card):
                             card_face = pygame.image.load(card.get_path())
@@ -477,6 +569,7 @@ def choose_card(screen, game):
 
                             # update screen after user confirmation
                             screen.fill(black)
+                            #rules_button(screen)
                             print_player_hand(game, screen)
                             print_top_card(game, screen)
                             print_cpu_hands(game, screen)
@@ -510,6 +603,7 @@ def choose_card(screen, game):
 
                                 # updates screen
                                 screen.fill(black)
+                                #rules_button(screen)
                                 print_player_hand(game, screen)
                                 print_cpu_hands(game, screen)
                                 print_top_card(game, screen)
@@ -524,6 +618,7 @@ def choose_card(screen, game):
                                     for x in range(20):
                                         # re-update screen every time card moves up # of pixels
                                         screen.fill(black)
+                                        #rules_button(screen)
                                         print_player_hand(game, screen)
                                         print_cpu_hands(game, screen)
                                         print_top_card(game, screen)
@@ -534,8 +629,90 @@ def choose_card(screen, game):
                                         pygame.display.update()
                                         pygame.time.delay(10)  # add time delay so it doesn't happen all at once
 
+                                    deck_width = (screen.get_width() / 2) - 120
+                                    deck_height = (screen.get_height() / 2) - 70
+                                    add_to_card = deck_width - position.x
+                                    add_to_card = abs(add_to_card)
+
+                                    if deck_width > position.x:
+                                        for x in range(30):
+                                            # re-update screen every time card moves right # of pixels
+                                            screen.fill(black)
+                                            #rules_button(screen)
+                                            print_player_hand(game, screen)
+                                            print_cpu_hands(game, screen)
+                                            print_top_card(game, screen)
+
+                                            while add_to_card % 10 != 0:
+                                                position.x += 1
+                                                add_to_card = deck_width - position.x
+                                                add_to_card = abs(add_to_card)
+
+                                            if (position.x + 10) <= deck_width:
+                                                # move card object right 10 pixels at a time
+                                                position = position.move(10, 0)
+                                                screen.blit(card_played, position)  # blit it to the new position
+                                                pygame.display.update()
+                                                pygame.time.delay(10) # add time delay so it doesn't happen all at once
+                                            else:
+                                                sum_to_add = 30 - x
+                                                x += sum_to_add
+
+                                    if deck_width < position.x:
+                                        for x in range(30):
+                                            # re-update screen every time card moves left # of pixels
+                                            screen.fill(black)
+                                            #rules_button(screen)
+                                            print_player_hand(game, screen)
+                                            print_cpu_hands(game, screen)
+                                            print_top_card(game, screen)
+
+                                            while add_to_card % 10 != 0:
+                                                position.x -= 1
+                                                add_to_card = deck_width - position.x
+                                                add_to_card = abs(add_to_card)
+
+                                            if (position.x - 10) >= deck_width:
+                                                # move card object left 10 pixels at a time
+                                                position = position.move(-10, 0)
+                                                screen.blit(card_played, position)  # blit it to the new position
+                                                pygame.display.update()
+                                                pygame.time.delay(10) # add time delay so it doesn't happen all at once
+                                            else:
+                                                sum_to_add = 30 - x
+                                                x += sum_to_add
+
+                                    add_to_card = deck_height - position.y
+                                    add_to_card = abs(add_to_card)
+                                    for x in range(30):
+                                        # re-update screen every time card moves left # of pixels
+
+                                        screen.fill(black)
+                                        #rules_button(screen)
+                                        print_player_hand(game, screen)
+                                        print_cpu_hands(game, screen)
+                                        print_top_card(game, screen)
+                                        screen.blit(card_played, position)
+
+                                        while add_to_card % 10 != 0:
+                                            position.y -= 1
+                                            add_to_card = deck_height - position.y
+                                            add_to_card = abs(add_to_card)
+
+                                        if (position.y - 10) >= deck_height:
+                                            # move card object up 10 pixels at a time
+                                            position = position.move(0, -10)
+                                            screen.blit(card_played, position)  # blit it to the new position
+                                            pygame.display.update()
+                                            pygame.time.delay(10)  # add time delay so it doesn't happen all at once
+
+                                        else:
+                                            sum_to_add = 30 - x
+                                            x += sum_to_add
+
                                     # re-update screen once card animation is over
                                     screen.fill(black)
+                                    #rules_button(screen)
                                     print_cpu_hands(game, screen)
                                     print_player_hand(game, screen)
                                     print_top_card(game, screen)
@@ -550,6 +727,7 @@ def choose_card(screen, game):
                             # and let them select again
                             elif user_answer is False:
                                 screen.fill(black)
+                                #rules_button(screen)
                                 print_player_hand(game, screen)
                                 print_cpu_hands(game, screen)
                                 print_top_card(game, screen)
@@ -559,6 +737,17 @@ def choose_card(screen, game):
         if ev.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+
+        # if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
+        #     if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
+        #         1] <= button_y + button_height:
+        #         display_rules(screen)
+        #         screen.fill(black)
+        #         print_player_hand(game, screen)
+        #         print_cpu_hands(game, screen)
+        #         print_top_card(game, screen)
+        #         rules_button(screen)
+
     card_face = pygame.image.load('cards/card_back.png')
     card_face = pygame.transform.scale(card_face, (100, 140))
 
@@ -593,6 +782,7 @@ def choose_card(screen, game):
             print_player_hand(game, screen)
             print_cpu_hands(game, screen)
             print_top_card(game, screen)
+            #rules_button(screen)
 
             # move card object up 10 pixels at a time
             deck_rect = deck_rect.move(-10, 0)
@@ -603,6 +793,7 @@ def choose_card(screen, game):
             print_player_hand(game, screen)
             print_cpu_hands(game, screen)
             print_top_card(game, screen)
+            #rules_button(screen)
 
             # move card object up 10 pixels at a time
             deck_rect = deck_rect.move(-10, 0)
@@ -613,6 +804,7 @@ def choose_card(screen, game):
             print_player_hand(game, screen)
             print_cpu_hands(game, screen)
             print_top_card(game, screen)
+            #rules_button(screen)
             return current_player.get_hand().pop(len(current_player.get_hand()) - 1)
 
         else:
@@ -622,6 +814,7 @@ def choose_card(screen, game):
                 print_player_hand(game, screen)
                 print_cpu_hands(game, screen)
                 print_top_card(game, screen)
+                #rules_button(screen)
 
                 # move card object up 10 pixels at a time
                 deck_rect = deck_rect.move(-(direction[0]), -(direction[1]))
@@ -632,6 +825,7 @@ def choose_card(screen, game):
             print_player_hand(game, screen)
             print_cpu_hands(game, screen)
             print_top_card(game, screen)
+            #rules_button(screen)
             pygame.display.update()
             return False  # returns false if no valid card is found
     else:
@@ -642,6 +836,7 @@ def choose_card(screen, game):
             print_player_hand(game, screen)
             print_cpu_hands(game, screen)
             print_top_card(game, screen)
+            #rules_button(screen)
 
             # move card object up 10 pixels at a time
             card_rect = card_rect.move(direction)
@@ -652,6 +847,7 @@ def choose_card(screen, game):
         print_player_hand(game, screen)
         print_cpu_hands(game, screen)
         print_top_card(game, screen)
+        #rules_button(screen)
         pygame.display.update()
 
         return card  # returns card if one is found
