@@ -2,6 +2,7 @@ import pygame
 import sys
 from game import *
 import pygame_textinput
+from time import sleep
 
 white = (255, 255, 255)
 grey = (180, 180, 180)
@@ -213,7 +214,6 @@ def game_engine():
             # handles all non wild power cards
             if not player.get_hand() or (len(game.played_deck) == 0):
                 game_over = True
-                print("game over")
                 game_engine()
             if type(player) == CPU:
                 sleep(1)

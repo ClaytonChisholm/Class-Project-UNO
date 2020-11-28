@@ -118,10 +118,3 @@ class CPU:
     # returns CPU name
     def get_name(self):
         return self.CPU_name
-
-    # Prints number of cards left in CPU hand
-    def print(self):
-        if not len(self.CPU_hand) == 1:
-            print(self.CPU_name + ' has ' + str(len(self.CPU_hand)) + ' cards')
-        else:
-            print(self.CPU_name + ' has 1 card')

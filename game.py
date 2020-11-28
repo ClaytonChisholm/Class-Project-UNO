@@ -1,5 +1,4 @@
 from copy import copy
-from time import sleep
 from cpu import *
 from card import *
 
@@ -67,8 +66,6 @@ class Game:
         random.shuffle(self.deck)
 
     def shuffle_discard(self):
-        print('reshuffling deck')
-        sleep(2)  # for ~~aesthetics~~
         random.shuffle(self.played_deck)
         self.deck = copy(self.played_deck)
         # reset the played deck to empty
@@ -82,22 +79,19 @@ class Game:
             if self.current_player != self.player_count - 1:
                 self.current_player = self.current_player + 1
                 # output who lost their turn so the player can see
-                print(self.players[self.current_player].get_name(), 'has lost their turn!\n')
             else:
                 # assign the current player to the beginning of the turn order if it is currently player 4s turn
                 self.current_player = 0
                 # output who lost their turn so the player can see
-                print('You have lost your turn!\n')
+
         # if it is currently reversed, do the opposite of above
         else:
             if self.current_player != 0:
                 self.current_player = self.current_player - 1
                 # output who lost their turn so the player can see
-                print(self.players[self.current_player].get_name(), 'has lost their turn!\n')
             else:
                 self.current_player = self.player_count - 1
                 # output who lost their turn so the player can see
-                print(self.players[self.current_player].get_name(), 'has lost their turn!\n')
 
     def apply_power(self):
         # assign card to the last played card then check for a power

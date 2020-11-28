@@ -48,9 +48,6 @@ class Card:
         if self.get_type() == Type.WILD or self.get_type() == Type.DRAW4:
             self.color = color
 
-    def print(self):
-        print(self.color, self.type)
-
     def get_path(self):
         path = 'cards/'
         if self.color == Color.RED:
