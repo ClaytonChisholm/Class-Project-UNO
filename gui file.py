@@ -11,13 +11,18 @@ red = (245, 100, 98)
 blue = (0, 195, 229)
 green = (47, 226, 155)
 yellow = (247, 227, 89)
-black = [0, 0, 0]
+black = [150, 150, 150]
 # light shade of the button
 button_hover_color = (170, 170, 170)
 
 # dark shade of the button
 button_color = (100, 100, 100)
-
+# defining a font
+tiny_font = pygame.font.SysFont('Corbel', 25)
+small_font = pygame.font.SysFont('Corbel', 35)
+table = pygame.image.load('NaturalOak.jpg')
+table = pygame.transform.rotate(table, 90)
+table = pygame.transform.scale(table, (1200, 800))
 
 def game_engine():
     pygame.init()
@@ -25,10 +30,6 @@ def game_engine():
     screen = pygame.display.set_mode(screen_size)
     pygame.display.set_caption('UNO!')
     screen.fill(black)
-
-    # defining a font
-    tiny_font = pygame.font.SysFont('Corbel', 25)
-    small_font = pygame.font.SysFont('Corbel', 35)
 
     # rendering a text written in
     # this font
@@ -178,14 +179,12 @@ def game_engine():
         for player in game.players:  # creates starting hands
             game.fill_hand(player)
         screen = pygame.display.set_mode(screen_size)
-        screen.fill((0, 0, 0))
+        screen.fill(black)
         print_top_card(game, screen)
 
         while not game_over:  # game engine
             player = game.players[game.current_player]
-            print_player_hand(game, screen)
-            print_top_card(game, screen)
-            print_cpu_hands(game, screen)
+            print_game(game, screen)
             pygame.display.update()
             picked_card = choose_card(screen, game)
             if not picked_card:
@@ -200,13 +199,10 @@ def game_engine():
                 # handles wilds
                 if type(player) == Player and (
                         game.last_played.get_type() == Type.WILD or game.last_played.get_type() == Type.DRAW4):
-                    print_cpu_hands(game, screen)
                     color = set_wild(screen)
                     game.last_played.set_wild(color)
                     screen.fill(black)
-                    print_player_hand(game, screen)
-                    print_cpu_hands(game, screen)
-                    print_top_card(game, screen)
+                    print_game(game, screen)
                 elif type(player) == CPU and (
                         game.last_played.get_type() == Type.WILD or game.last_played.get_type() == Type.DRAW4):
                     game.last_played.set_wild(player.cpu_wilds())  # sets the color of the wild with cpu choice
@@ -216,9 +212,11 @@ def game_engine():
                 game_over = True
                 game_engine()
             if type(player) == CPU:
+                screen.fill(black)
+                print_game(game, screen)
+                pygame.display.update()
                 sleep(1)
             game.change_turn()
-            pygame.display.update()
 
 
 def print_cpu_hands(game, screen):
@@ -229,7 +227,7 @@ def print_cpu_hands(game, screen):
         if i == 1:
             hand_start = 0
             hand_height = screen.get_height() * (1 / 6)
-            pygame.draw.rect(screen, button_color, [hand_start, hand_height, 200, screen.get_height() * 2 / 3])
+            #pygame.draw.rect(screen, button_color, [hand_start, hand_height, 200, screen.get_height() * 2 / 3])
             # this is if cpu is on left of screen
             if hand_size <= 3:
 
@@ -270,7 +268,7 @@ def print_cpu_hands(game, screen):
             # this is if cpu is on top of screen
             hand_height = 0
             hand_start = screen.get_width() * (1 / 6)
-            pygame.draw.rect(screen, button_hover_color, [hand_start, hand_height, screen.get_width() * 2 / 3, 200])
+            # pygame.draw.rect(screen, button_hover_color, [hand_start, hand_height, screen.get_width() * 2 / 3, 200])
             if hand_size <= 6:
 
                 card_offset = hand_start + 30 + (.5 * (6 - hand_size) * 120)
@@ -308,7 +306,7 @@ def print_cpu_hands(game, screen):
         else:
             hand_start = screen.get_width() - 200
             hand_height = screen.get_height() * (1 / 6)
-            pygame.draw.rect(screen, button_color, [hand_start, hand_height, 200, screen.get_height() * 2 / 3])
+            # pygame.draw.rect(screen, button_color, [hand_start, hand_height, 200, screen.get_height() * 2 / 3])
             if hand_size <= 3:
 
                 card_offset = hand_height + 30 + (.5 * (3 - hand_size) * 120)
@@ -351,7 +349,7 @@ def print_player_hand(game, screen: pygame.Surface):
     hand_size = len(player.get_hand())
     hand_height = screen.get_height() - 200
     hand_start = screen.get_width() * (1 / 6)
-    pygame.draw.rect(screen, white, [hand_start, hand_height, screen.get_width() * 2 / 3, 200])
+    # pygame.draw.rect(screen, white, [hand_start, hand_height, screen.get_width() * 2 / 3, 200])
 
     if hand_size <= 6:
 
@@ -465,7 +463,8 @@ def choose_card(screen, game):
                     if deck_rect.collidepoint(ev.pos):
                         print('draw card')
                         card = game.draw_card()
-                        print_player_hand(game, screen)
+                        screen.fill(black)
+                        print_game(game, screen)
                         if game.validate_move(card):
                             card_face = pygame.image.load(card.get_path())
                             card_face = pygame.transform.scale(card_face, (100, 140))
@@ -476,9 +475,7 @@ def choose_card(screen, game):
 
                             # update screen after user confirmation
                             screen.fill(black)
-                            print_player_hand(game, screen)
-                            print_top_card(game, screen)
-                            print_cpu_hands(game, screen)
+                            print_game(game, screen)
                             pygame.display.update()
 
                             # if the user wants to play it, play card
@@ -506,9 +503,7 @@ def choose_card(screen, game):
 
                                 # updates screen
                                 screen.fill(black)
-                                print_player_hand(game, screen)
-                                print_cpu_hands(game, screen)
-                                print_top_card(game, screen)
+                                print_game(game, screen)
                                 if game.validate_move(current_player.get_hand()[i]):
                                     position = list_of_rect_card.pop(i)
                                     pygame.display.update()
@@ -520,9 +515,7 @@ def choose_card(screen, game):
                                     for x in range(20):
                                         # re-update screen every time card moves up # of pixels
                                         screen.fill(black)
-                                        print_player_hand(game, screen)
-                                        print_cpu_hands(game, screen)
-                                        print_top_card(game, screen)
+                                        print_game(game, screen)
 
                                         # move card object up 10 pixels at a time
                                         position = position.move(0, -10)
@@ -532,9 +525,7 @@ def choose_card(screen, game):
 
                                     # re-update screen once card animation is over
                                     screen.fill(black)
-                                    print_cpu_hands(game, screen)
-                                    print_player_hand(game, screen)
-                                    print_top_card(game, screen)
+                                    print_game(game, screen)
                                     pygame.display.update()
                                     return card_selected
                                 else:
@@ -544,9 +535,8 @@ def choose_card(screen, game):
                             # and let them select again
                             elif user_answer is False:
                                 screen.fill(black)
-                                print_cpu_hands(game, screen)
-                                print_player_hand(game, screen)
-                                print_top_card(game, screen)
+                                print_game(game, screen)
+                                pygame.display.update()
 
                     # else:
                     # print("not clicked")
@@ -565,6 +555,9 @@ def choose_card(screen, game):
         card_rect.y = screen.get_height() / 2
         direction = (10, 0)
         card = current_player.play_card(game.player, game.cpu3, game.cpu2, game.last_played)
+        screen.fill(black)
+        print_game(game, screen)
+        pygame.display.update()
 
     elif current_player.get_number() == 2:
         card_face = pygame.transform.rotate(card_face, 180)
@@ -573,22 +566,27 @@ def choose_card(screen, game):
         card_rect.y = 30
         direction = (0, 10)
         card = current_player.play_card(game.player, game.cpu1, game.cpu3, game.last_played)
+        screen.fill(black)
+        print_game(game, screen)
+        pygame.display.update()
 
-    else:  # right
+    elif current_player.get_number() == 3:  # right
         card_face = pygame.transform.rotate(card_face, 90)
         card_rect = card_face.get_rect()
         card_rect.x = screen.get_width() - 30
         card_rect.y = screen.get_height() / 2
         direction = (-10, 0)
         card = current_player.play_card(game.player, game.cpu1, game.cpu2, game.last_played)
+        screen.fill(black)
+        print_game(game, screen)
+        pygame.display.update()
 
     if not card:
         current_player.add_card(game.draw_card())
         if game.validate_move(current_player.get_hand()[len(current_player.get_hand()) - 1]):
             screen.fill(black)
-            print_player_hand(game, screen)
-            print_cpu_hands(game, screen)
-            print_top_card(game, screen)
+            print_game(game, screen)
+            pygame.display.update()
 
             # move card object up 10 pixels at a time
             deck_rect = deck_rect.move(-10, 0)
@@ -596,29 +594,16 @@ def choose_card(screen, game):
             pygame.display.update()
             pygame.time.delay(10)
             screen.fill(black)
-            print_player_hand(game, screen)
-            print_cpu_hands(game, screen)
-            print_top_card(game, screen)
-
-            # move card object up 10 pixels at a time
-            deck_rect = deck_rect.move(-10, 0)
-            screen.blit(card_face, deck_rect)  # blit it to the new position
+            print_game(game, screen)
             pygame.display.update()
-            pygame.time.delay(10)
-            screen.fill(black)
-            print_player_hand(game, screen)
-            print_cpu_hands(game, screen)
-
-            print_top_card(game, screen)
             return current_player.get_hand().pop(len(current_player.get_hand()) - 1)
 
         else:
             for x in range(20):
                 # re-update screen every time card moves up # of pixels
                 screen.fill(black)
-                print_player_hand(game, screen)
-                print_cpu_hands(game, screen)
-                print_top_card(game, screen)
+                print_game(game, screen)
+                pygame.display.update()
 
                 # move card object up 10 pixels at a time
                 deck_rect = deck_rect.move(-(direction[0]), -(direction[1]))
@@ -626,9 +611,7 @@ def choose_card(screen, game):
                 pygame.display.update()
                 pygame.time.delay(10)  # add time delay so it doesn't happen all at once
             screen.fill(black)
-            print_player_hand(game, screen)
-            print_cpu_hands(game, screen)
-            print_top_card(game, screen)
+            print_game(game, screen)
             pygame.display.update()
             return False  # returns false if no valid card is found
     else:
@@ -636,9 +619,8 @@ def choose_card(screen, game):
         for x in range(20):
             # re-update screen every time card moves up # of pixels
             screen.fill(black)
-            print_player_hand(game, screen)
-            print_cpu_hands(game, screen)
-            print_top_card(game, screen)
+            print_game(game, screen)
+            pygame.display.update()
 
             # move card object up 10 pixels at a time
             card_rect = card_rect.move(direction)
@@ -646,9 +628,7 @@ def choose_card(screen, game):
             pygame.display.update()
             pygame.time.delay(10)  # add time delay so it doesn't happen all at once
         screen.fill(black)
-        print_player_hand(game, screen)
-        print_cpu_hands(game, screen)
-        print_top_card(game, screen)
+        print_game(game, screen)
         pygame.display.update()
 
         return card  # returns card if one is found
@@ -742,6 +722,133 @@ def set_wild(screen):
                 elif yellow_button.x <= mouse[0] <= yellow_button.x + button_size and yellow_button.y <= mouse[
                         1] <= yellow_button.y + button_size:
                     return Color.YELLOW
+
+
+def print_arrows(game, screen):
+    arrow_player_x = (screen.get_width() / 2) - 75
+    arrow_player_y = (screen.get_height() / 2) + 100
+    arrow_highlight_player = pygame.image.load('arrows/light_arrow_player.png')
+    arrow_highlight_reverse_player = pygame.image.load('arrows/light_arrow_reverse_player.png')
+    arrow_dark_player = pygame.image.load('arrows/dark_arrow_player.png')
+    arrow_dark_reverse_player = pygame.image.load('arrows/dark_arrow_reverse_player.png')
+    if not game.reversed and game.current_player == 0:
+        arrow_player_rect = arrow_highlight_player.get_rect()
+        arrow_player_rect.x = arrow_player_x
+        arrow_player_rect.y = arrow_player_y
+        screen.blit(arrow_highlight_player, arrow_player_rect)
+    elif not game.reversed and game.current_player != 0:
+        arrow_player_rect = arrow_dark_player.get_rect()
+        arrow_player_rect.x = arrow_player_x
+        arrow_player_rect.y = arrow_player_y
+        screen.blit(arrow_dark_player, arrow_player_rect)
+    elif game.reversed and game.current_player == 0:
+        arrow_player_rect = arrow_highlight_reverse_player.get_rect()
+        arrow_player_rect.x = arrow_player_x
+        arrow_player_rect.y = arrow_player_y
+        screen.blit(arrow_highlight_reverse_player, arrow_player_rect)
+    elif game.reversed and game.current_player != 0:
+        arrow_player_rect = arrow_dark_reverse_player.get_rect()
+        arrow_player_rect.x = arrow_player_x
+        arrow_player_rect.y = arrow_player_y
+        screen.blit(arrow_dark_reverse_player, arrow_player_rect)
+    arrow_cpu1_x = (screen.get_width() / 2) - 200
+    arrow_cpu1_y = (screen.get_height() / 2) - 75
+    arrow_highlight_cpu1 = pygame.image.load('arrows/light_arrow_cpu1.png')
+    arrow_highlight_reverse_cpu1 = pygame.image.load('arrows/light_arrow_reverse_cpu1.png')
+    arrow_dark_cpu1 = pygame.image.load('arrows/dark_arrow_cpu1.png')
+    arrow_dark_reverse_cpu1 = pygame.image.load('arrows/dark_arrow_reverse_cpu1.png')
+    if not game.reversed and game.current_player == 1:
+        arrow_cpu1_rect = arrow_highlight_cpu1.get_rect()
+        arrow_cpu1_rect.x = arrow_cpu1_x
+        arrow_cpu1_rect.y = arrow_cpu1_y
+        screen.blit(arrow_highlight_cpu1, arrow_cpu1_rect)
+    elif not game.reversed and game.current_player != 1:
+        arrow_cpu1_rect = arrow_dark_cpu1.get_rect()
+        arrow_cpu1_rect.x = arrow_cpu1_x
+        arrow_cpu1_rect.y = arrow_cpu1_y
+        screen.blit(arrow_dark_cpu1, arrow_cpu1_rect)
+    elif game.reversed and game.current_player == 1:
+        arrow_cpu1_rect = arrow_highlight_reverse_cpu1.get_rect()
+        arrow_cpu1_rect.x = arrow_cpu1_x
+        arrow_cpu1_rect.y = arrow_cpu1_y
+        screen.blit(arrow_highlight_reverse_cpu1, arrow_cpu1_rect)
+    elif game.reversed and game.current_player != 1:
+        arrow_cpu1_rect = arrow_dark_reverse_cpu1.get_rect()
+        arrow_cpu1_rect.x = arrow_cpu1_x
+        arrow_cpu1_rect.y = arrow_cpu1_y
+        screen.blit(arrow_dark_reverse_cpu1, arrow_cpu1_rect)
+    arrow_cpu2_x = (screen.get_width() / 2) - 75
+    arrow_cpu2_y = (screen.get_height() / 2) - 160
+    arrow_highlight_cpu2 = pygame.image.load('arrows/light_arrow_cpu2.png')
+    arrow_highlight_reverse_cpu2 = pygame.image.load('arrows/light_arrow_reverse_cpu2.png')
+    arrow_dark_cpu2 = pygame.image.load('arrows/dark_arrow_cpu2.png')
+    arrow_dark_reverse_cpu2 = pygame.image.load('arrows/dark_arrow_reverse_cpu2.png')
+    if not game.reversed and game.current_player == 2:
+        arrow_cpu2_rect = arrow_highlight_cpu2.get_rect()
+        arrow_cpu2_rect.x = arrow_cpu2_x
+        arrow_cpu2_rect.y = arrow_cpu2_y
+        screen.blit(arrow_highlight_cpu2, arrow_cpu2_rect)
+    elif not game.reversed and game.current_player != 2:
+        arrow_cpu2_rect = arrow_dark_cpu2.get_rect()
+        arrow_cpu2_rect.x = arrow_cpu2_x
+        arrow_cpu2_rect.y = arrow_cpu2_y
+        screen.blit(arrow_dark_cpu2, arrow_cpu2_rect)
+    elif game.reversed and game.current_player == 2:
+        arrow_cpu2_rect = arrow_highlight_reverse_cpu2.get_rect()
+        arrow_cpu2_rect.x = arrow_cpu2_x
+        arrow_cpu2_rect.y = arrow_cpu2_y
+        screen.blit(arrow_highlight_reverse_cpu2, arrow_cpu2_rect)
+    elif game.reversed and game.current_player != 2:
+        arrow_cpu2_rect = arrow_dark_reverse_cpu2.get_rect()
+        arrow_cpu2_rect.x = arrow_cpu2_x
+        arrow_cpu2_rect.y = arrow_cpu2_y
+        screen.blit(arrow_dark_reverse_cpu2, arrow_cpu2_rect)
+    arrow_cpu3_x = (screen.get_width() / 2) + 140
+    arrow_cpu3_y = (screen.get_height() / 2) - 75
+    arrow_highlight_cpu3 = pygame.image.load('arrows/light_arrow_cpu3.png')
+    arrow_highlight_reverse_cpu3 = pygame.image.load('arrows/light_arrow_reverse_cpu3.png')
+    arrow_dark_cpu3 = pygame.image.load('arrows/dark_arrow_cpu3.png')
+    arrow_dark_reverse_cpu3 = pygame.image.load('arrows/dark_arrow_reverse_cpu3.png')
+    if not game.reversed and game.current_player == 3:
+        arrow_cpu3_rect = arrow_highlight_cpu3.get_rect()
+        arrow_cpu3_rect.x = arrow_cpu3_x
+        arrow_cpu3_rect.y = arrow_cpu3_y
+        screen.blit(arrow_highlight_cpu3, arrow_cpu3_rect)
+    elif not game.reversed and game.current_player != 3:
+        arrow_cpu3_rect = arrow_dark_cpu3.get_rect()
+        arrow_cpu3_rect.x = arrow_cpu3_x
+        arrow_cpu3_rect.y = arrow_cpu3_y
+        screen.blit(arrow_dark_cpu3, arrow_cpu3_rect)
+    elif game.reversed and game.current_player == 3:
+        arrow_cpu3_rect = arrow_highlight_reverse_cpu3.get_rect()
+        arrow_cpu3_rect.x = arrow_cpu3_x
+        arrow_cpu3_rect.y = arrow_cpu3_y
+        screen.blit(arrow_highlight_reverse_cpu3, arrow_cpu3_rect)
+    elif game.reversed and game.current_player != 3:
+        arrow_cpu3_rect = arrow_dark_reverse_cpu3.get_rect()
+        arrow_cpu3_rect.x = arrow_cpu3_x
+        arrow_cpu3_rect.y = arrow_cpu3_y
+        screen.blit(arrow_dark_reverse_cpu3, arrow_cpu3_rect)
+
+
+def print_names(game, screen):
+    player_name = tiny_font.render(game.players[0].get_name().get_text(), True, white)
+    cpu1_name = tiny_font.render(game.players[1].get_name(), True, white)
+    cpu2_name = tiny_font.render(game.players[2].get_name(), True, white)
+    cpu3_name = tiny_font.render(game.players[3].get_name(), True, white)
+    screen.blit(player_name, ((screen.get_width() / 2) - len(game.players[0].get_name().get_text())*6, 570))
+    screen.blit(cpu1_name, ((screen.get_width() / 2) - len(game.players[1].get_name())*6, 205))
+    screen.blit(cpu2_name, (205, (screen.get_height() / 2)-10))
+    screen.blit(cpu3_name, (1000 - len(game.players[1].get_name())*12, (screen.get_height() / 2)-10))
+
+
+def print_game(game, screen):
+    screen.blit(table, (0, 0))
+    print_arrows(game, screen)
+    print_cpu_hands(game, screen)
+    print_top_card(game, screen)
+    print_player_hand(game, screen)
+    print_names(game, screen)
 
 
 if __name__ == '__main__':
