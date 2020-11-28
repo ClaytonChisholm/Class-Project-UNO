@@ -508,7 +508,23 @@ def choose_card(screen, game):
 
                     if deck_rect.collidepoint(ev.pos):
                         card = game.draw_card()
+                        deck_cover = pygame.image.load('cards/card_back.png')
+                        deck_cover = pygame.transform.scale(deck_cover, (100, 140))
+                        deck_cover_rect = deck_cover.get_rect()
+                        deck_cover_rect.x = (screen.get_width() / 2) + 20
+                        deck_cover_rect.y = (screen.get_height() / 2) - 70
+                        for x in range(20):
+                            # re-update screen every time card moves up # of pixels
+                            print_game(game, screen)
+                            # move card object up 10 pixels at a time
+                            deck_cover_rect = deck_cover_rect.move(0, 10)
+                            screen.blit(deck_cover, deck_cover_rect)  # blit it to the new position
+                            pygame.display.update()
+                            pygame.time.delay(10)
+
+                        # re-update screen once card animation is over
                         print_game(game, screen)
+
                         if game.validate_move(card):
                             card_face = pygame.image.load(card.get_path())
                             card_face = pygame.transform.scale(card_face, (100, 140))
