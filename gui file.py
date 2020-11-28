@@ -575,8 +575,6 @@ def choose_card(screen, game):
 
                                     # animation part: kinda of buggy but works?
                                     for x in range(20):
-                                        # re-update screen every time card moves up # of pixels
-
 
                                         # move card object up 10 pixels at a time
                                         position = position.move(0, -10)
@@ -666,8 +664,6 @@ def choose_card(screen, game):
 
                                     pygame.display.update()
                                     return card_selected
-                                else:
-                                    print('invalid')
 
                             # if the user does not want to play the selected card, re-update screen
                             # and let them select again
@@ -701,7 +697,6 @@ def choose_card(screen, game):
         card_rect.y = 30
         direction = (0, 10)
         card = current_player.play_card(game.player, game.cpu1, game.cpu3, game.last_played)
-        # screen.fill(black)
         print_game(game, screen)
         pygame.display.update()
 
@@ -712,21 +707,19 @@ def choose_card(screen, game):
         card_rect.y = screen.get_height() / 2
         direction = (-10, 0)
         card = current_player.play_card(game.player, game.cpu1, game.cpu2, game.last_played)
-        # screen.fill(black)
         print_game(game, screen)
         pygame.display.update()
 
     if not card:
         current_player.add_card(game.draw_card())
         if game.validate_move(current_player.get_hand()[len(current_player.get_hand()) - 1]):
-            # screen.fill(black)
             print_game(game, screen)
             pygame.display.update()
 
             # move card object up 10 pixels at a time
             deck_rect = deck_rect.move(-10, 0)
             screen.blit(card_face, deck_rect)  # blit it to the new position
-            pygame.display.update()
+
             print_game(game, screen)
             pygame.time.delay(10)
 
@@ -737,24 +730,19 @@ def choose_card(screen, game):
         else:
             for x in range(20):
                 # re-update screen every time card moves up # of pixels
-                # screen.fill(black)
-                print_game(game, screen)
-                pygame.display.update()
-
                 # move card object up 10 pixels at a time
                 deck_rect = deck_rect.move(-(direction[0]), -(direction[1]))
                 screen.blit(card_face, deck_rect)  # blit it to the new position
-                pygame.display.update()
                 pygame.time.delay(10)  # add time delay so it doesn't happen all at once
-            screen.fill(black)
-            print_game(game, screen)
-            pygame.display.update()
+                print_game(game, screen)
+                pygame.display.update()
+
             return False  # returns false if no valid card is found
     else:
 
         for x in range(20):
             # re-update screen every time card moves up # of pixels
-            # screen.fill(black)
+
             print_game(game, screen)
             pygame.display.update()
 
@@ -763,7 +751,7 @@ def choose_card(screen, game):
             screen.blit(card_face, card_rect)  # blit it to the new position
             pygame.display.update()
             pygame.time.delay(10)  # add time delay so it doesn't happen all at once
-        # screen.fill(black)
+
         print_game(game, screen)
         pygame.display.update()
 
@@ -975,7 +963,6 @@ def print_names(game, screen):
     screen.blit(cpu1_name, ((screen.get_width() / 2) - len(game.players[1].get_name())*6, 205))
     screen.blit(cpu2_name, (205, (screen.get_height() / 2)-10))
     screen.blit(cpu3_name, (1000 - len(game.players[1].get_name())*12, (screen.get_height() / 2)-10))
-
 
 
 def print_game(game, screen):
