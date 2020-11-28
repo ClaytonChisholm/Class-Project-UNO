@@ -16,6 +16,9 @@ button_hover_color = (170, 170, 170)
 
 # dark shade of the button
 button_color = (100, 100, 100)
+# defining a font
+tiny_font = pygame.font.SysFont('Corbel', 25)
+small_font = pygame.font.SysFont('Corbel', 35)
 
 
 def game_engine():
@@ -24,10 +27,6 @@ def game_engine():
     screen = pygame.display.set_mode(screen_size)
     pygame.display.set_caption('UNO!')
     screen.fill(black)
-
-    # defining a font
-    tiny_font = pygame.font.SysFont('Corbel', 25)
-    small_font = pygame.font.SysFont('Corbel', 35)
 
     # rendering a text written in
     # this font
@@ -858,11 +857,23 @@ def print_arrows(game, screen):
         screen.blit(arrow_dark_reverse_cpu3, arrow_cpu3_rect)
 
 
+def print_names(game, screen):
+    player_name = tiny_font.render(game.players[0].get_name().get_text(), True, white)
+    cpu1_name = tiny_font.render(game.players[1].get_name(), True, white)
+    cpu2_name = tiny_font.render(game.players[2].get_name(), True, white)
+    cpu3_name = tiny_font.render(game.players[3].get_name(), True, white)
+    screen.blit(player_name, ((screen.get_width() / 2) - len(game.players[0].get_name().get_text())*6, 570))
+    screen.blit(cpu1_name, ((screen.get_width() / 2) - len(game.players[1].get_name())*6, 205))
+    screen.blit(cpu2_name, (205, (screen.get_height() / 2)-10))
+    screen.blit(cpu3_name, (1000 - len(game.players[1].get_name())*12, (screen.get_height() / 2)-10))
+
+
 def print_game(game, screen):
     print_arrows(game, screen)
     print_cpu_hands(game, screen)
     print_top_card(game, screen)
     print_player_hand(game, screen)
+    print_names(game, screen)
 
 
 if __name__ == '__main__':
