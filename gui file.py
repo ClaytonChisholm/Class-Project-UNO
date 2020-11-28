@@ -19,7 +19,9 @@ button_color = (100, 100, 100)
 # defining a font
 tiny_font = pygame.font.SysFont('Corbel', 25)
 small_font = pygame.font.SysFont('Corbel', 35)
-
+table = pygame.image.load('NaturalOak.jpg')
+table = pygame.transform.rotate(table, 90)
+table = pygame.transform.scale(table, (1200, 800))
 
 def game_engine():
     pygame.init()
@@ -165,8 +167,8 @@ def game_engine():
             screen.blit(text_input.get_surface(), (screen.get_width() / 2, screen.get_height() / 2))
             pygame.display.update()
 
-        screen = pygame.display.set_mode(screen_size)
-        screen.fill((0, 0, 0))
+        #screen = pygame.display.set_mode(screen_size)
+        #screen.fill((0, 0, 0))
         cpu1 = CPU("Mark", 1)
         cpu2 = CPU("Mira", 2)
         cpu3 = CPU("Julia", 3)
@@ -226,7 +228,7 @@ def print_cpu_hands(game, screen):
         if i == 1:  # TODO pygame.transform.rotate(surface, 90)
             hand_start = 0
             hand_height = screen.get_height() * (1 / 6)
-            pygame.draw.rect(screen, button_color, [hand_start, hand_height, 200, screen.get_height() * 2 / 3])
+            #pygame.draw.rect(screen, button_color, [hand_start, hand_height, 200, screen.get_height() * 2 / 3])
             # this is if cpu is on left of screen
             if hand_size <= 3:
 
@@ -270,7 +272,7 @@ def print_cpu_hands(game, screen):
             # this is if cpu is on top of screen
             hand_height = 0
             hand_start = screen.get_width() * (1 / 6)
-            pygame.draw.rect(screen, button_hover_color, [hand_start, hand_height, screen.get_width() * 2 / 3, 200])
+            #pygame.draw.rect(screen, button_hover_color, [hand_start, hand_height, screen.get_width() * 2 / 3, 200])
             if hand_size <= 6:
 
                 card_offset = hand_start + 30 + (.5 * (6 - hand_size) * 120)
@@ -311,7 +313,7 @@ def print_cpu_hands(game, screen):
         else:
             hand_start = screen.get_width() - 200
             hand_height = screen.get_height() * (1 / 6)
-            pygame.draw.rect(screen, button_color, [hand_start, hand_height, 200, screen.get_height() * 2 / 3])
+            #pygame.draw.rect(screen, button_color, [hand_start, hand_height, 200, screen.get_height() * 2 / 3])
             if hand_size <= 3:
 
                 card_offset = hand_height + 30 + (.5 * (3 - hand_size) * 120)
@@ -358,7 +360,7 @@ def print_player_hand(game, screen: pygame.Surface):
     hand_size = len(player.get_hand())
     hand_height = screen.get_height() - 200
     hand_start = screen.get_width() * (1 / 6)
-    pygame.draw.rect(screen, white, [hand_start, hand_height, screen.get_width() * 2 / 3, 200])
+    #pygame.draw.rect(screen, white, [hand_start, hand_height, screen.get_width() * 2 / 3, 200])
 
     if hand_size <= 6:
 
@@ -869,6 +871,7 @@ def print_names(game, screen):
 
 
 def print_game(game, screen):
+    screen.blit(table, (0, 0))
     print_arrows(game, screen)
     print_cpu_hands(game, screen)
     print_top_card(game, screen)
