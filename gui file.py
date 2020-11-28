@@ -227,7 +227,7 @@ def game_engine():
             if type(player) == CPU:
                 print_game(game, screen)
                 pygame.display.update()
-                sleep(1)
+                sleep(2)
             game.change_turn()
 
     if show_results:
@@ -275,7 +275,7 @@ def print_cpu_hands(game, screen):
     for i in range(len(cpus)):
         cpu = cpus[i]
         hand_size = len(cpu.get_hand())
-        if i == 1:
+        if i == 0:
             hand_start = 0
             hand_height = screen.get_height() * (1 / 6)
             # this is if cpu is on left of screen
@@ -314,7 +314,7 @@ def print_cpu_hands(game, screen):
                     card_rect.width = card_rect.width - overlap
                     card_offset += 120 - overlap
 
-        elif i == 2:
+        elif i == 1:
             # this is if cpu is on top of screen
             hand_height = 0
             hand_start = screen.get_width() * (1 / 6)
@@ -631,10 +631,13 @@ def choose_card(screen, game):
         if game.validate_move(current_player.get_hand()[len(current_player.get_hand()) - 1]):
             print_game(game, screen)
             # move card object up 10 pixels at a time
-            deck_rect = deck_rect.move(-10, 0)
-            screen.blit(card_face, deck_rect)  # blit it to the new position
-            pygame.time.delay(10)
-            pygame.display.update()
+            for x in range(20):
+                print_game(game, screen)
+                deck_rect = deck_rect.move(-5, 0)
+                screen.blit(card_face, deck_rect)  # blit it to the new position
+                pygame.time.delay(10)
+                pygame.display.update()
+            print_game(game, screen)
             return current_player.get_hand().pop(len(current_player.get_hand()) - 1)
 
         else:
@@ -868,8 +871,8 @@ def print_names(game, screen):
     cpu2_name = name_font.render(game.players[2].get_name(), True, white)
     cpu3_name = name_font.render(game.players[3].get_name(), True, white)
     screen.blit(player_name, ((screen.get_width() / 2) - len(game.players[0].get_name().get_text())*6, 570))
-    screen.blit(cpu1_name, ((screen.get_width() / 2) - len(game.players[1].get_name())*6, 205))
-    screen.blit(cpu2_name, (205, (screen.get_height() / 2)-10))
+    screen.blit(cpu2_name, ((screen.get_width() / 2) - len(game.players[1].get_name())*6, 205))
+    screen.blit(cpu1_name, (205, (screen.get_height() / 2)-10))
     screen.blit(cpu3_name, (1000 - len(game.players[1].get_name())*12, (screen.get_height() / 2)-10))
 
 
