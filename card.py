@@ -1,5 +1,4 @@
 from enum import IntEnum
-from colored import fg, bg, attr
 
 
 # enum for card color
