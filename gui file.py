@@ -67,7 +67,6 @@ def game_engine():
         pygame.draw.rect(screen, red, [0, 0, 1200, 20])
         pygame.draw.rect(screen, yellow, [0, 780, 1200, 20])
 
-
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT:
                 pygame.quit()
@@ -253,13 +252,15 @@ def game_engine():
 
                 if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
 
-                    if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[1] <= button_y + button_height:
+                    if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[1] <= button_y + \
+                            button_height:
                         show_results = False
                         game_engine()
 
             # if the mouse is clicked on the
             # button the game is terminated
-            if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[1] <= button_y + button_height:
+            if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[1] <= button_y + \
+                    button_height:
                 pygame.draw.rect(screen, button_hover_color, [menu_back_x, button_y, 140, 40])
             else:
                 pygame.draw.rect(screen, button_color, [menu_back_x, button_y, 140, 40])
