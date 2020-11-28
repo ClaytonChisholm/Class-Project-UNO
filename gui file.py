@@ -36,10 +36,12 @@ def game_engine():
     text_quit = small_font.render('Quit', True, white)
     text_new_game = tiny_font.render('New Game', True, white)
     text_rules = small_font.render('Rules', True, white)
+    background = pygame.image.load("background.png")
 
     game_over = True
     show_menu = True
     show_rules = False
+    show_results = False
 
     # menu screen
 
@@ -47,7 +49,6 @@ def game_engine():
         # stores the (x,y) coordinates into
         # the variable as a tuple
         mouse = pygame.mouse.get_pos()
-
         width = screen.get_width()
         height = screen.get_height()
         button_width = 140
@@ -56,6 +57,15 @@ def game_engine():
         quit_button_x = (width * .75) - (button_width / 2)
         rules_button_x = (width * .25) - (button_width / 2)
         button_y = (height * .75) + (button_height / 2)
+
+        # background
+        screen.fill(white)
+        screen.blit(background, (screen.get_width()/2 - 450, 100))
+        pygame.draw.rect(screen, blue, [0, 0, 20, 800])
+        pygame.draw.rect(screen, green, [1180, 0, 20, 800])
+        pygame.draw.rect(screen, red, [0, 0, 1200, 20])
+        pygame.draw.rect(screen, yellow, [0, 780, 1200, 20])
+
 
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT:
@@ -112,9 +122,10 @@ def game_engine():
     if show_rules:
         screen = pygame.display.set_mode(screen_size)
         screen.fill(white)
-        text_back = tiny_font.render('Back To Menu', True, black)
+        text_back = tiny_font.render('     Menu', True, black)
         rules_text = display_rules()
         format_rules(screen, rules_text, tiny_font)
+
         while show_rules:
             button_width = 140
             button_height = 40
@@ -151,11 +162,12 @@ def game_engine():
 
     # game screen
     if not game_over:
-
-        text_input = pygame_textinput.TextInput('enter your name')
+        text_input = pygame_textinput.TextInput('')
         text = True
         while text:
             screen.fill((225, 225, 225))
+            text_enter = small_font.render('Enter Name', True, black)
+            screen.blit(text_enter, (screen.get_width() / 2 - 70, 300))
             events = pygame.event.get()
             for event in events:
                 if event.type == pygame.QUIT:
@@ -210,6 +222,7 @@ def game_engine():
             # handles all non wild power cards
             if not player.get_hand() or (len(game.played_deck) == 0):
                 game_over = True
+                show_results = True
                 game_engine()
             if type(player) == CPU:
                 screen.fill(black)
@@ -217,6 +230,43 @@ def game_engine():
                 pygame.display.update()
                 sleep(1)
             game.change_turn()
+
+    if show_results:
+        screen = pygame.display.set_mode(screen_size)
+        screen.fill(white)
+        text_back = tiny_font.render('     Menu', True, black)
+
+        while show_results:
+            button_width = 140
+            button_height = 40
+            width = screen.get_width()
+            height = screen.get_height()
+            menu_back_x = (width * .1) - (button_width / 2)
+            button_y = (height * .85) + (button_height / 2)
+            mouse = pygame.mouse.get_pos()
+
+            for ev in pygame.event.get():
+                if ev.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+
+                if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
+
+                    if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[1] <= button_y + button_height:
+                        show_results = False
+                        game_engine()
+
+            # if the mouse is clicked on the
+            # button the game is terminated
+            if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[1] <= button_y + button_height:
+                pygame.draw.rect(screen, button_hover_color, [menu_back_x, button_y, 140, 40])
+            else:
+                pygame.draw.rect(screen, button_color, [menu_back_x, button_y, 140, 40])
+
+            screen.blit(text_back, (menu_back_x + 15, button_y + 10))
+
+            # updates the frames of the game
+            pygame.display.update()
 
 
 def print_cpu_hands(game, screen):
