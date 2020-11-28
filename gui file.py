@@ -2,6 +2,7 @@ import pygame
 import sys
 from game import *
 import pygame_textinput
+from time import sleep
 
 white = (255, 255, 255)
 grey = (180, 180, 180)
@@ -214,12 +215,10 @@ def game_engine():
             # handles all non wild power cards
             if not player.get_hand() or (len(game.played_deck) == 0):
                 game_over = True
-                print("game over")
                 game_engine()
             if type(player) == CPU:
                 sleep(1)
             game.change_turn()
-
             pygame.display.update()
 
 # def rules_button(screen):
@@ -590,9 +589,6 @@ def choose_card(screen, game):
                     # checks to see which card user clicked on
                     for i in range(len(list_of_rect_card)):
                         if list_of_rect_card[i].collidepoint(ev.pos):
-                            print("It's clicked")
-                            print(i)
-                            current_player.get_hand()[i].print()
                             rect_position = list_of_rect_card[i]  # gets rectangle card object user clicked on
 
                             # calls to confirm card to confirm user selection of card played
