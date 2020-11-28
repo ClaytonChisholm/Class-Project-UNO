@@ -227,7 +227,11 @@ def game_engine():
             if type(player) == CPU:
                 print_game(game, screen)
                 pygame.display.update()
-                sleep(2)
+                sleep(1)
+            elif type(player) == Player:
+                print_game(game, screen)
+                pygame.display.update()
+                sleep(1)
             game.change_turn()
 
     if show_results:
