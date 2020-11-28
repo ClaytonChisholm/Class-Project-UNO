@@ -20,6 +20,7 @@ button_color = (100, 100, 100)
 # defining a font
 tiny_font = pygame.font.SysFont('Corbel', 25)
 small_font = pygame.font.SysFont('Corbel', 35)
+name_font = pygame.font.SysFont('Corbel', 25, True)
 table = pygame.image.load('NaturalOak.jpg')
 table = pygame.transform.rotate(table, 90)
 table = pygame.transform.scale(table, (1200, 800))
@@ -213,7 +214,6 @@ def game_engine():
                         game.last_played.get_type() == Type.WILD or game.last_played.get_type() == Type.DRAW4):
                     color = set_wild(screen)
                     game.last_played.set_wild(color)
-                    # screen.fill(black)
                     print_game(game, screen)
                 elif type(player) == CPU and (
                         game.last_played.get_type() == Type.WILD or game.last_played.get_type() == Type.DRAW4):
@@ -225,7 +225,6 @@ def game_engine():
                 show_results = True
                 game_engine()
             if type(player) == CPU:
-                # screen.fill(black)
                 print_game(game, screen)
                 pygame.display.update()
                 sleep(1)
@@ -479,7 +478,6 @@ def print_top_card(game, screen):
     deck_cover = pygame.transform.scale(deck_cover, (100, 140))
     screen.blit(top_card, (((screen.get_width() / 2) - 120), (screen.get_height() / 2) - 70))
     screen.blit(deck_cover, (((screen.get_width() / 2) + 20), (screen.get_height() / 2) - 70))
-    pygame.display.flip()
 
 
 def print_card(card):
@@ -509,9 +507,7 @@ def choose_card(screen, game):
                 if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
 
                     if deck_rect.collidepoint(ev.pos):
-                        print('draw card')
                         card = game.draw_card()
-                        # screen.fill(black)
                         print_game(game, screen)
                         if game.validate_move(card):
                             card_face = pygame.image.load(card.get_path())
@@ -522,9 +518,7 @@ def choose_card(screen, game):
                             result = confirm_user_card(card, card_rect, screen)
 
                             # update screen after user confirmation
-                            screen.fill(black)
                             print_game(game, screen)
-                            pygame.display.update()
 
                             # if the user wants to play it, play card
                             if result:
@@ -550,7 +544,6 @@ def choose_card(screen, game):
                             if user_answer:
 
                                 # updates screen
-                                screen.fill(black)
                                 print_game(game, screen)
                                 if game.validate_move(current_player.get_hand()[i]):
                                     position = list_of_rect_card.pop(i)
@@ -562,7 +555,6 @@ def choose_card(screen, game):
                                     # animation part: kinda of buggy but works?
                                     for x in range(20):
                                         # re-update screen every time card moves up # of pixels
-                                        # screen.fill(black)
                                         print_game(game, screen)
 
                                         # move card object up 10 pixels at a time
@@ -572,19 +564,14 @@ def choose_card(screen, game):
                                         pygame.display.update()
 
                                     # re-update screen once card animation is over
-                                    # screen.fill(black)
                                     print_game(game, screen)
-                                    pygame.display.update()
                                     return card_selected
-                                else:
-                                    print('invalid')
 
                             # if the user does not want to play the selected card, re-update screen
                             # and let them select again
                             elif user_answer is False:
                                 screen.fill(black)
                                 print_game(game, screen)
-                                pygame.display.update()
 
                     # else:
                     # print("not clicked")
@@ -600,67 +587,51 @@ def choose_card(screen, game):
         card_face = pygame.transform.rotate(card_face, -90)
         card_rect = card_face.get_rect()
         card_rect.x = 30
-        card_rect.y = screen.get_height() / 2
+        card_rect.y = (screen.get_height() / 2) - 50
         direction = (10, 0)
         card = current_player.play_card(game.player, game.cpu3, game.cpu2, game.last_played)
-        # screen.fill(black)
-        print_game(game, screen)
         pygame.display.update()
 
     elif current_player.get_number() == 2:
         card_face = pygame.transform.rotate(card_face, 180)
         card_rect = card_face.get_rect()
-        card_rect.x = screen.get_width() / 2
+        card_rect.x = (screen.get_width() / 2) - 50
         card_rect.y = 30
         direction = (0, 10)
         card = current_player.play_card(game.player, game.cpu1, game.cpu3, game.last_played)
-        # screen.fill(black)
-        print_game(game, screen)
         pygame.display.update()
 
     else:  # right
         card_face = pygame.transform.rotate(card_face, 90)
         card_rect = card_face.get_rect()
-        card_rect.x = screen.get_width() - 30
-        card_rect.y = screen.get_height() / 2
+        card_rect.x = screen.get_width() - 170
+        card_rect.y = (screen.get_height() / 2) - 50
         direction = (-10, 0)
         card = current_player.play_card(game.player, game.cpu1, game.cpu2, game.last_played)
-        # screen.fill(black)
-        print_game(game, screen)
         pygame.display.update()
 
     if not card:
         current_player.add_card(game.draw_card())
         if game.validate_move(current_player.get_hand()[len(current_player.get_hand()) - 1]):
-            # screen.fill(black)
             print_game(game, screen)
-            pygame.display.update()
-
             # move card object up 10 pixels at a time
             deck_rect = deck_rect.move(-10, 0)
             screen.blit(card_face, deck_rect)  # blit it to the new position
-            pygame.display.update()
             pygame.time.delay(10)
-            # screen.fill(black)
-            print_game(game, screen)
             pygame.display.update()
             return current_player.get_hand().pop(len(current_player.get_hand()) - 1)
 
         else:
             for x in range(20):
                 # re-update screen every time card moves up # of pixels
-                # screen.fill(black)
                 print_game(game, screen)
-                pygame.display.update()
 
                 # move card object up 10 pixels at a time
                 deck_rect = deck_rect.move(-(direction[0]), -(direction[1]))
                 screen.blit(card_face, deck_rect)  # blit it to the new position
-                pygame.display.update()
                 pygame.time.delay(10)  # add time delay so it doesn't happen all at once
-            # screen.fill(black)
+                pygame.display.update()
             print_game(game, screen)
-            pygame.display.update()
             return False  # returns false if no valid card is found
     else:
 
@@ -668,16 +639,13 @@ def choose_card(screen, game):
             # re-update screen every time card moves up # of pixels
             # screen.fill(black)
             print_game(game, screen)
-            pygame.display.update()
 
             # move card object up 10 pixels at a time
             card_rect = card_rect.move(direction)
             screen.blit(card_face, card_rect)  # blit it to the new position
-            pygame.display.update()
             pygame.time.delay(10)  # add time delay so it doesn't happen all at once
-        # screen.fill(black)
+            pygame.display.update()
         print_game(game, screen)
-        pygame.display.update()
 
         return card  # returns card if one is found
 
@@ -879,10 +847,10 @@ def print_arrows(game, screen):
 
 
 def print_names(game, screen):
-    player_name = tiny_font.render(game.players[0].get_name().get_text(), True, white)
-    cpu1_name = tiny_font.render(game.players[1].get_name(), True, white)
-    cpu2_name = tiny_font.render(game.players[2].get_name(), True, white)
-    cpu3_name = tiny_font.render(game.players[3].get_name(), True, white)
+    player_name = name_font.render(game.players[0].get_name().get_text(), True, white)
+    cpu1_name = name_font.render(game.players[1].get_name(), True, white)
+    cpu2_name = name_font.render(game.players[2].get_name(), True, white)
+    cpu3_name = name_font.render(game.players[3].get_name(), True, white)
     screen.blit(player_name, ((screen.get_width() / 2) - len(game.players[0].get_name().get_text())*6, 570))
     screen.blit(cpu1_name, ((screen.get_width() / 2) - len(game.players[1].get_name())*6, 205))
     screen.blit(cpu2_name, (205, (screen.get_height() / 2)-10))
