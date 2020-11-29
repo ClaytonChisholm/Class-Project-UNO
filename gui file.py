@@ -561,6 +561,17 @@ def choose_card(screen, game):
 
                             # if the user wants to play it, play card
                             if result:
+                                card_rect.x = (screen.get_width() / 2) - 50
+                                card_rect.y = screen.get_height() - 170
+                                for x in range(20):
+                                    # re-update screen every time card moves up # of pixels
+                                    print_game(game, screen)
+
+                                    # move card object up 10 pixels at a time
+                                    card_rect = card_rect.move(0, -10)
+                                    screen.blit(card_face, card_rect)  # blit it to the new position
+                                    pygame.time.delay(10)  # add time delay so it doesn't happen all at once
+                                    pygame.display.update()
                                 return card
 
                             # otherwise add to user hand
