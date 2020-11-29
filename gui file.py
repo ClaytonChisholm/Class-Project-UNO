@@ -127,7 +127,7 @@ def game_engine():
 
     # game screen
     if not game_over:
-        text_input = pygame_textinput.TextInput('')
+        text_input = pygame_textinput.TextInput('', font_family='Corbel')
         text = True
         while text:
             screen.fill((225, 225, 225))
@@ -142,7 +142,8 @@ def game_engine():
             # Feed it with events every frame
             text_input.update(events)
             # Blit its surface onto the screen
-            screen.blit(text_input.get_surface(), (screen.get_width() / 2, screen.get_height() / 2))
+            screen.blit(text_input.get_surface(), (screen.get_width() / 2 - (len(text_input.get_text()) * 18) / 2,
+                                                   screen.get_height() / 2))
             pygame.display.update()
 
         screen = pygame.display.set_mode(screen_size)
