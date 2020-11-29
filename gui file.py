@@ -244,20 +244,20 @@ def game_engine():
 
     if show_results:
         screen = pygame.display.set_mode(screen_size)
-        win_text = 'You win!'
-        lose_text = 'you lost! better luck next time'
+        win_text = small_font.render('You Win!', True, white)
+        lose_text = small_font.render('You lost, better luck next round', True, white)
+
         if win:
             screen.fill(white)
-            screen.blit(win_text, (screen.get_width()/2 - 50, 400), black)
+            screen.blit(win_text, (screen.get_width()/2 - 50, 400))
         else:
             screen.fill(black)
-            screen.blit(lose_text, ((screen.get_width() / 2)-150, 400), white)
+            screen.blit(lose_text, ((screen.get_width() / 2)-150, 400))
         pygame.draw.rect(screen, blue, [0, 0, 20, 800])
         pygame.draw.rect(screen, green, [1180, 0, 20, 800])
         pygame.draw.rect(screen, red, [0, 0, 1200, 20])
         pygame.draw.rect(screen, yellow, [0, 780, 1200, 20])
         text_back = tiny_font.render('     Menu', True, black)
-
         while show_results:
             button_width = 140
             button_height = 40
