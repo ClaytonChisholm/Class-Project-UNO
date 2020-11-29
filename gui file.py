@@ -285,7 +285,7 @@ def print_cpu_hands(game, screen):
             # this is if cpu is on left of screen
             if hand_size <= 3:
 
-                card_offset = hand_height + 30 + (.5 * (3 - hand_size) * 120)
+                card_offset = hand_height - 30 + (.5 * (3 - hand_size) * 120)
                 for _ in cpu.get_hand():
                     card_face = pygame.image.load('cards/card_back.png')
                     card_face = pygame.transform.scale(card_face, (100, 140))
@@ -361,7 +361,7 @@ def print_cpu_hands(game, screen):
             hand_height = screen.get_height() * (1 / 6)
             if hand_size <= 3:
 
-                card_offset = hand_height + 30 + (.5 * (3 - hand_size) * 120)
+                card_offset = hand_height - 30 + (.5 * (3 - hand_size) * 120)
                 for _ in cpu.get_hand():
                     card_face = pygame.image.load('cards/card_back.png')
                     card_face = pygame.transform.scale(card_face, (100, 140))
@@ -621,7 +621,7 @@ def choose_card(screen, game):
         card_rect = card_face.get_rect()
         card_rect.x = 30
         card_rect.y = (screen.get_height() / 2) - 50
-        direction = (10, 0)
+        direction = (15, 0)
         card = current_player.play_card(game.player, game.cpu3, game.cpu2, game.last_played)
         pygame.display.update()
 
@@ -639,7 +639,7 @@ def choose_card(screen, game):
         card_rect = card_face.get_rect()
         card_rect.x = screen.get_width() - 170
         card_rect.y = (screen.get_height() / 2) - 50
-        direction = (-10, 0)
+        direction = (-15, 0)
         card = current_player.play_card(game.player, game.cpu1, game.cpu2, game.last_played)
         pygame.display.update()
 
