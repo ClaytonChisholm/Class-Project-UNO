@@ -39,6 +39,8 @@ def game_engine():
     text_new_game = tiny_font.render('New Game', True, white)
     text_rules = small_font.render('Rules', True, white)
     background = pygame.image.load("background.png")
+    rules = pygame.image.load('rules.PNG')
+    win = False
 
     game_over = True
     show_menu = True
@@ -122,10 +124,13 @@ def game_engine():
     # show rules screen
     if show_rules:
         screen = pygame.display.set_mode(screen_size)
-        screen.fill(white)
         text_back = tiny_font.render('     Menu', True, black)
-        rules_text = display_rules()
-        format_rules(screen, rules_text, tiny_font)
+        screen.fill(white)
+        screen.blit(rules, (20, 20))
+        pygame.draw.rect(screen, blue, [0, 0, 20, 800])
+        pygame.draw.rect(screen, green, [1180, 0, 20, 800])
+        pygame.draw.rect(screen, red, [0, 0, 1200, 20])
+        pygame.draw.rect(screen, yellow, [0, 780, 1200, 20])
 
         while show_rules:
             button_width = 140
@@ -222,8 +227,11 @@ def game_engine():
             # handles all non wild power cards
             if not player.get_hand() or (len(game.played_deck) == 0):
                 game_over = True
+                # refering to the actual user, not a CPU
+                if type(player) == Player and not Player.get_hand():
+                    win = True
                 show_results = True
-                game_engine()
+
             if type(player) == CPU:
                 print_game(game, screen)
                 pygame.display.update()
@@ -236,7 +244,18 @@ def game_engine():
 
     if show_results:
         screen = pygame.display.set_mode(screen_size)
-        screen.fill(white)
+        win_text = 'You win!'
+        lose_text = 'you lost! better luck next time'
+        if win:
+            screen.fill(white)
+            screen.blit(win_text, (screen.get_width()/2 - 50, 400), black)
+        else:
+            screen.fill(black)
+            screen.blit(lose_text, ((screen.get_width() / 2)-150, 400), white)
+        pygame.draw.rect(screen, blue, [0, 0, 20, 800])
+        pygame.draw.rect(screen, green, [1180, 0, 20, 800])
+        pygame.draw.rect(screen, red, [0, 0, 1200, 20])
+        pygame.draw.rect(screen, yellow, [0, 780, 1200, 20])
         text_back = tiny_font.render('     Menu', True, black)
 
         while show_results:
