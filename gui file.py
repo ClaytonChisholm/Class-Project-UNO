@@ -166,6 +166,10 @@ def game_engine():
             print_game(game, screen)
             pygame.display.update()
             picked_card = choose_card(screen, game)
+            if type(player) == CPU:
+                print_game(game, screen)
+                pygame.display.update()
+                sleep(random.random() + .25)
             if not picked_card:
                 pass
             elif type(picked_card) == Card:  # handles changing the game variables when a card is played
@@ -205,7 +209,7 @@ def game_engine():
 
     if show_results:
         screen = pygame.display.set_mode(screen_size)
-        win_text = small_font.render('You Win!', True, white)
+        win_text = small_font.render('You Win!', True, [0, 0, 0])
         lose_text = small_font.render('You lost, better luck next round', True, white)
 
         if win:
