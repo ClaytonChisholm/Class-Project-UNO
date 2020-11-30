@@ -47,9 +47,10 @@ class Card:
         if self.get_type() == Type.WILD or self.get_type() == Type.DRAW4:
             self.color = color
 
+    # Returns the file path of the card face png
     def get_path(self):
         path = 'cards/'
-        if self.color == Color.RED:
+        if self.color == Color.RED:  # handles the color portion
             path += 'red_'
         elif self.color == Color.GREEN:
             path += 'green_'
@@ -58,7 +59,7 @@ class Card:
         elif self.color == Color.YELLOW:
             path += 'yellow_'
 
-        if self.type.value < 10:
+        if self.type.value < 10:  # handles value portion
             path += str(self.type.value) + '.png'
         elif self.type.value == 10:
             path += 'skip.png'

@@ -166,6 +166,10 @@ def game_engine():
             print_game(game, screen)
             pygame.display.update()
             picked_card = choose_card(screen, game)
+            if type(player) == CPU:
+                print_game(game, screen)
+                pygame.display.update()
+                sleep(random.random() + .25)
             if not picked_card:
                 pass
             elif type(picked_card) == Card:  # handles changing the game variables when a card is played
@@ -205,7 +209,7 @@ def game_engine():
 
     if show_results:
         screen = pygame.display.set_mode(screen_size)
-        win_text = small_font.render('You Win!', True, white)
+        win_text = small_font.render('You Win!', True, [0, 0, 0])
         lose_text = small_font.render('You lost, better luck next round', True, white)
 
         if win:
@@ -839,33 +843,7 @@ def draw_uno(screen):
     screen.blit(uno, (screen.get_width() - 165, screen.get_height() - 138))
 
 
-def draw_rules(screen):
-    mouse = pygame.mouse.get_pos()
-    text_rules = small_font.render('Rules', True, white)
-    rules_button_x = 30
-    button_height = 40
-    button_y = (screen.get_height() * .85) + (button_height / 2)
-    button_width = 140
-    for ev in pygame.event.get():
-        if ev.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-
-            # checks if a mouse is clicked
-        if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
-            if rules_button_x <= mouse[0] <= rules_button_x + button_width and button_y <= mouse[
-                    1] <= button_y + button_height:
-                print_rules(screen, 1)
-
-    if rules_button_x <= mouse[0] <= rules_button_x + button_width and button_y <= mouse[
-            1] <= button_y + button_height:
-        pygame.draw.rect(screen, button_hover_color, [rules_button_x, button_y, 140, 40])
-    else:
-        pygame.draw.rect(screen, button_color, [rules_button_x, button_y, 140, 40])
-    screen.blit(text_rules, (rules_button_x + 30, button_y + 3))
-
-
-def print_rules(screen, link=0):
+def print_rules(screen):
     rules_png = pygame.image.load('rules.PNG')
     screen = pygame.display.set_mode(screen.get_size())
     text_back = tiny_font.render('     Menu', True, black)
@@ -893,27 +871,20 @@ def print_rules(screen, link=0):
             if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
 
                 if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
-                    1] <= button_y + button_height and link == 0:
+                        1] <= button_y + button_height:
                     show_rules = False
                     game_engine()
                 elif menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
-                    1] <= button_y + button_height:
+                        1] <= button_y + button_height:
                     show_rules = False
 
         # if the mouse is clicked on the
         # button the game is terminated
         if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
-            1] <= button_y + button_height:
+                1] <= button_y + button_height:
             pygame.draw.rect(screen, button_hover_color, [menu_back_x, button_y, 140, 40])
         else:
             pygame.draw.rect(screen, button_color, [menu_back_x, button_y, 140, 40])
-        if link != 0:
-            if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
-                    1] <= button_y + button_height:
-                pygame.draw.rect(screen, button_hover_color, [menu_back_x, button_y, 200, 40])
-            else:
-                pygame.draw.rect(screen, button_color, [menu_back_x, button_y, 200, 40])
-            text_back = tiny_font.render('     Back to Game', True, white)
         screen.blit(text_back, (menu_back_x + 15, button_y + 10))
 
         # updates the frames of the game
