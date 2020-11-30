@@ -874,7 +874,7 @@ def print_rules(screen):
             if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
 
                 if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
-                        1] <= button_y + button_height and link == 0:
+                        1] <= button_y + button_height:
                     show_rules = False
                     game_engine()
                 elif menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
