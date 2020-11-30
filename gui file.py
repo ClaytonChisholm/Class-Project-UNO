@@ -723,105 +723,133 @@ def set_wild(screen):
 
 
 def print_arrows(game, screen):
+    # set the x position for the arrow that will correspond to the player
     arrow_player_x = (screen.get_width() / 2) - 75
+    # set the y position for the arrow that will correspond to the player
     arrow_player_y = (screen.get_height() / 2) + 100
+    # load the 4 different player arrow images and assign each to a variable
     arrow_highlight_player = pygame.image.load('arrows/light_arrow_player.png')
     arrow_highlight_reverse_player = pygame.image.load('arrows/light_arrow_reverse_player.png')
     arrow_dark_player = pygame.image.load('arrows/dark_arrow_player.png')
     arrow_dark_reverse_player = pygame.image.load('arrows/dark_arrow_reverse_player.png')
+    # if the game is not reversed and it is the player turn show the highlighted arrow
     if not game.reversed and game.current_player == 0:
         arrow_player_rect = arrow_highlight_player.get_rect()
         arrow_player_rect.x = arrow_player_x
         arrow_player_rect.y = arrow_player_y
         screen.blit(arrow_highlight_player, arrow_player_rect)
+    # if the game is not reversed and it is not the players turn show the dark arrow
     elif not game.reversed and game.current_player != 0:
         arrow_player_rect = arrow_dark_player.get_rect()
         arrow_player_rect.x = arrow_player_x
         arrow_player_rect.y = arrow_player_y
         screen.blit(arrow_dark_player, arrow_player_rect)
+    # if the game is reversed and it is the players turn show the reversed highlighted arrow
     elif game.reversed and game.current_player == 0:
         arrow_player_rect = arrow_highlight_reverse_player.get_rect()
         arrow_player_rect.x = arrow_player_x
         arrow_player_rect.y = arrow_player_y
         screen.blit(arrow_highlight_reverse_player, arrow_player_rect)
+    # if the game is not reversed and it is not the players turn show the reversed dark arrow
     elif game.reversed and game.current_player != 0:
         arrow_player_rect = arrow_dark_reverse_player.get_rect()
         arrow_player_rect.x = arrow_player_x
         arrow_player_rect.y = arrow_player_y
         screen.blit(arrow_dark_reverse_player, arrow_player_rect)
+    # set the x position for the arrow that will correspond to the CPU on the left
     arrow_cpu1_x = (screen.get_width() / 2) - 200
+    # set the y position for the arrow that will correspond to the CPU on the left
     arrow_cpu1_y = (screen.get_height() / 2) - 75
+    # load the 4 different CPU1 arrow images and assign each to a variable
     arrow_highlight_cpu1 = pygame.image.load('arrows/light_arrow_cpu1.png')
     arrow_highlight_reverse_cpu1 = pygame.image.load('arrows/light_arrow_reverse_cpu1.png')
     arrow_dark_cpu1 = pygame.image.load('arrows/dark_arrow_cpu1.png')
     arrow_dark_reverse_cpu1 = pygame.image.load('arrows/dark_arrow_reverse_cpu1.png')
+    # if the game is not reversed and it is the CPU1 turn show the highlighted arrow
     if not game.reversed and game.current_player == 1:
         arrow_cpu1_rect = arrow_highlight_cpu1.get_rect()
         arrow_cpu1_rect.x = arrow_cpu1_x
         arrow_cpu1_rect.y = arrow_cpu1_y
         screen.blit(arrow_highlight_cpu1, arrow_cpu1_rect)
+    # if the game is not reversed and it is not the CPU1 turn show the dark arrow
     elif not game.reversed and game.current_player != 1:
         arrow_cpu1_rect = arrow_dark_cpu1.get_rect()
         arrow_cpu1_rect.x = arrow_cpu1_x
         arrow_cpu1_rect.y = arrow_cpu1_y
         screen.blit(arrow_dark_cpu1, arrow_cpu1_rect)
+    # if the game is reversed and it is the CPU1 turn show the reversed highlighted arrow
     elif game.reversed and game.current_player == 1:
         arrow_cpu1_rect = arrow_highlight_reverse_cpu1.get_rect()
         arrow_cpu1_rect.x = arrow_cpu1_x
         arrow_cpu1_rect.y = arrow_cpu1_y
         screen.blit(arrow_highlight_reverse_cpu1, arrow_cpu1_rect)
+    # if the game is not reversed and it is not the CPU1 turn show the reversed dark arrow
     elif game.reversed and game.current_player != 1:
         arrow_cpu1_rect = arrow_dark_reverse_cpu1.get_rect()
         arrow_cpu1_rect.x = arrow_cpu1_x
         arrow_cpu1_rect.y = arrow_cpu1_y
         screen.blit(arrow_dark_reverse_cpu1, arrow_cpu1_rect)
+    # set the x position for the arrow that will correspond to the CPU above the player
     arrow_cpu2_x = (screen.get_width() / 2) - 75
+    # set the y position for the arrow that will correspond to the CPU above the player
     arrow_cpu2_y = (screen.get_height() / 2) - 160
+    # load the 4 different CPU2 arrow images and assign each to a variable
     arrow_highlight_cpu2 = pygame.image.load('arrows/light_arrow_cpu2.png')
     arrow_highlight_reverse_cpu2 = pygame.image.load('arrows/light_arrow_reverse_cpu2.png')
     arrow_dark_cpu2 = pygame.image.load('arrows/dark_arrow_cpu2.png')
     arrow_dark_reverse_cpu2 = pygame.image.load('arrows/dark_arrow_reverse_cpu2.png')
+    # if the game is not reversed and it is the CPU2 turn show the highlighted arrow
     if not game.reversed and game.current_player == 2:
         arrow_cpu2_rect = arrow_highlight_cpu2.get_rect()
         arrow_cpu2_rect.x = arrow_cpu2_x
         arrow_cpu2_rect.y = arrow_cpu2_y
         screen.blit(arrow_highlight_cpu2, arrow_cpu2_rect)
+    # if the game is not reversed and it is not the CPU2 turn show the dark arrow
     elif not game.reversed and game.current_player != 2:
         arrow_cpu2_rect = arrow_dark_cpu2.get_rect()
         arrow_cpu2_rect.x = arrow_cpu2_x
         arrow_cpu2_rect.y = arrow_cpu2_y
         screen.blit(arrow_dark_cpu2, arrow_cpu2_rect)
+    # if the game is reversed and it is the CPU2 turn show the reversed highlighted arrow
     elif game.reversed and game.current_player == 2:
         arrow_cpu2_rect = arrow_highlight_reverse_cpu2.get_rect()
         arrow_cpu2_rect.x = arrow_cpu2_x
         arrow_cpu2_rect.y = arrow_cpu2_y
         screen.blit(arrow_highlight_reverse_cpu2, arrow_cpu2_rect)
+    # if the game is not reversed and it is not the CPU2 turn show the reversed dark arrow
     elif game.reversed and game.current_player != 2:
         arrow_cpu2_rect = arrow_dark_reverse_cpu2.get_rect()
         arrow_cpu2_rect.x = arrow_cpu2_x
         arrow_cpu2_rect.y = arrow_cpu2_y
         screen.blit(arrow_dark_reverse_cpu2, arrow_cpu2_rect)
+    # set the x position for the arrow that will correspond to the CPU on the right
     arrow_cpu3_x = (screen.get_width() / 2) + 140
+    # set the y position for the arrow that will correspond to the CPU on the right
     arrow_cpu3_y = (screen.get_height() / 2) - 75
+    # load the 4 different CPU3 arrow images and assign each to a variable
     arrow_highlight_cpu3 = pygame.image.load('arrows/light_arrow_cpu3.png')
     arrow_highlight_reverse_cpu3 = pygame.image.load('arrows/light_arrow_reverse_cpu3.png')
     arrow_dark_cpu3 = pygame.image.load('arrows/dark_arrow_cpu3.png')
     arrow_dark_reverse_cpu3 = pygame.image.load('arrows/dark_arrow_reverse_cpu3.png')
+    # if the game is not reversed and it is the CPU3 turn show the highlighted arrow
     if not game.reversed and game.current_player == 3:
         arrow_cpu3_rect = arrow_highlight_cpu3.get_rect()
         arrow_cpu3_rect.x = arrow_cpu3_x
         arrow_cpu3_rect.y = arrow_cpu3_y
         screen.blit(arrow_highlight_cpu3, arrow_cpu3_rect)
+    # if the game is not reversed and it is not the CPU3 turn show the dark arrow
     elif not game.reversed and game.current_player != 3:
         arrow_cpu3_rect = arrow_dark_cpu3.get_rect()
         arrow_cpu3_rect.x = arrow_cpu3_x
         arrow_cpu3_rect.y = arrow_cpu3_y
         screen.blit(arrow_dark_cpu3, arrow_cpu3_rect)
+    # if the game is reversed and it is the CPU3 turn show the reversed highlighted arrow
     elif game.reversed and game.current_player == 3:
         arrow_cpu3_rect = arrow_highlight_reverse_cpu3.get_rect()
         arrow_cpu3_rect.x = arrow_cpu3_x
         arrow_cpu3_rect.y = arrow_cpu3_y
         screen.blit(arrow_highlight_reverse_cpu3, arrow_cpu3_rect)
+    # if the game is not reversed and it is not the CPU3 turn show the reversed dark arrow
     elif game.reversed and game.current_player != 3:
         arrow_cpu3_rect = arrow_dark_reverse_cpu3.get_rect()
         arrow_cpu3_rect.x = arrow_cpu3_x
@@ -830,10 +858,13 @@ def print_arrows(game, screen):
 
 
 def print_names(game, screen):
+    # get the player name from the user text input
     player_name = name_font.render(game.players[0].get_name().get_text(), True, white)
+    # get each of the pre-defined computer names from the game
     cpu1_name = name_font.render(game.players[1].get_name(), True, white)
     cpu2_name = name_font.render(game.players[2].get_name(), True, white)
     cpu3_name = name_font.render(game.players[3].get_name(), True, white)
+    # print the names out to the corresponding players so the user can see which hand belongs to which player
     screen.blit(player_name, ((screen.get_width() / 2) - len(game.players[0].get_name().get_text()) * 6, 570))
     screen.blit(cpu2_name, ((screen.get_width() / 2) - len(game.players[1].get_name()) * 6, 205))
     screen.blit(cpu1_name, (205, (screen.get_height() / 2) - 10))
@@ -841,51 +872,58 @@ def print_names(game, screen):
 
 
 def draw_uno(screen):
+    # load and print the uno logo onto the screen
     uno = pygame.image.load('background.png')
     uno = pygame.transform.scale(uno, (135, 95))
     screen.blit(uno, (screen.get_width() - 165, screen.get_height() - 138))
 
 
 def print_rules(screen):
+    # load the image with the rules into a variable
     rules_png = pygame.image.load('rules.PNG')
+    # create a new screen from the size of the previous screen
     screen = pygame.display.set_mode(screen.get_size())
+    # set the text for the Menu button
     text_back = tiny_font.render('     Menu', True, black)
+    # fill the new screen with a white background
     screen.fill(white)
+    # show the picture with the rules
     screen.blit(rules_png, (20, 20))
+    # create a boarder of rectangles in the uno colors
     pygame.draw.rect(screen, blue, [0, 0, 20, 800])
     pygame.draw.rect(screen, green, [1180, 0, 20, 800])
     pygame.draw.rect(screen, red, [0, 0, 1200, 20])
     pygame.draw.rect(screen, yellow, [0, 780, 1200, 20])
     show_rules = True
+    # continue to show the rules until the user clicks the menu button
     while show_rules:
+        # button dimensions
         button_width = 140
         button_height = 40
         width = screen.get_width()
         height = screen.get_height()
+        # assign the starting position for the menu button
         menu_back_x = (width * .1) - (button_width / 2)
         button_y = (height * .85) + (button_height / 2)
         mouse = pygame.mouse.get_pos()
-
+        #
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-
+            # checks if a mouse button is clicked
             if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
-
+                # if the mouse button was clicked over the button then return to the main menu
                 if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
                         1] <= button_y + button_height:
                     show_rules = False
                     game_engine()
-                elif menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
-                        1] <= button_y + button_height:
-                    show_rules = False
 
-        # if the mouse is clicked on the
-        # button the game is terminated
+        # if the mouse is hovering over the button change the color to show the user it is highlighted
         if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
                 1] <= button_y + button_height:
             pygame.draw.rect(screen, button_hover_color, [menu_back_x, button_y, 140, 40])
+        # if the mouse is not over the button change it back to the original color
         else:
             pygame.draw.rect(screen, button_color, [menu_back_x, button_y, 140, 40])
         screen.blit(text_back, (menu_back_x + 15, button_y + 10))
@@ -895,6 +933,7 @@ def print_rules(screen):
 
 
 def print_game(game, screen):
+    # call all the print functions all at once
     screen.blit(table, (0, 0))
     print_arrows(game, screen)
     print_cpu_hands(game, screen)
