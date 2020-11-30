@@ -911,7 +911,7 @@ def print_rules(screen):
         menu_back_x = (width * .1) - (button_width / 2)
         button_y = (height * .85) + (button_height / 2)
         mouse = pygame.mouse.get_pos()
-        #
+        # handles events
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT:
                 pygame.quit()
