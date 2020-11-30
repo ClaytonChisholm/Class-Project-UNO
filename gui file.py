@@ -435,8 +435,11 @@ def print_card(card):
     return graphics_card
 
 
+# allows the user to choose the card through event handlers and also contains calls to the cpu card choosing algorithm
 def choose_card(screen, game):
     current_player = game.players[game.current_player]
+
+    # creates a rectangle for the draw card event and blits an image onto it
     deck_cover = pygame.image.load('cards/card_back.png')
     deck_cover = pygame.transform.scale(deck_cover, (100, 140))
     deck_rect = deck_cover.get_rect()
@@ -448,7 +451,7 @@ def choose_card(screen, game):
     # while user has not played or drawn a card from the deck
     while user_answer is False and type(game.players[game.current_player]) == Player:
 
-        while True:
+        while True:  # handles events
             for ev in pygame.event.get():
                 if ev.type == pygame.QUIT:
                     pygame.quit()
@@ -456,6 +459,7 @@ def choose_card(screen, game):
 
                 if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
 
+                    # handles player event for drawing a card
                     if deck_rect.collidepoint(ev.pos):
                         card = game.draw_card()
                         deck_cover = pygame.image.load('cards/card_back.png')
@@ -475,7 +479,7 @@ def choose_card(screen, game):
                         # re-update screen once card animation is over
                         print_game(game, screen)
 
-                        if game.validate_move(card):
+                        if game.validate_move(card):  # checks if drawn card can be played and allows user to if so
                             card_face = pygame.image.load(card.get_path())
                             card_face = pygame.transform.scale(card_face, (100, 140))
                             card_rect = card_face.get_rect()
@@ -505,7 +509,7 @@ def choose_card(screen, game):
                             else:
                                 current_player.add_card(card)
                                 return False
-                        else:
+                        else:  # adds to hand if the card wouldn't be a valid move
                             current_player.add_card(card)
                             return False
 
@@ -523,14 +527,14 @@ def choose_card(screen, game):
                                 # updates screen
                                 print_game(game, screen)
 
-                                if game.validate_move(current_player.get_hand()[i]):
+                                if game.validate_move(current_player.get_hand()[i]):  # validates choice
                                     position = list_of_rect_card.pop(i)
                                     pygame.display.update()
                                     card_played = pygame.image.load(current_player.get_hand()[i].get_path())
                                     card_selected = current_player.get_hand().pop(i)
                                     # re-update screen once card animation is over
 
-                                    # animation part: kinda of buggy but works?
+                                    # animation
                                     for x in range(20):
                                         # re-update screen every time card moves up # of pixels
                                         print_game(game, screen)
@@ -552,10 +556,7 @@ def choose_card(screen, game):
                                 print_game(game, screen)
                                 pygame.display.update()
 
-                    # else:
-                    # print("not clicked")
-
-    for ev in pygame.event.get():
+    for ev in pygame.event.get():  # allows user to exit during cpu turn
         if ev.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
@@ -563,35 +564,37 @@ def choose_card(screen, game):
     card_face = pygame.image.load('cards/card_back.png')
     card_face = pygame.transform.scale(card_face, (100, 140))
 
-    if current_player.get_number() == 1:
+    if current_player.get_number() == 1:  # handles first cpu move
         card_face = pygame.transform.rotate(card_face, -90)
         card_rect = card_face.get_rect()
         card_rect.x = 30
         card_rect.y = (screen.get_height() / 2) - 50
-        direction = (15, 0)
-        card = current_player.play_card(game.player, game.cpu3, game.cpu2, game.last_played)
+        direction = (10, 0)
+        card = current_player.play_card(game.player, game.cpu3, game.cpu2, game.last_played)  # calls cpu choice alg
         pygame.display.update()
 
-    elif current_player.get_number() == 2:
+    elif current_player.get_number() == 2:  # handles second cpu move
         card_face = pygame.transform.rotate(card_face, 180)
         card_rect = card_face.get_rect()
         card_rect.x = (screen.get_width() / 2) - 50
         card_rect.y = 30
         direction = (0, 10)
-        card = current_player.play_card(game.player, game.cpu1, game.cpu3, game.last_played)
+        card = current_player.play_card(game.player, game.cpu1, game.cpu3, game.last_played)  # calls cpu choice alg
         pygame.display.update()
 
-    else:  # right
+    else:  # handles third cpu move
         card_face = pygame.transform.rotate(card_face, 90)
         card_rect = card_face.get_rect()
         card_rect.x = screen.get_width() - 170
         card_rect.y = (screen.get_height() / 2) - 50
-        direction = (-15, 0)
-        card = current_player.play_card(game.player, game.cpu1, game.cpu2, game.last_played)
+        direction = (-10, 0)
+        card = current_player.play_card(game.player, game.cpu1, game.cpu2, game.last_played)  # calls cpu choice alg
         pygame.display.update()
 
-    if not card:
+    if not card:  # draws card for cpu
         current_player.add_card(game.draw_card())
+
+        # handles animation if card is valid
         if game.validate_move(current_player.get_hand()[len(current_player.get_hand()) - 1]):
             print_game(game, screen)
             # move card object up 10 pixels at a time
@@ -604,7 +607,7 @@ def choose_card(screen, game):
             print_game(game, screen)
             return current_player.get_hand().pop(len(current_player.get_hand()) - 1)
 
-        else:
+        else:  # adds to hand
             for x in range(20):
                 # re-update screen every time card moves up # of pixels
                 print_game(game, screen)
@@ -616,7 +619,7 @@ def choose_card(screen, game):
                 pygame.display.update()
             print_game(game, screen)
             return False  # returns false if no valid card is found
-    else:
+    else:  # adds to hand
 
         for x in range(20):
             # re-update screen every time card moves up # of pixels
@@ -633,6 +636,7 @@ def choose_card(screen, game):
         return card  # returns card if one is found
 
 
+# function for handling the user confirming a chosen or valid card
 def confirm_user_card(card_selected, rectangle, screen):
     screen.fill(black)  # clear the screen
     button_height = 100
@@ -663,7 +667,7 @@ def confirm_user_card(card_selected, rectangle, screen):
     screen.blit(description, (screen.get_width() / 2 - 200, screen.get_height() / 2 - 150))
     pygame.display.update()
 
-    while True:
+    while True:  # handles events for if the player clicks yes or no
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT:
                 pygame.quit()
@@ -680,6 +684,7 @@ def confirm_user_card(card_selected, rectangle, screen):
                     return False
 
 
+# handles choosing the wild card color for the player
 def set_wild(screen):
     button_size = 150
     blue_button = pygame.draw.rect(screen, blue,
@@ -697,17 +702,17 @@ def set_wild(screen):
 
     pygame.display.update()
 
-    while True:
+    while True:  # event handler
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
-                # checks if a mouse is clicked
+            # checks if a mouse is clicked
             if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
                 mouse = pygame.mouse.get_pos()
-                # if the mouse is clicked on the
-                # button the game is terminated
+
+                # handles return the color corresponding to the button clicked on
                 if blue_button.x <= mouse[0] <= blue_button.x + button_size and blue_button.y <= mouse[
                         1] <= blue_button.y + button_size:
                     return Color.BLUE
