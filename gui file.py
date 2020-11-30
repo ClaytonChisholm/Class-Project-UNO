@@ -548,9 +548,6 @@ def choose_card(screen, game):
                                 print_game(game, screen)
                                 pygame.display.update()
 
-                    # else:
-                    # print("not clicked")
-
     for ev in pygame.event.get():
         if ev.type == pygame.QUIT:
             pygame.quit()
@@ -931,7 +928,6 @@ def print_game(game, screen):
     print_player_hand(game, screen)
     print_names(game, screen)
     draw_uno(screen)
-    # draw_rules(screen)
 
 
 if __name__ == '__main__':
