@@ -846,33 +846,7 @@ def draw_uno(screen):
     screen.blit(uno, (screen.get_width() - 165, screen.get_height() - 138))
 
 
-def draw_rules(screen):
-    mouse = pygame.mouse.get_pos()
-    text_rules = small_font.render('Rules', True, white)
-    rules_button_x = 30
-    button_height = 40
-    button_y = (screen.get_height() * .85) + (button_height / 2)
-    button_width = 140
-    for ev in pygame.event.get():
-        if ev.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-
-            # checks if a mouse is clicked
-        if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
-            if rules_button_x <= mouse[0] <= rules_button_x + button_width and button_y <= mouse[
-                    1] <= button_y + button_height:
-                print_rules(screen, 1)
-
-    if rules_button_x <= mouse[0] <= rules_button_x + button_width and button_y <= mouse[
-            1] <= button_y + button_height:
-        pygame.draw.rect(screen, button_hover_color, [rules_button_x, button_y, 140, 40])
-    else:
-        pygame.draw.rect(screen, button_color, [rules_button_x, button_y, 140, 40])
-    screen.blit(text_rules, (rules_button_x + 30, button_y + 3))
-
-
-def print_rules(screen, link=0):
+def print_rules(screen):
     rules_png = pygame.image.load('rules.PNG')
     screen = pygame.display.set_mode(screen.get_size())
     text_back = tiny_font.render('     Menu', True, black)
@@ -914,13 +888,6 @@ def print_rules(screen, link=0):
             pygame.draw.rect(screen, button_hover_color, [menu_back_x, button_y, 140, 40])
         else:
             pygame.draw.rect(screen, button_color, [menu_back_x, button_y, 140, 40])
-        if link != 0:
-            if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
-                    1] <= button_y + button_height:
-                pygame.draw.rect(screen, button_hover_color, [menu_back_x, button_y, 200, 40])
-            else:
-                pygame.draw.rect(screen, button_color, [menu_back_x, button_y, 200, 40])
-            text_back = tiny_font.render('     Back to Game', True, white)
         screen.blit(text_back, (menu_back_x + 15, button_y + 10))
 
         # updates the frames of the game
@@ -935,7 +902,6 @@ def print_game(game, screen):
     print_player_hand(game, screen)
     print_names(game, screen)
     draw_uno(screen)
-    # draw_rules(screen)
 
 
 if __name__ == '__main__':
