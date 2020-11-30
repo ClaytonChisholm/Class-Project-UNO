@@ -900,17 +900,17 @@ def print_rules(screen, link=0):
             if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
 
                 if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
-                    1] <= button_y + button_height and link == 0:
+                        1] <= button_y + button_height and link == 0:
                     show_rules = False
                     game_engine()
                 elif menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
-                    1] <= button_y + button_height:
+                        1] <= button_y + button_height:
                     show_rules = False
 
         # if the mouse is clicked on the
         # button the game is terminated
         if menu_back_x <= mouse[0] <= menu_back_x + button_width and button_y <= mouse[
-            1] <= button_y + button_height:
+                1] <= button_y + button_height:
             pygame.draw.rect(screen, button_hover_color, [menu_back_x, button_y, 140, 40])
         else:
             pygame.draw.rect(screen, button_color, [menu_back_x, button_y, 140, 40])
