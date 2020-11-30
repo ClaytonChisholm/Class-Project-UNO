@@ -3,33 +3,6 @@ from cpu import *
 from card import *
 
 
-def display_rules():
-    rules_text = "Welcome to the game of UNO! In this version, the goal of the game " \
-                 "is to play all of the cards in your\n hand, and the first" \
-                 " player to do this wins. Each player is dealt 7 cards at the start of" \
-                 " the game after the\n deck has been shuffled. There is a draw deck where" \
-                 " the players draw cards and a discard deck where the players play their\n cards." \
-                 " There are special and normal cards in the deck. The normal\n cards have a number" \
-                 "  from 0 to 9 and a color (red, green, blue, or yellow) and the " \
-                 "special cards have powers. These powers include:\n " \
-                 "Draw 2: where the" \
-                 " next person to play must draw two cards from the draw pile and lose their turn\n" \
-                 "Reverse: where the card reverses the direction of play (who goes next)\n" \
-                 "Skip card: which skips the next person in line to play\n" \
-                 "Wild card: where the player who played this card can change the color of the card being played\n" \
-                 "Draw 4 card: where the player can call the next color being played and requires the next\n" \
-                 " player to pick four cards from the draw pile and lose their turn\n In order to begin play," \
-                 " the player must match the top card of the discard deck either by number," \
-                 " color, or word and place their card to be played on top of the discard deck.\nThe player can play"\
-                 "a wild card or wild plus four card whenever it is their turn.\nIf the player playing does not have"\
-                 " a valid card to play, they must pick a card from the draw pile.\nIf you draw a card you can play,"\
-                 " play it.\nOtherwise, the next player starts their turn.\nIf the draw deck runs " \
-                 "out of cards, the discard deck will be reshuffled and become the draw deck.\nOnce the player plays"\
-                 " their card, play moves to the next person."
-
-    return rules_text
-
-
 class Game:
     deck = []
     played_deck = []
