@@ -80,32 +80,32 @@ def game_engine():
                 # if the mouse is clicked on the
                 # button the game is terminated
                 if quit_button_x <= mouse[0] <= quit_button_x + button_width and button_y <= mouse[
-                    1] <= button_y + button_height:
+                        1] <= button_y + button_height:
                     pygame.quit()
                     sys.exit()
 
                 if new_game_button_x <= mouse[0] <= new_game_button_x + button_width and button_y <= mouse[
-                    1] <= button_y + button_height:
+                        1] <= button_y + button_height:
                     game_over = False
 
                 if rules_button_x <= mouse[0] <= rules_button_x + button_width and button_y <= mouse[
-                    1] <= button_y + button_height:
+                        1] <= button_y + button_height:
                     show_rules = True
 
         if new_game_button_x <= mouse[0] <= new_game_button_x + button_width and button_y <= mouse[
-            1] <= button_y + button_height:
+                1] <= button_y + button_height:
             pygame.draw.rect(screen, button_hover_color, [new_game_button_x, button_y, 140, 40])
         else:
             pygame.draw.rect(screen, button_color, [new_game_button_x, button_y, 140, 40])
 
         if quit_button_x <= mouse[0] <= quit_button_x + button_width and button_y <= mouse[
-            1] <= button_y + button_height:
+                1] <= button_y + button_height:
             pygame.draw.rect(screen, button_hover_color, [quit_button_x, button_y, 140, 40])
         else:
             pygame.draw.rect(screen, button_color, [quit_button_x, button_y, 140, 40])
 
         if rules_button_x <= mouse[0] <= rules_button_x + button_width and button_y <= mouse[
-            1] <= button_y + button_height:
+                1] <= button_y + button_height:
             pygame.draw.rect(screen, button_hover_color, [rules_button_x, button_y, 140, 40])
         else:
             pygame.draw.rect(screen, button_color, [rules_button_x, button_y, 140, 40])
