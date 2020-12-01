@@ -8,3 +8,5 @@ on the top of the deck, their hand of cards, and the three CPU decks. To play a 
 will click on their intended card or the deck and confirm the card. If it is valid, it will end 
 their turn and allow the CPUs to go. The game will automatically end when one of the four players 
 plays all of the cards in their hand. Whoever plays their last card first, wins!
+
+## To run the game, run the gui_file.py file with python 3.5+
