@@ -257,183 +257,256 @@ def game_engine():
             # updates the frames of the game
             pygame.display.update()
 
-
+# prints CPU hand to screen
 def print_cpu_hands(game, screen):
     cpus = [game.cpu1, game.cpu2, game.cpu3]
+
+    # iterates through each CPU in game to print
     for i in range(len(cpus)):
         cpu = cpus[i]
         hand_size = len(cpu.get_hand())
+
+        # first CPU prints to left side of screen
         if i == 0:
             hand_start = 0
-            hand_height = screen.get_height() * (1 / 6)
-            # this is if cpu is on left of screen
-            if hand_size <= 3:
+            hand_height = screen.get_height() * (1 / 6) # starts printing 1/6th from top of screen
 
-                card_offset = hand_height - 30 + (.5 * (3 - hand_size) * 120)
+            # if the hand size is less than three, no overlapping of cards, center hand
+            if hand_size <= 3:
+                card_offset = hand_height - 30 + (.5 * (3 - hand_size) * 120) # space in between each card
                 for _ in cpu.get_hand():
                     card_face = pygame.image.load('cards/card_back.png')
+
+                    # transforms to default size
                     card_face = pygame.transform.scale(card_face, (100, 140))
+
+                    # rotate image
                     card_face = pygame.transform.rotate(card_face, -90)
                     card_rect = card_face.get_rect()
-                    # transforms to default size
+
+                    # set x and y coordinates of card
                     card_rect.y = hand_height + card_offset
                     card_rect.x = hand_start + 30
-                    screen.blit(card_face, card_rect)
-
+                    screen.blit(card_face, card_rect) # print to screen
                     card_offset += 120  # card size plus space between cards
 
             else:
-                card_offset = 30
-                max_size = screen.get_height() * 2 / 3 - 120
+                # multiple cards left in hand, calculates overlap of each card
+                card_offset = 30 # space in between each card
+                max_size = screen.get_height() * 2 / 3 - 120 # maximum size of space hand can take up on screen
                 hand_width = 120 * hand_size
                 overlap = 0
+
+                # the max size of screen is less than hand width, begin overlapping cards
                 while max_size < hand_width:
                     overlap += 1
-                    hand_width = (120 - overlap) * hand_size
+                    hand_width = (120 - overlap) * hand_size # determines width of entire hand with overlap
 
                 for _ in cpu.get_hand():
                     card_face = pygame.image.load('cards/card_back.png')
-                    card_face = pygame.transform.scale(card_face, (100, 140))  # transforms to default size
+
+                    # transforms to default size
+                    card_face = pygame.transform.scale(card_face, (100, 140))
+
+                    # rotate image
                     card_face = pygame.transform.rotate(card_face, -90)
                     card_rect = card_face.get_rect()
+
+                    # set x and y coordinates of card
                     card_rect.y = hand_height + card_offset
                     card_rect.x = hand_start + 30
-                    screen.blit(card_face, card_rect)
-                    card_rect.width = card_rect.width - overlap
-                    card_offset += 120 - overlap
+                    screen.blit(card_face, card_rect) # print to screen
 
+                    # change width of rectangle to only include part of card not covered for event handling
+                    card_rect.width = card_rect.width - overlap
+                    card_offset += 120 - overlap # card size plus space between cards minus overlap of cards
+
+        # if cpu is on top of screen
         elif i == 1:
-            # this is if cpu is on top of screen
             hand_height = 0
-            hand_start = screen.get_width() * (1 / 6)
-            if hand_size <= 6:
 
-                card_offset = hand_start + 30 + (.5 * (6 - hand_size) * 120)
+            # starts printing 1/6th from top of screen
+            hand_start = screen.get_width() * (1 / 6)
+
+            # if the hand size is less than six, no overlapping of cards, center hand
+            if hand_size <= 6:
+                card_offset = hand_start + 30 + (.5 * (6 - hand_size) * 120) # space in between each card
                 for _ in cpu.get_hand():
                     card_face = pygame.image.load('cards/card_back.png')
+
+                    # transforms to default size
                     card_face = pygame.transform.scale(card_face, (100, 140))
+
+                    # rotate image
                     card_face = pygame.transform.rotate(card_face, 180)
                     card_rect = card_face.get_rect()
-                    # transforms to default size
+
+                    # set x and y coordinates of card
                     card_rect.y = hand_height + 30
                     card_rect.x = card_offset
-                    screen.blit(card_face, card_rect)
+                    screen.blit(card_face, card_rect) # print to screen
                     card_offset += 120  # card size plus space between cards
 
             else:
-                card_offset = hand_start + 30
-                max_size = screen.get_width() * 2 / 3 - 60
-                hand_width = 120 * hand_size
+                card_offset = hand_start + 30 # space in between each card
+                max_size = screen.get_width() * 2 / 3 - 60 # maximum size of space hand can take up on screen
+                hand_width = 120 * hand_size # width of entire hand
                 overlap = 0
+
+                # the max size of screen is less than width of entire hand, begin overlapping cards
                 while max_size < hand_width:
                     overlap += 1
-                    hand_width = (120 - overlap) * hand_size
+                    hand_width = (120 - overlap) * hand_size # determines width of entire hand with overlap
 
                 for _ in cpu.get_hand():
                     card_face = pygame.image.load('cards/card_back.png')
-                    card_face = pygame.transform.scale(card_face, (100, 140))  # transforms to default size
+
+                    # transforms to default size
+                    card_face = pygame.transform.scale(card_face, (100, 140))
+
+                    # rotate image
                     card_face = pygame.transform.rotate(card_face, 180)
                     card_rect = card_face.get_rect()
+
+                    # set x and y coordinates of card
                     card_rect.y = hand_height + 30
                     card_rect.x = card_offset
-                    screen.blit(card_face, card_rect)
-                    card_rect.width = card_rect.width - overlap
-                    card_offset += 120 - overlap
+                    screen.blit(card_face, card_rect) # print to screen
 
+                    # change width of rectangle to only include part of card not covered for event handling
+                    card_rect.width = card_rect.width - overlap
+                    card_offset += 120 - overlap # card size plus space between cards minus overlap of cards
+
+        # CPU on right side of screen
         else:
-            hand_start = screen.get_width() - 200
-            hand_height = screen.get_height() * (1 / 6)
+            hand_start = screen.get_width() - 200 # starts printing cards 200 from right side of screen
+            hand_height = screen.get_height() * (1 / 6) # starts printing hand 1/6th from top of screen
+
+            # if the hand size is less than three, no overlapping of cards, center hand
             if hand_size <= 3:
 
-                card_offset = hand_height - 30 + (.5 * (3 - hand_size) * 120)
+                card_offset = hand_height - 30 + (.5 * (3 - hand_size) * 120) # space in between each card
                 for _ in cpu.get_hand():
                     card_face = pygame.image.load('cards/card_back.png')
+
+                    # transforms to default size
                     card_face = pygame.transform.scale(card_face, (100, 140))
+
+                    # rotate image
                     card_face = pygame.transform.rotate(card_face, 90)
                     card_rect = card_face.get_rect()
-                    # transforms to default size
+
+                    # set x and y coordinates of card
                     card_rect.y = hand_height + card_offset
                     card_rect.x = hand_start + 30
-                    screen.blit(card_face, card_rect)
+                    screen.blit(card_face, card_rect) # print to screen
 
                     card_offset += 120  # card size plus space between cards
 
             else:
-                card_offset = 30
-                max_size = screen.get_height() * 2 / 3 - 120
-                hand_width = 120 * hand_size
+                card_offset = 30 # space in between each card
+                max_size = screen.get_height() * 2 / 3 - 120 # maximum size of space hand can take up on screen
+                hand_width = 120 * hand_size # width of entire hand
                 overlap = 0
+
+                # the max size of screen is less than width of entire hand, begin overlapping cards
                 while max_size < hand_width:
                     overlap += 1
-                    hand_width = (120 - overlap) * hand_size
+                    hand_width = (120 - overlap) * hand_size # determines width of entire hand with overlap
                 for _ in cpu.get_hand():
                     card_face = pygame.image.load('cards/card_back.png')
-                    card_face = pygame.transform.scale(card_face, (100, 140))  # transforms to default size
+
+                    # transforms to default size
+                    card_face = pygame.transform.scale(card_face, (100, 140))
+
+                    # rotate image
                     card_face = pygame.transform.rotate(card_face, 90)
                     card_rect = card_face.get_rect()
+
+                    # set x and y coordinates of card
                     card_rect.y = hand_height + card_offset
                     card_rect.x = hand_start + 30
-                    screen.blit(card_face, card_rect)
+                    screen.blit(card_face, card_rect) # print to screen
+
+                    # change width of rectangle to only include part of card not covered for event handling
                     card_rect.width = card_rect.width - overlap
-                    card_offset += 120 - overlap
-            # if cpu is on right side
+                    card_offset += 120 - overlap # card size plus space between cards minus overlap of cards
 
-
+# prints player hand to screen
 def print_player_hand(game, screen: pygame.Surface):
     list_of_rect_card.clear()
     player = game.player
     hand_size = len(player.get_hand())
-    hand_height = screen.get_height() - 200
-    hand_start = screen.get_width() * (1 / 6)
+    hand_height = screen.get_height() - 200 # begin printing hand 200 from bottom
+    hand_start = screen.get_width() * (1 / 6) # begin printing hand 1/6th from left side of screen
 
+    # if the hand size is less than six, no overlapping of cards, center hand
     if hand_size <= 6:
 
-        card_offset = hand_start + 30 + (.5 * (6 - hand_size) * 120)
+        card_offset = hand_start + 30 + (.5 * (6 - hand_size) * 120) # space in between each card
         for card in player.get_hand():
-            card_face = pygame.image.load(card.get_path())
+            card_face = pygame.image.load(card.get_path()) # get path of card image
+
+            # transforms to default size
             card_face = pygame.transform.scale(card_face, (100, 140))
             card_rect = card_face.get_rect()
-            # transforms to default size
+
+            # set x and y coordinates of card
             card_rect.y = hand_height + 30
             card_rect.x = card_offset
-            screen.blit(card_face, card_rect)
+            screen.blit(card_face, card_rect) # print to screen
+
+            # add to list of user rectangle cards for event handling
             list_of_rect_card.append(card_rect)
             card_offset += 120  # card size plus space between cards
 
     else:
-        card_offset = hand_start + 30
-        max_size = screen.get_width() * 2 / 3 - 60
-        hand_width = 120 * hand_size
+        card_offset = hand_start + 30 # space in between each card
+        max_size = screen.get_width() * 2 / 3 - 60 # maximum width of hand space on screen
+        hand_width = 120 * hand_size # width of entire hand
         overlap = 0
+
+        # the max size of screen is less than width of entire hand, begin overlapping cards
         while max_size < hand_width:
             overlap += 1
-            hand_width = (120 - overlap) * hand_size
+            hand_width = (120 - overlap) * hand_size # determines width of entire hand with overlap
 
         for card in player.get_hand():
-            card_face = pygame.image.load(card.get_path())
-            card_face = pygame.transform.scale(card_face, (100, 140))  # transforms to default size
+            card_face = pygame.image.load(card.get_path()) # get path of card image
+
+            # transforms to default size
+            card_face = pygame.transform.scale(card_face, (100, 140))
             card_rect = card_face.get_rect()
+
+            # set x and y coordinates of card
             card_rect.y = hand_height + 30
             card_rect.x = card_offset
-            screen.blit(card_face, card_rect)
+
+            screen.blit(card_face, card_rect) # print to screen
+
+            # change width of rectangle to only include part of card not covered for event handling
             card_rect.width = card_rect.width - overlap
+
+            # add to list of user rectangle cards for event handling
             list_of_rect_card.append(card_rect)
-            card_offset += 120 - overlap
+            card_offset += 120 - overlap # card size plus space between cards minus overlap of cards
 
-
+# prints card last played and deck of cards
 def print_top_card(game, screen):
+    # gets image of last card played
     top_card = print_card(game.last_played)
     deck_cover = pygame.image.load('cards/card_back.png')
-    deck_cover = pygame.transform.scale(deck_cover, (100, 140))
+    deck_cover = pygame.transform.scale(deck_cover, (100, 140)) # transforms to default size
+
+    # print to screen
     screen.blit(top_card, (((screen.get_width() / 2) - 120), (screen.get_height() / 2) - 70))
     screen.blit(deck_cover, (((screen.get_width() / 2) + 20), (screen.get_height() / 2) - 70))
 
-
+# gets image of card to load to screen, returns card image
 def print_card(card):
     graphics_card = pygame.image.load(card.get_path())
-    graphics_card = pygame.transform.scale(graphics_card, (100, 140))
+    graphics_card = pygame.transform.scale(graphics_card, (100, 140)) # transforms to default size
     return graphics_card
-
 
 def choose_card(screen, game):
     current_player = game.players[game.current_player]
