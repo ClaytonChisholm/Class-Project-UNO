@@ -6,5 +6,5 @@ will prompt the user to enter their name and then play will begin. The user play
 first, followed by the three CPUs. The user will then be able to see the current card
 on the top of the deck, their hand of cards, and the three CPU decks. To play a card, the player 
 will click on their intended card or the deck and confirm the card. If it is valid, it will end 
-their turn and allow the CPUs to go. The game will automatically end whenone of the four players 
+their turn and allow the CPUs to go. The game will automatically end when one of the four players 
 plays all of the cards in their hand. Whoever plays their last card first, wins!
