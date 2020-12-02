@@ -15,4 +15,4 @@ plays all of the cards in their hand. Whoever plays their last card first, wins!
 
 # Used Materrials
 
-[Text Input] https://github.com/Nearoo/pygame-text-input from github user Nearoo
+[Text Input] (https://github.com/Nearoo/pygame-text-input) from github user Nearoo
