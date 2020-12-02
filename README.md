@@ -20,3 +20,5 @@ plays all of the cards in their hand. Whoever plays their last card first, wins!
 [Table background](https://upload.wikimedia.org/wikipedia/commons/1/19/Pine_wood_Table_Top.jpg) from Wikimedia
 
 [Uno Logo](https://www.cleanpng.com/png-uno-clip-art-playing-card-card-game-the-ten-comman-6048943/) from Clean PNG
+
+[Uno Cards](https://opengameart.org/content/uno-playing-cards-2d) from Open Game Art user mehrasaur
