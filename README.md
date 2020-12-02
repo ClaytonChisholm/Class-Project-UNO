@@ -17,4 +17,6 @@ plays all of the cards in their hand. Whoever plays their last card first, wins!
 
 [Text Input](https://github.com/Nearoo/pygame-text-input) from github user Nearoo
 
-[Table background](NaturalOak.jpg) from wikimedia
+[Table background](https://upload.wikimedia.org/wikipedia/commons/1/19/Pine_wood_Table_Top.jpg) from Wikimedia
+
+[Uno Logo](https://www.cleanpng.com/png-uno-clip-art-playing-card-card-game-the-ten-comman-6048943/) from Clean PNG
