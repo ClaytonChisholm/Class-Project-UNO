@@ -10,3 +10,9 @@ their turn and allow the CPUs to go. The game will automatically end when one of
 plays all of the cards in their hand. Whoever plays their last card first, wins!
 
 ## To run the game, run the gui_file.py file with python 3.5+
+
+
+
+# Used Materrials
+
+[Text Input] https://github.com/Nearoo/pygame-text-input from github user Nearoo
