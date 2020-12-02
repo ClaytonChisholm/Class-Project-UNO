@@ -22,3 +22,5 @@ plays all of the cards in their hand. Whoever plays their last card first, wins!
 [Uno Logo](https://www.cleanpng.com/png-uno-clip-art-playing-card-card-game-the-ten-comman-6048943/) from Clean PNG
 
 [Uno Cards](https://opengameart.org/content/uno-playing-cards-2d) from Open Game Art user mehrasaur
+
+[Arrow Graphics](https://www.clipartmax.com/middle/m2i8H7Z5Z5H7G6b1_curve-arrow-vector-curved-arrow-to-the-right/) from Clip Art Max
